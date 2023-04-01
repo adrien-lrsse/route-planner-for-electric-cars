@@ -1,0 +1,6 @@
+*.o
+*.db
+main
+database_reader
+coordinates
+struct_mat_adj
