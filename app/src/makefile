@@ -4,3 +4,12 @@ coordinates : coordinates.o coordinates.h
 
 coordinates.o : coordinates.c coordinates.h
 	clang -std=c99 -Wall -Wextra -pedantic -g3 -fsanitize=address -c coordinates.c
+
+
+
+database_reader : database_reader.o database_reader.h
+	clang -std=c99 -Wall -Wextra -pedantic -g3 -fsanitize=address database_reader.o -o database_reader
+
+
+database_reader.o : database_reader.c database_reader.h
+	clang -std=c99 -Wall -Wextra -pedantic -g3 -fsanitize=address -c database_reader.c
