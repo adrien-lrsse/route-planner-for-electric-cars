@@ -6,7 +6,7 @@ LIBS = -lsqlite3
 main : main.o coordinates.o database_reader.o struct_mat_adj.o
 	$(CC) $(CFLAGS) main.o coordinates.o database_reader.o struct_mat_adj.o -o main $(LIBS)
 
-main.o : main.c
+main.o : main.c main.h
 	$(CC) $(CFLAGS) -c main.c
 
 

@@ -39,25 +39,20 @@ int prepare_request_database(database_t * database, char * request) {
    int rc = sqlite3_prepare_v2(database->db, request, -1, &database->stmt, NULL);
 
    if (rc) {
-      fprintf(stderr, "Failed to prepare statement: %s\n", sqlite3_errmsg(database->db));
       return 0;
-
-   } else {
-      fprintf(stderr, "Prepared statement successfully\n");
    }
-
    return 1;
 }
 
 int request_database(database_t * database) {
-   int rc = sqlite3_step(database->stmt);
-
+   int rc;
    printf("--------------------\n");
    printf("Begin of all returned values\n");
-   printf("%s\n", sqlite3_column_text(database->stmt, 0));
 
-   while ((rc = sqlite3_step(database->stmt)) == SQLITE_ROW) {
-      printf("%s\n", sqlite3_column_text(database->stmt, 0));
+   while ((rc = sqlite3_step(database->stmt)) != SQLITE_DONE) {
+         printf("%f\n", sqlite3_column_double(database->stmt, 0));
+         printf("%f\n", sqlite3_column_double(database->stmt, 1));
+         printf("%d\n", sqlite3_column_int(database->stmt, 2));
    }
 
    printf("End of all returned values\n");
