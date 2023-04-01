@@ -1,18 +1,39 @@
-coordinates : coordinates.o coordinates.h 
-	clang -std=c99 -Wall -Wextra -pedantic -g3 -fsanitize=address coordinates.o -o coordinates
+CC=clang
+CFLAGS=-Wall -Wextra -pedantic -O0 -g3 -fsanitize=address
+LIBS = -lsqlite3
 
+
+main : main.o coordinates.o database_reader.o struct_mat_adj.o
+	$(CC) $(CFLAGS) main.o coordinates.o database_reader.o struct_mat_adj.o -o main $(LIBS)
+
+main.o : main.c
+	$(CC) $(CFLAGS) -c main.c
+
+
+
+coordinates : coordinates.o coordinates.h 
+	$(CC) $(CFLAGS) coordinates.o -o coordinates
 
 coordinates.o : coordinates.c coordinates.h
-	clang -std=c99 -Wall -Wextra -pedantic -g3 -fsanitize=address -c coordinates.c
+	$(CC) $(CFLAGS) -c coordinates.c
+
+
+
+struct_mat_adj : struct_mat_adj.o struct_mat_adj.h
+	$(CC) $(CFLAGS) struct_mat_adj.o -o struct_mat_adj
+struct_mat_adj.o : struct_mat_adj.c struct_mat_adj.h
+	$(CC) $(CFLAGS) -c struct_mat_adj.c
+
 
 
 
 database_reader : database_reader.o database_reader.h
-	clang -std=c99 -Wall -Wextra -pedantic -g3 -fsanitize=address database_reader.o -o database_reader -lsqlite3
-
+	$(CC) $(CFLAGS) database_reader.o -o database_reader $(LIBS)
 
 database_reader.o : database_reader.c database_reader.h
-	clang -std=c99 -Wall -Wextra -pedantic -g3 -fsanitize=address -c database_reader.c
+	$(CC) $(CFLAGS) -c database_reader.c
+
+
 
 clean :
-	rm -f *.o coordinates database_reader
+	rm -f *.o coordinates database_reader struct_mat_adj main

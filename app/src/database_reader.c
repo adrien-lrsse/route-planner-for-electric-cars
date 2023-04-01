@@ -78,16 +78,16 @@ int end_request_database(database_t * database) {
    return 1;
 }
 
-int main() {
-   database_t * database = open_database("./../data/database.db");
-   if (!database->opened_correctly) {
-      exit(0);
-   }
-   printf("Version of sqlite3 : %s\n", sqlite3_libversion());
-   char* sql_command = "SELECT * FROM bornes where id_unique like 13;\n";
-   prepare_request_database(database, sql_command);
-   request_database(database);
-   end_request_database(database);
-   close_database(database);
-   return 0;
-}
+// int main() {
+//    database_t * database = open_database("./../data/database.db");
+//    if (!database->opened_correctly) {
+//       exit(0);
+//    }
+//    printf("Version of sqlite3 : %s\n", sqlite3_libversion());
+//    char* sql_command = "SELECT * FROM bornes where id_unique like 13;\n";
+//    prepare_request_database(database, sql_command);
+//    request_database(database);
+//    end_request_database(database);
+//    close_database(database);
+//    return 0;
+// }

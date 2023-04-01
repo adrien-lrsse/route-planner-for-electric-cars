@@ -1,6 +1,4 @@
 #include "coordinates.h"
-#include <math.h>
-#include <stdio.h>
 
 
 double distance(double longitude_a, double latitude_a, double longitude_b, double latitute_b){
@@ -18,9 +16,9 @@ double to_radians(double degree){
 }
 
 
-int main(void)
+/* int main(void)
 {
     printf("%f\n",distance(-0.916585,44.040540,-0.500087,43.889896));
     return 0;
 }
-
+ */

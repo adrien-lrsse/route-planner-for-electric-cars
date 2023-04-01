@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "struct_mat_adj.h": "c",
+        "database_reader.h": "c"
+    }
+}

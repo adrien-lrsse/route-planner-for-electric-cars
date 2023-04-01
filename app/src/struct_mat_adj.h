@@ -1,5 +1,7 @@
 #ifndef STRUCT_MAT_ADJ_H__
-#define STRCUT_MAT_ADJ_H__
+#define STRUCT_MAT_ADJ_H__
+
+#include <stdlib.h>
 
 typedef struct mat_adj
 {
