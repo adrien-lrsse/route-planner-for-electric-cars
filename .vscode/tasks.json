@@ -3,13 +3,9 @@
         {
             "type": "cppbuild",
             "label": "C/C++: gcc générer le fichier actif",
-            "command": "/usr/bin/gcc",
+            "command": "/usr/bin/make",
             "args": [
-                "-fdiagnostics-color=always",
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileBasenameNoExtension}"
             ],
             "options": {
                 "cwd": "${fileDirname}"

@@ -8,8 +8,11 @@ coordinates.o : coordinates.c coordinates.h
 
 
 database_reader : database_reader.o database_reader.h
-	clang -std=c99 -Wall -Wextra -pedantic -g3 -fsanitize=address database_reader.o -o database_reader
+	clang -std=c99 -Wall -Wextra -pedantic -g3 -fsanitize=address database_reader.o -o database_reader -lsqlite3
 
 
 database_reader.o : database_reader.c database_reader.h
 	clang -std=c99 -Wall -Wextra -pedantic -g3 -fsanitize=address -c database_reader.c
+
+clean :
+	rm -f *.o coordinates database_reader
