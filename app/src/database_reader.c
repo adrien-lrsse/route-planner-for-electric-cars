@@ -35,7 +35,7 @@ int close_database(database_t * database) { // ferme la connexion vers la base d
    return 1;
 }
 
-int prepare_request_database(database_t * database, char * request) {
+int prepare_request_database(database_t * database, char * request) { // prépare la requête à éxécuter
    int rc = sqlite3_prepare_v2(database->db, request, -1, &database->stmt, NULL);
 
    if (rc) {
@@ -44,7 +44,7 @@ int prepare_request_database(database_t * database, char * request) {
    return 1;
 }
 
-int request_database(database_t * database) {
+int request_database(database_t * database) { // execute la requete préparée et affiche les résultats
    int rc;
    printf("--------------------\n");
    printf("Begin of all returned values\n");
@@ -68,7 +68,7 @@ int request_database(database_t * database) {
    return 1;
 }
 
-int end_request_database(database_t * database) {
+int end_request_database(database_t * database) { // libère la mémoire utilisée par la requête
    sqlite3_finalize(database->stmt);
    return 1;
 }
