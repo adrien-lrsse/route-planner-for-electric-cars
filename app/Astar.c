@@ -43,10 +43,10 @@ void Astar(double* tab, int taille_tab, int point_debut, int point_fin, double* 
 }
 
 int meilleur_chemin(triplet_sommet* file[], int* vus[], int taille_tab) {
-    int minimum = file[0]->distance_fin;
+    int minimum = -1;
     int nouveau_sommet=0;
     for (int i=0;i<taille_tab;i++){
-        if ((vus[i] == 0) && file[i]->distance_fin<minimum) {
+        if ((vus[i] == 0) && (file[i]->distance_fin<minimum || minimum==-1)) {
             minimum = file[i]->distance_fin;
             nouveau_sommet = i;
         }
