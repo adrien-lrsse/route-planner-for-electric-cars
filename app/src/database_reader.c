@@ -1,4 +1,6 @@
 #include "database_reader.h"
+#include "coordinates.h"
+
 
 database_t * open_database(const char *filename) { // ouvre la connexion vers la base de données
    sqlite3 *db;
@@ -13,8 +15,9 @@ database_t * open_database(const char *filename) { // ouvre la connexion vers la
    if (rc) {
       fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
       my_database->opened_correctly = false;
-   } else {
-      fprintf(stderr, "Opened database successfully\n");
+   } 
+   else {
+      //fprintf(stderr, "Opened database successfully\n");
       my_database->opened_correctly = true;
    }
 
@@ -27,7 +30,7 @@ int close_database(database_t * database) { // ferme la connexion vers la base d
       fprintf(stderr, "Can't close database: %s\n", sqlite3_errmsg(database->db));
       return 0;
    } else {
-      fprintf(stderr, "Closed database successfully\n");
+      //fprintf(stderr, "Closed database successfully\n");
    }
 
    free(database);
@@ -73,16 +76,27 @@ int end_request_database(database_t * database) { // libère la mémoire utilis�
    return 1;
 }
 
-// int main() {
+
+// coord_pt getCoordonnees(int i){
+//    coord_pt res;
 //    database_t * database = open_database("./../data/database.db");
 //    if (!database->opened_correctly) {
-//       exit(0);
+//        exit(0);
 //    }
-//    printf("Version of sqlite3 : %s\n", sqlite3_libversion());
-//    char* sql_command = "SELECT * FROM bornes where id_unique like 13;\n";
-//    prepare_request_database(database, sql_command);
-//    request_database(database);
+//    char* sql_commmand = "SELECT consolidated_longitude, consolidated_latitude, id_unique FROM bornes WHERE id_unique = ?";
+//    prepare_request_database(database,sql_commmand);
+//    sqlite3_bind_int(database->stmt, 1, i); // on bind la valeur de "?" dans la requête
+//    sqlite3_step(database->stmt);
+//    res.longitude = sqlite3_column_double(database->stmt, 0);
+//    res.latitude = sqlite3_column_double(database->stmt,1);
+//    res.indice = sqlite3_column_int(database->stmt,2);
 //    end_request_database(database);
 //    close_database(database);
-//    return 0;
+//    return res;
 // }
+
+
+// int main() {
+//    coord_pt new = getCoordonnees(52);
+//    printf("%f,%f,%d\,",new.longitude,new.latitude,new.indice);
+//  }

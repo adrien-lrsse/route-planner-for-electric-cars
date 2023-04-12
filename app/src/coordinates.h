@@ -4,6 +4,13 @@
 #include <math.h>
 #include <stdio.h>
 
+
+typedef struct coord_pt{
+    double longitude;
+    double latitude;
+    double d;
+} coord_pt;
+
 double distance(double longitude_a, double latitude_a, double longitude_b, double latitute_b);
 
 
