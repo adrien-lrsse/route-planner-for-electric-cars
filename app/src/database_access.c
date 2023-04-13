@@ -101,7 +101,7 @@ borne_and_distance plus_proche(list_position* one_list, double autonomie){
     list_position* i = one_list;
     while (i->next!=NULL)
     {
-        if(i->node.distance_depart>max_distance && i->node.distance_depart<autonomie && i->node.distance_arrivee<min_distance){
+        if(i->node.distance_depart<autonomie && i->node.distance_arrivee<min_distance){
             max_distance = i->node.distance_depart;
             min_distance = i->node.distance_arrivee;
             ind = i->node.indice_unique;

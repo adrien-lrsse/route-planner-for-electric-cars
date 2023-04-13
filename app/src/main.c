@@ -17,7 +17,7 @@ int main (void){
         borne_and_distance proche = plus_proche(resultat,100);
                     list_destroy(resultat);
 
-            printf("Etape %d : \nBorne %s, vous êtes à %f km du point précédent, plus que %f km avant l'arrivée\n",i,proche.borne.name,proche.distance_debut,proche.distance_fin);
+            printf("Etape %d : \nBorne %s, vous êtes à %f km du point précédent, plus que %f km avant l'arrivée // id_unique = %d\n",i,proche.borne.name,proche.distance_debut,proche.distance_fin, proche.borne.id);
             resultat = getBorneFromDistance(proche.borne.coordonnees.latitude,proche.borne.coordonnees.longitude,43.637548,1.375103);
         
             distance_fin = distance(proche.borne.coordonnees.longitude,proche.borne.coordonnees.latitude,1.375103,43.637548);
