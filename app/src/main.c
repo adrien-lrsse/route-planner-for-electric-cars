@@ -64,7 +64,7 @@ describe(test_itineraire){
                     distance_fin = distance(proche.borne.coordonnees.longitude,proche.borne.coordonnees.latitude,7.214612,43.6689951);
                     list_destroy(resultat);
 
-            // printf("Etape %d : \nBorne %s, vous êtes à %f km du point précédent, plus que %f km avant l'arrivée // id_unique = %d\n",i,proche.borne.name,proche.distance_debut,proche.distance_fin, proche.borne.id);
+            printf("Etape %d : \nBorne %s, vous êtes à %f km du point précédent, plus que %f km avant l'arrivée // id_unique = %d\n",i,proche.borne.name,proche.distance_debut,proche.distance_fin, proche.borne.id);
             resultat = getBorneFromDistance(proche.borne.coordonnees.latitude,proche.borne.coordonnees.longitude,43.6689951,7.214612);
             distance_fin = distance(proche.borne.coordonnees.longitude,proche.borne.coordonnees.latitude,7.214612,43.6689951);
             free(proche.borne.name);
