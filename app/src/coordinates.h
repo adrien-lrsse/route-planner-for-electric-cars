@@ -6,15 +6,15 @@
 
 
 typedef struct coord_pt{
-    double longitude;
-    double latitude;
+    long double longitude;
+    long double latitude;
     double d;
 } coord_pt;
 
-double distance(double longitude_a, double latitude_a, double longitude_b, double latitute_b);
+long double distance(long double longitude_a, long double latitude_a, long double longitude_b, long double latitude_b);
 
 
-double to_radians(double degree);
+long double to_radians(long double degree);
 
 
 #endif /* COORDINATES_H__ */

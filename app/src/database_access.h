@@ -21,7 +21,7 @@ typedef struct list_position
 
 
 
-list_position* getBorneFromDistance(double latitude_depart, double longitude_depart, double latitude_arrivee, double longitude_arrivee);
+list_position* getBorneFromDistance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee);
 
 void add(list_position** list, double depart, double arrivee, int id_unique);
 
