@@ -12,20 +12,23 @@ etape* etape_create(void){
 
 
 void etape_add(etape* one_etape, borne_and_distance borne){
+    // Entrée : une liste d'étape, une étape à ajouter
+    // Ajoute une etape à la liste on_etape
+    // Sortie : (void)
+
     one_etape->size++;
     one_etape->list = realloc(one_etape->list,(one_etape->size)*sizeof(borne_and_distance));
-        *(one_etape->list+one_etape->size-1) = borne;
-                
+    *(one_etape->list+one_etape->size-1) = borne;
 
-
+    // Copie de la chaine de caractère            
     char* cpy_name = malloc((strlen(borne.borne.name)+1)*sizeof(char));
-    
     strcpy(cpy_name,borne.borne.name);
     (one_etape->list+one_etape->size-1)->borne.name = cpy_name;
-    // printf("Je suis la %s\n", (one_etape->list+one_etape->size-1)->borne.name);
+
 }
 
 void display_etape(etape* one_etape){
+    // Permet d'afficher la liste des étapes
     for (int i = 0; i < one_etape->size; i++)
     {
         printf("Etape %d :\n",i+1);
@@ -34,6 +37,7 @@ void display_etape(etape* one_etape){
 }
 
 void etape_destroy(etape* one_etape){
+    // Permet de free l'espace allouée
     for (int i = 0; i < one_etape->size; i++)
     {
        free((one_etape->list+i)->borne.name);

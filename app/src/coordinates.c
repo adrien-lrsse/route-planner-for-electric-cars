@@ -2,6 +2,8 @@
 
 
 long double distance(long double longitude_a, long double latitude_a, long double longitude_b, long double latitude_b){
+    // Entrée : coordonnées d'un point A et B
+    // Sortie : distance en km entre A et B
     longitude_a = to_radians(longitude_a);
     longitude_b = to_radians(longitude_b);
     latitude_a = to_radians(latitude_a);
@@ -12,14 +14,8 @@ long double distance(long double longitude_a, long double latitude_a, long doubl
 }
 
 long double to_radians(long double degree){
+    // Entrée : un angle en degree
+    // Sortie : ce même angle en radians
     return degree * 3.14159265358979323846L / 180.0L;
 }
 
-
-
-/* int main(void)
-{
-    printf("%f\n",distance(-0.916585,44.040540,-0.500087,43.889896));
-    return 0;
-}
- */

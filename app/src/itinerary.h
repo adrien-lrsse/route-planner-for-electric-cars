@@ -1,5 +1,5 @@
-#ifndef DATABASE_ACCESS_H__
-#define DATABASE_ACCESS_H__
+#ifndef ITINERARY_H__
+#define ITINERARY_H__
 
 #include "database_reader.h"
 #include "coordinates.h"
@@ -41,4 +41,4 @@ borne_and_distance plus_proche(list_position* one_list, double autonomie);
 
 borne getInfo(int i);
 
-#endif /* DATABASE_ACCESS_H__ */
+#endif /* ITINERARY_H__ */
