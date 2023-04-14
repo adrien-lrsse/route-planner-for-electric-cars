@@ -5,5 +5,6 @@
 #include "coordinates.h"
 #include "struct_mat_adj.h"
 #include "database_reader.h"
+#include "export.h"
 
 #endif /* __MAIN__ */

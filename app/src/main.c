@@ -1,22 +1,34 @@
-#define SNOW_ENABLED
+// #define SNOW_ENABLED
 
 #include "main.h"
 #include "database_reader.h"
 #include "coordinates.h"
 #include "borne.h"
 #include "itinerary.h"
-#include "snow.h"
+// #include "snow.h"
 #include "etape.h"
 
-describe(test_itineraire){
-    it("Conformance test"){
-      // Calcul des étapes pour aller du point A au point B
-      etape* resultat = get_liste_etape_itineaire(49.513496,0.163932,43.6689951,7.214612);
+int main(int argc, char* argv[])
+{
+  printf("%d\n",argc);
+  long double longitude_depart = strtold(argv[1],NULL);
+  long double latitude_depart = strtold(argv[2],NULL);
+  long double longitude_arrivee = strtold(argv[3],NULL);
+  long double latitude_arrivee = strtold(argv[4],NULL);
+
+
+   // Calcul des étapes pour aller du point A au point B
+      etape* resultat = get_liste_etape_itineaire(latitude_depart,longitude_depart,latitude_arrivee,longitude_arrivee);
+      export_etape(resultat);
       // Affichage
       display_etape(resultat);
       // Free de l'espace mémoire allouée
-      defer(etape_destroy(resultat));
-    }
+      etape_destroy(resultat);
+  return 0;
 }
 
-snow_main();
+     
+    
+
+
+

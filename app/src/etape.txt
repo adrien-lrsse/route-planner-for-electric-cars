@@ -1,0 +1,8 @@
+1,Commune Le Mérévillois, Place de l'Hôtel de Ville,2.088532,48.318282,96.597877,651.622176
+2,Bleneau, Place du 11 Novembre,2.946736,47.698997,94.007184,557.860256
+3,La Machine, Place des fusillés,3.464834,46.890607,98.122854,463.439970
+4,Charlieu, Parking place de la bouverie,4.174255,46.158169,97.980478,366.313303
+5,Vernioz, Place Jean Plantier,4.901360,45.420300,99.660041,267.726354
+6,La Salle-En-Beaumont, RN85,5.861150,44.864400,97.511977,171.309544
+7,Colmars, Rue Sainte-Anne,6.628720,44.181990,97.374457,73.944075
+8,NICE - Promenade des Anglais,7.214612,43.668995,73.944075,0.000000

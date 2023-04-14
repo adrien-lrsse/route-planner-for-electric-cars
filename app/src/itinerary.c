@@ -204,24 +204,30 @@ etape* get_liste_etape_itineaire(long double latitude_depart,long double longitu
     
     etape* lst_etape = etape_create(); // valeur de retour
     borne_and_distance proche;
-
+    bool arrivee = false;
     // Tant que la distance borne -> arrivé n'est pas nul il reste au moins une étape
-    while (distance_fin != 0.0)
+    while (distance_fin != 0.0 && !arrivee)
     {
-        // Calcul du point le proche de l'arrivée atteignable avec l'autonomie du véhicule en fonction du point traité
-        list_position* resultat = getBorneFromDistance(latitude_depart,longitude_depart,latitude_arrivee,longitude_arrivee);
-        proche = plus_proche(resultat,100);
-        etape_add(lst_etape,proche);
+        if(distance_fin<100.0){
+            arrivee = true;
+        } 
+        else {
+            // Calcul du point le proche de l'arrivée atteignable avec l'autonomie du véhicule en fonction du point traité
+            list_position* resultat = getBorneFromDistance(latitude_depart,longitude_depart,latitude_arrivee,longitude_arrivee);
+            proche = plus_proche(resultat,100);
+            etape_add(lst_etape,proche);
 
-        // Nouvelle distance de fin : borne_atteinte -> arrivée
-        distance_fin = distance(proche.borne.coordonnees.longitude,proche.borne.coordonnees.latitude,longitude_arrivee,latitude_arrivee);
-        latitude_depart = proche.borne.coordonnees.latitude;
-        longitude_depart = proche.borne.coordonnees.longitude;
+            // Nouvelle distance de fin : borne_atteinte -> arrivée
+            distance_fin = distance(proche.borne.coordonnees.longitude,proche.borne.coordonnees.latitude,longitude_arrivee,latitude_arrivee);
+            latitude_depart = proche.borne.coordonnees.latitude;
+            longitude_depart = proche.borne.coordonnees.longitude;
 
-        // On détruit l'ancienne list_position
-        list_destroy(resultat);
-        free(proche.borne.name);
-            
+       
+            // On détruit l'ancienne list_position
+            list_destroy(resultat);
+            free(proche.borne.name);
+        }
+                        
     } ;
 
     return lst_etape;

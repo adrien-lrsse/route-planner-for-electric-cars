@@ -1,15 +1,16 @@
 CC=clang
 CFLAGS=-Wall -Wextra -pedantic -O0 -g3 -fsanitize=address
-LIBS = -lsqlite3
+LIBS = -lsqlite3 
 
 
-main : main.o coordinates.o database_reader.o struct_mat_adj.o itinerary.o  etape.o
-	$(CC) $(CFLAGS) main.o coordinates.o database_reader.o struct_mat_adj.o itinerary.o etape.o -o main $(LIBS)
+main : main.o coordinates.o database_reader.o struct_mat_adj.o itinerary.o  etape.o export.o
+	$(CC) $(CFLAGS) main.o coordinates.o database_reader.o struct_mat_adj.o itinerary.o etape.o export.o -o main $(LIBS)
 
-main.o : main.c main.h borne.h coordinates.h database_reader.h itinerary.h snow.h etape.h
+main.o : main.c main.h borne.h coordinates.h database_reader.h itinerary.h snow.h etape.h export.h
 	$(CC) $(CFLAGS) -c main.c
 
-
+export.o : export.c export.h etape.h
+	$(CC) $(CFLAGS) -c export.c
 
 coordinates : coordinates.o coordinates.h 
 	$(CC) $(CFLAGS) coordinates.o -o coordinates
