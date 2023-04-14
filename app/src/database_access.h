@@ -5,6 +5,8 @@
 #include "coordinates.h"
 #include "borne.h"
 #include <stdbool.h>
+#include "etape.h"
+
 typedef struct position_point
 {
     double distance_depart;
@@ -19,6 +21,7 @@ typedef struct list_position
     
 } list_position;
 
+etape* get_liste_etape_itineaire(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee);
 
 
 list_position* getBorneFromDistance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee);

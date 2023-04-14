@@ -6,7 +6,7 @@
 #include "borne.h"
 #include "database_access.h"
   #include "snow.h"
-
+#include "etape.h"
 
 // int main (void){
 //     double distance_fin = distance(0.163932,49.513496,7.214612,43.6689951);
@@ -55,26 +55,10 @@
 
 describe(test_itineraire){
     it("Conformance test"){
-       double distance_fin = distance(0.163932,49.513496,7.214612,43.6689951);
-    list_position* resultat = getBorneFromDistance(49.513496,0.163932,43.6689951,7.214612);
-        int i = 0;
-    do
-    {
-        borne_and_distance proche = plus_proche(resultat,100);
-                    distance_fin = distance(proche.borne.coordonnees.longitude,proche.borne.coordonnees.latitude,7.214612,43.6689951);
-                    list_destroy(resultat);
-
-            printf("Etape %d : \nBorne %s, vous êtes à %f km du point précédent, plus que %f km avant l'arrivée // id_unique = %d\n",i,proche.borne.name,proche.distance_debut,proche.distance_fin, proche.borne.id);
-            resultat = getBorneFromDistance(proche.borne.coordonnees.latitude,proche.borne.coordonnees.longitude,43.6689951,7.214612);
-            distance_fin = distance(proche.borne.coordonnees.longitude,proche.borne.coordonnees.latitude,7.214612,43.6689951);
-            free(proche.borne.name);
-            i++;
-            
-    } while (distance_fin != 0.0);
-        list_destroy(resultat);
-
+      etape* resultat = get_liste_etape_itineaire(49.513496,0.163932,43.6689951,7.214612);
+      display_etape(resultat);
+      defer(etape_destroy(resultat));
     }
-    }
+}
 
-
- snow_main();
+snow_main();
