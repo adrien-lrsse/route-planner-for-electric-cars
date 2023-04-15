@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "etape.h"
-
+#include <unistd.h>
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define MIN(a,b)  ((a) < (b) ? (a) : (b))
@@ -22,8 +22,11 @@ list_position* getBorneFromDistance(long double latitude_depart,long double long
     list_position* retour = list_create(); // Création de la liste de borne qui sera retourné.
 
 
+  
+
+    
     // Ouverture de la base de données
-    database_t * database = open_database("./../data/database_clean.db");
+    database_t * database = open_database("../data/database_clean.db");
     if (!database->opened_correctly) {
         exit(0);
     }
