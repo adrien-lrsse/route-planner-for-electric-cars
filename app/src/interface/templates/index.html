@@ -1,91 +1,130 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/home.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.2.2/ol.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/css/home.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/ol@v7.2.2/ol.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/ol@v7.2.2/dist/ol.js"></script>
     <!-- <script src="/static/javascript/map.js"></script> -->
     <title>FindMyWay - Recharge de voiture électrique</title>
-</head>
-<body>
+  </head>
+  <body onload="initialisation_parametre({{resultat}});return false">
     <h1 class="main_title">FindMyWay - Recharge de voiture électrique</h1>
     <div class="finding_form">
-        <form action="/find_itinerary" method="post">
-            <input name="depart" type="text" placeholder="adresse de départ">
-            <input name="arrivee" type="text" placeholder="adresse d'arrivée">
-            <input class="submit" type="submit" value="Rechercher">
-        </form>
+      <form action="/find_itinerary" method="post">
+        <input name="depart" type="text" placeholder="adresse de départ" />
+        <input name="arrivee" type="text" placeholder="adresse d'arrivée" />
+        <input class="submit" type="submit" value="Rechercher" />
+      </form>
     </div>
     <div class="display_map_etape">
-        <div style="margin-left: 5%; width: 55%;">
-            <div id="map">
+      <div style="margin-left: 5%; width: 55%">
+        <div id="map"></div>
+      </div>
 
-    </div>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          margin-left: 5%;
+          width: 35%;
+        "
+      >
+        {% for d in resultat%}
+
+        <div class="display_etape">
+          <h3>Étape {{d[0]}} : {{d[1]}}</h3>
+          <ul>
+            Distance à la borne précédente:
+            <b>{{d[4]}} km</b>
+          </ul>
+          <ul>
+            Distance à la borne précédente:
+            <b>{{d[5]}} km</b>
+          </ul>
         </div>
-    
-<div style="display: flex; flex-direction: column;margin-left: 5%; width: 35%;">
-
-
-    {% for d in resultat%}
-
-    
-    <div class = "display_etape">
-    <h3>Étape {{d[0]}} : {{d[1]}}</h3>
-    <ul>Distance à la borne précédente: <b>{{d[4]}} km</b></ul>
-    <ul>Distance à la borne précédente: <b>{{d[5]}} km</b></ul>
+        {% endfor %}
+      </div>
     </div>
-    {% endfor %}
-</div>
-    </div>
- <script>
-      const key = '1PB6znVWrQC3JvrDjX1j';
-      const source = new ol.source.TileJSON({
-        url: `https://api.maptiler.com/maps/streets-v2/tiles.json?key=${key}`,
-        tileSize: 512,
-        crossOrigin: 'anonymous'
-      });
+    <script onload="initialisation_parametre({{resultat}});return false">
+      // Ajout de la carte
 
-      const attribution = new ol.control.Attribution({
-        collapsible: false,
-      });
-      
-      const map = new ol.Map({
-        layers: [
-          new ol.layer.Tile({
-            source: source
-          })
-        ],
-        controls: ol.control.defaults.defaults({attribution: false}).extend([attribution]),
-        target: 'map',
-        view: new ol.View({
-          constrainResolution: true,
-          center: ol.proj.fromLonLat([2.471829,46.677531]),
-          zoom: 5
-        })
-      });
+      var id_unique;
+      var longitude;
+      var latitude;
 
-      const layer = new ol.layer.Vector({
-source: new ol.source.Vector({
-    features: [
-    new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([16.62662018, 49.2125578])),
-    })
-    ]
-}),
-    style: new ol.style.Style({
-    image: new ol.style.Icon({
-    anchor: [0.5, 1],
-    crossOrigin: 'anonymous',
-    src: 'https://docs.maptiler.com/openlayers/default-marker/marker-icon.png',
-    })
-    })
-    });
-map.addLayer(layer);
+      function initialisation_parametre(liste_etape) {
+        id_unique = new Array(liste_etape.length);
+        longitude = new Array(liste_etape.length);  
+        latitude = new Array(liste_etape.length); 
+        for (var i = 0; i < liste_etape.length; i++) {
+          id_unique[i] = liste_etape[i][0];
+          longitude[i] = liste_etape[i][2];
+          latitude[i] = liste_etape[i][3];   
+        }   
+        affichageMap(longitude,latitude)
+      }
 
-
+      function affichageMap(longitude,latitude){
+        const key = "1PB6znVWrQC3JvrDjX1j";
+        const source = new ol.source.TileJSON({
+          url: `https://api.maptiler.com/maps/streets-v2/tiles.json?key=${key}`,
+          tileSize: 512,
+          crossOrigin: "anonymous",
+        });
+  
+        const attribution = new ol.control.Attribution({
+          collapsible: false,
+        });
+  
+        const map = new ol.Map({
+          layers: [
+            new ol.layer.Tile({
+              source: source,
+            }),
+          ],
+          controls: ol.control.defaults
+            .defaults({ attribution: false })
+            .extend([attribution]),
+          target: "map",
+          view: new ol.View({
+            constrainResolution: true,
+            center: ol.proj.fromLonLat([2.471829, 46.677531]),
+            zoom: 6,
+          }),
+        });
+  
+        // Création de vecteur
+        
+        for (let i = 0; i < longitude.length; i++) {
+          
+          const layer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+              features: [
+                new ol.Feature({
+                  geometry: new ol.geom.Point(
+                    ol.proj.fromLonLat([longitude[i], latitude[i]])
+                  ),
+                }),
+              ],
+            }),
+            style: new ol.style.Style({
+              image: new ol.style.Icon({
+                anchor: [0.5, 1],
+                crossOrigin: "anonymous",
+                src: "https://docs.maptiler.com/openlayers/default-marker/marker-icon.png",
+              }),
+            }),
+          });
+          map.addLayer(layer);
+        }
+        
+      }
     </script>
-</body>
-</html>  
+  </body>
+</html>

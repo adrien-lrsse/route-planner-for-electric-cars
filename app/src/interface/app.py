@@ -15,7 +15,7 @@ Session(app)
 @app.route("/")
 def index():
     
-    
+    print(parseResultat())
 
     return render_template("index.html",resultat = parseResultat())
 
@@ -49,13 +49,24 @@ def parseResultat():
     for ligne in lignes :
         parsage_i = []
         chaine = ""
+        colonne = 0;
         for j in range(len(ligne)):
             
             if (ligne[j]!='$'):
                 chaine+=ligne[j]
                 
             else :
-                parsage_i.append(chaine)
+                if (colonne == 0):
+                    ajout = int(chaine)
+                    parsage_i.append(ajout)
+                    colonne+=1
+                elif (colonne == 1):
+                    parsage_i.append(chaine)
+                    colonne+=1
+                else :
+                    ajout = float(chaine)
+                    parsage_i.append(ajout)
+                    colonne+=1
                 chaine = ""
         parsage.append(parsage_i)
 
