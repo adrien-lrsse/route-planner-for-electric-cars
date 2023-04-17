@@ -12,7 +12,7 @@
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define MIN(a,b)  ((a) < (b) ? (a) : (b))
 
-#define LARGEUR_BANDE(a,b) (fabs(b-a))
+#define LARGEUR_BANDE(a,b) (fabsl(b-a))
 
 list_position* getBorneFromDistance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee){
     // Entrée : Coord  de départ et Coord d'arrivée
@@ -30,10 +30,16 @@ list_position* getBorneFromDistance(long double latitude_depart,long double long
     if (!database->opened_correctly) {
         exit(0);
     }
-    
+    char* sql_commmand;
+    if (LARGEUR_BANDE(latitude_depart,latitude_arrivee) || LARGEUR_BANDE(longitude_arrivee,longitude_depart)){
+        sql_commmand = "SELECT consolidated_longitude, consolidated_latitude, id_unique FROM bornes WHERE (consolidated_longitude BETWEEN (?-0.5)  AND (?+0.5)) AND (consolidated_latitude BETWEEN (?-0.5)  AND (?+0.5)) ";
+
+    } else {
+        sql_commmand = "SELECT consolidated_longitude, consolidated_latitude, id_unique FROM bornes WHERE (consolidated_longitude BETWEEN ?  AND ?) AND (consolidated_latitude BETWEEN ?  AND ?) ";
+
+    }
 
     // Préparation de la requête
-    char* sql_commmand = "SELECT consolidated_longitude, consolidated_latitude, id_unique FROM bornes WHERE (consolidated_longitude BETWEEN ?  AND ?) AND (consolidated_latitude BETWEEN ? and ?) ";
 
     prepare_request_database(database, sql_commmand); // préparation de la requête
     sqlite3_bind_double(database->stmt, 1, MIN(longitude_depart,longitude_arrivee)); //bind des valeurs "?"
@@ -65,8 +71,6 @@ list_position* getBorneFromDistance(long double latitude_depart,long double long
         longitude = sqlite3_column_double(database->stmt, 0); // la longitude
         latitude = sqlite3_column_double(database->stmt, 1); // la latitude
         id_unique = sqlite3_column_int(database->stmt, 2); // l'identifiant unique
-        printf("je suis la\n\n\n");
-        printf("%Lf\n",longitude);
         // Traitement
         distance_depart_borne = distance(longitude_depart,latitude_depart,longitude,latitude);  // calcul de la distance départ -> borne
         distance_borne_arrivee = distance(longitude,latitude,longitude_arrivee,latitude_arrivee); // calcul de la distance borne -> arrivée
