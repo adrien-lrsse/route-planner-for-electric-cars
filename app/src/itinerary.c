@@ -220,7 +220,7 @@ borne getInfo(int i){
     return res;
 }
 
-etape* get_liste_etape_itineaire(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee){
+etape* get_liste_etape_itineaire(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee,double autonomie){
     // Entrée : Coordonnées de départ et d'arrivée'
     // Sortie : Liste des étapes pour atteindre l'arrivée
 
@@ -233,7 +233,7 @@ etape* get_liste_etape_itineaire(long double latitude_depart,long double longitu
     // Tant que la distance borne -> arrivé n'est pas nul il reste au moins une étape
     while (distance_fin != 0.0 && !arrivee)
     {
-        if(distance_fin<100.0){
+        if(distance_fin<autonomie){
             arrivee = true;
         } 
         else {
@@ -247,7 +247,7 @@ etape* get_liste_etape_itineaire(long double latitude_depart,long double longitu
 
             }
             else {
-            proche = plus_proche(resultat,100);
+            proche = plus_proche(resultat,autonomie);
             if (proche.borne.id == -1){
                 list_destroy(resultat);
                 etape_destroy(lst_etape);

@@ -10,7 +10,6 @@
       href="https://cdn.jsdelivr.net/npm/ol@v7.2.2/ol.css"
     />
     <script src="https://cdn.jsdelivr.net/npm/ol@v7.2.2/dist/ol.js"></script>
-    <!-- <script src="/static/javascript/map.js"></script> -->
     <title>FindMyWay - Recharge de voiture électrique</title>
   </head>
   <body onload="initialisation_parametre({{resultat}});return false">
@@ -21,6 +20,15 @@
         <input name="arrivee" type="text" placeholder="adresse d'arrivée" />
         <input class="submit" type="submit" value="Rechercher" />
       </form>
+    </div>
+    <div class="finding_parametre">
+      <button id="settings">Afficher les paramètres</button>
+      <div id="form_param">
+          <form action="">
+            <input type="text" placeholder="Autonomie">
+            <input type="text" placeholder="Temps maximal à la borne de recharge">
+          </form>
+      </div>
     </div>
     <div class="display_map_etape">
       <div style="margin-left: 5%; width: 55%">
@@ -35,6 +43,11 @@
           width: 35%;
         "
       >
+      {% if resultat[0][0] == "empty" %}
+      <div class="display_etape">
+          <h3>⚠️ • Nous n'avons pas trouver d'itinéraire</h3>
+      </div>
+      {% else %}
         {% for d in resultat%}
 
         <div class="display_etape">
@@ -49,6 +62,7 @@
           </ul>
         </div>
         {% endfor %}
+        {% endif %}
       </div>
     </div>
     <script onload="initialisation_parametre({{resultat}});return false">
@@ -126,5 +140,7 @@
         
       }
     </script>
+        <script src="/static/javascript/map.js"></script>
+
   </body>
 </html>

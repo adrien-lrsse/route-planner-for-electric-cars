@@ -21,7 +21,7 @@ typedef struct list_position
     
 } list_position;
 
-etape* get_liste_etape_itineaire(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee);
+etape* get_liste_etape_itineaire(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee,double autonomie);
 
 
 list_position* getBorneFromDistance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee);

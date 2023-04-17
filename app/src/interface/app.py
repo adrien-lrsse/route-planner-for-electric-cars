@@ -36,38 +36,41 @@ def execute_app(depart,arrivee):
     arrivee = geolocator.geocode(arrivee)
     script_dir = os.path.dirname(os.path.abspath(__file__))
     cwd = os.path.abspath(os.path.join(script_dir, '..'))
-    subprocess.run(["./main",str(depart.longitude),str(depart.latitude),str(arrivee.longitude),str(arrivee.latitude)],cwd=cwd)
+    subprocess.run(["./main",str(depart.longitude),str(depart.latitude),str(arrivee.longitude),str(arrivee.latitude),"100.0"],cwd=cwd)
 
 
 
 def parseResultat():
     f = open("../../data/etape.txt","r")
     lignes = f.readlines()
-
+    
     parsage = []
 
-    for ligne in lignes :
-        parsage_i = []
-        chaine = ""
-        colonne = 0;
-        for j in range(len(ligne)):
-            
-            if (ligne[j]!='$'):
-                chaine+=ligne[j]
+    if (lignes[0] == "empty\n"):
+        parsage.append(["empty"])
+    else :
+        for ligne in lignes :
+            parsage_i = []
+            chaine = ""
+            colonne = 0;
+            for j in range(len(ligne)):
                 
-            else :
-                if (colonne == 0):
-                    ajout = int(chaine)
-                    parsage_i.append(ajout)
-                    colonne+=1
-                elif (colonne == 1):
-                    parsage_i.append(chaine)
-                    colonne+=1
+                if (ligne[j]!='$'):
+                    chaine+=ligne[j]
+                    
                 else :
-                    ajout = float(chaine)
-                    parsage_i.append(ajout)
-                    colonne+=1
-                chaine = ""
-        parsage.append(parsage_i)
+                    if (colonne == 0):
+                        ajout = int(chaine)
+                        parsage_i.append(ajout)
+                        colonne+=1
+                    elif (colonne == 1):
+                        parsage_i.append(chaine)
+                        colonne+=1
+                    else :
+                        ajout = float(chaine)
+                        parsage_i.append(ajout)
+                        colonne+=1
+                    chaine = ""
+            parsage.append(parsage_i)
 
     return (parsage)
