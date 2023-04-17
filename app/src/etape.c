@@ -2,12 +2,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 etape* etape_create(void){
     etape* new = malloc(sizeof(etape));
     new->list = NULL;
     new->size = 0;
     return new;
+}
+
+bool etape_is_empty(etape* one_etape){
+    return (one_etape->size == 0);
 }
 
 

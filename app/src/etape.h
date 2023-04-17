@@ -2,7 +2,7 @@
 #define ETAPE_H__
 
 #include "borne.h"
-
+#include <stdbool.h>
 
 typedef struct etape
 {
@@ -18,5 +18,6 @@ void display_etape(etape* one_etape);
 
 void etape_destroy(etape* one_etape);
 
+bool etape_is_empty(etape* one_etape);
 
 #endif /* ETAPE_H__*/
