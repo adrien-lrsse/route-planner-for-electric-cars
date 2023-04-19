@@ -13,11 +13,11 @@ typedef struct voiture
     char* nom;
     int id;
     double autonomie;
-    double autonomie_actuelle;
+    double autonomie_actuelle; // autonomie que je peux utiliser pour voyager = ON NE PREND PAS EN COMPTE LA BATTERIE EN RESERVE
+    double reserve_equivalent_autonomie; // équivalent en km du pourcentage minimum de batterie voulu en réserve
     int puissance;
-    int puissance_actuelle;
+    int puissance_actuelle; // puisssance TOTALE disponible = ON PREND EN COMPTE LA BATTERIE EN RESERVE
     int temps_recharge_max_minutes; // 0 si pas de temps spécifié
-    double autonomie_max_utilisable; // = autonomie si rien spécifié
 } voiture;
 
 
@@ -25,13 +25,13 @@ voiture* create_voiture(int id);
 
 void destroy_voiture(voiture* vehicule);
 
-void update_vehicule(voiture* vehicule, double distance_parcourue);
+void update_charge(voiture* vehicule, double distance_parcourue);
 
 void update_puissance(voiture* vehicule);
 
 void update_autonomie(voiture* vehicule);
 
-void recharge(voiture* vehicule, borne* borne_recharge, int temps_minutes);
+void recharge(voiture* vehicule, int puissance);
 
 void print_info(voiture* vehicule);
 

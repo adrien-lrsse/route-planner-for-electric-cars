@@ -23,7 +23,7 @@ voiture* create_voiture(int id){
     vehicule->id = id;
     vehicule->autonomie = autonomie;
     vehicule->autonomie_actuelle = autonomie;
-    vehicule->puissance = puissance;
+        vehicule->puissance = puissance;
     vehicule->puissance_actuelle = puissance;
     end_request_database(database);
     close_database(database);
@@ -35,13 +35,13 @@ void destroy_voiture(voiture* vehicule){
     free(vehicule);
 }
 
-void update_vehicule(voiture* vehicule, double distance_parcourue){
+void update_charge(voiture* vehicule, double distance_parcourue){
     vehicule->autonomie_actuelle = vehicule->autonomie_actuelle - distance_parcourue;
     update_puissance(vehicule);
 }
 
 void update_puissance(voiture* vehicule){
-    double autonomie_actuelle = vehicule->autonomie_actuelle;
+    double autonomie_actuelle = vehicule->autonomie_actuelle + vehicule->reserve_equivalent_autonomie;
     double autonomie = vehicule->autonomie;
     int puissance = vehicule->puissance;
     double puissance_actuelle = (autonomie_actuelle/autonomie)*puissance;
@@ -53,12 +53,19 @@ void update_autonomie(voiture * vehicule){
     double puissance = vehicule->puissance;
     double autonomie = vehicule->autonomie;
     double autonomie_actuelle = (puissance_actuelle/puissance)*autonomie;
+    autonomie_actuelle = autonomie_actuelle - (vehicule->reserve_equivalent_autonomie);
     vehicule->autonomie_actuelle = autonomie_actuelle;
 }
 
-void recharge(voiture* vehicule, borne* borne_recharge, int temps_minutes){
-    int charge_par_heure = vehicule->puissance/borne_recharge->puissance_nominale;
-    double charge = charge_par_heure*temps_minutes/60;
+void recharge(voiture* vehicule, int puissance_borne){
+    if (vehicule->temps_recharge_max_minutes == 0){
+        vehicule->puissance_actuelle = vehicule->puissance;
+        update_autonomie(vehicule);
+        return;
+    }
+    double temps_total_charge = (double) (vehicule->puissance)/(double)(puissance_borne);
+    double charge_par_heure = (double) (vehicule->puissance)/(double)(temps_total_charge);
+    double charge = charge_par_heure*vehicule->temps_recharge_max_minutes/60;
     vehicule->puissance_actuelle = vehicule->puissance_actuelle + charge;
     if (vehicule->puissance_actuelle > vehicule->puissance){
         vehicule->puissance_actuelle = vehicule->puissance;
@@ -74,5 +81,5 @@ void print_info(voiture* vehicule){
     printf("Puissance : %d\n", vehicule->puissance);
     printf("Puissance actuelle : %d\n", vehicule->puissance_actuelle);
     printf("Temps de recharge max : %d\n", vehicule->temps_recharge_max_minutes);
-    printf("Autonomie max utilisable : %f\n", vehicule->autonomie_max_utilisable);
+    printf("Equivalent autonomie de la réserve : %f\n", vehicule->reserve_equivalent_autonomie);
 }

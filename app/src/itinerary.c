@@ -236,7 +236,7 @@ etape* get_liste_etape_itineaire(long double latitude_depart, long double longit
         - type : 1 pour distance, 2 pour temps
     */
     if (type == 1){
-        return get_liste_etape_itineaire_type_distance(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, one_car->autonomie_max_utilisable);
+        return get_liste_etape_itineaire_type_distance(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, one_car);
     }
     else if (type == 2){
         return get_liste_etape_itineaire_type_temps(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, one_car);
@@ -246,7 +246,7 @@ etape* get_liste_etape_itineaire(long double latitude_depart, long double longit
     }
 }
 
-etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee,double autonomie){
+etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee,voiture* one_car){
     // Entrée : Coordonnées de départ et d'arrivée'
     // Sortie : Liste des étapes pour atteindre l'arrivée
 
@@ -256,13 +256,13 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
     etape* lst_etape = etape_create(); // valeur de retour
     borne_and_distance proche;
     bool arrivee = false;
-    // Tant que la distance borne -> arrivé n'est pas nul il reste au moins une étape
+    // Tant que la distance borne -> arrivé n'est pas nulel il reste au moins une étape
     while (distance_fin != 0.0 && !arrivee)
     {
-        if(distance_fin<autonomie){
+        if(distance_fin<one_car->autonomie_actuelle){
             arrivee = true;
         } 
-        else {
+        else{
             // Calcul du point le proche de l'arrivée atteignable avec l'autonomie du véhicule en fonction du point traité
             list_position* resultat = getBorneFromDistance(latitude_depart,longitude_depart,latitude_arrivee,longitude_arrivee);
             if (list_is_empty(resultat))
@@ -273,35 +273,41 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
 
             }
             else {
-            proche = plus_proche(resultat,autonomie);
-            if (proche.borne.id == -1){
-                list_destroy(resultat);
-                etape_destroy(lst_etape);
-                return etape_create();
-            }
-            else {
-            etape_add(lst_etape,proche);
+                proche = plus_proche(resultat,one_car->autonomie_actuelle);
+                if (proche.borne.id == -1){
+                    list_destroy(resultat);
+                    etape_destroy(lst_etape);
+                    return etape_create();
+                }
+                else {
+                    etape_add(lst_etape,proche);
+                    // printf("Distance parcourue %f km \n",proche.distance_debut);
+                    update_charge(one_car,proche.distance_debut);
+                    recharge(one_car,proche.borne.puissance_nominale);
+                    // printf("La voiture a une autonomie de %f km\n",one_car->autonomie_actuelle);
+                    // printf("La borne a une puissance de : %d kW\n",proche.borne.puissance_nominale);
+                    // printf("----------------------------------------------------\n");
 
-            // Nouvelle distance de fin : borne_atteinte -> arrivée
-            distance_fin = distance(proche.borne.coordonnees.longitude,proche.borne.coordonnees.latitude,longitude_arrivee,latitude_arrivee);
-            latitude_depart = proche.borne.coordonnees.latitude;
-            longitude_depart = proche.borne.coordonnees.longitude;
+                    // Nouvelle distance de fin : borne_atteinte -> arrivée
+                    distance_fin = distance(proche.borne.coordonnees.longitude,proche.borne.coordonnees.latitude,longitude_arrivee,latitude_arrivee);
+                    latitude_depart = proche.borne.coordonnees.latitude;
+                    longitude_depart = proche.borne.coordonnees.longitude;
 
-       
-            // On détruit l'ancienne list_position
-            list_destroy(resultat);
-            free(proche.borne.name);
-            }
+            
+                    // On détruit l'ancienne list_position
+                    list_destroy(resultat);
+                    free(proche.borne.name);
+                }
             }
             
         }
-                        
-    } ;
+
+    }
 
     return lst_etape;
 }
 
 
 etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, voiture* one_car){
-    return get_liste_etape_itineaire_type_distance(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, one_car->autonomie_max_utilisable);
+    return get_liste_etape_itineaire_type_distance(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, one_car);
 }
