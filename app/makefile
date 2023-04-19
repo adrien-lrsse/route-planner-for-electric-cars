@@ -18,3 +18,9 @@ run: app
 
 app: 
 	cd src/ && make main
+
+
+
+run_debug: app
+
+	cd src/interface/ && flask --app app.py --debug run

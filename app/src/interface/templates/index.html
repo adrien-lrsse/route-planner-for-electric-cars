@@ -21,6 +21,7 @@
         <input class="submit" type="submit" value="Rechercher" />
       </form>
     </div>
+    <p class="status">{{status}}</p>
     <div class="finding_parametre">
       <button id="settings">Afficher les paramètres</button>
       <div id="form_param">
@@ -31,7 +32,7 @@
       </div>
     </div>
     <div class="display_map_etape">
-      <div style="margin-left: 5%; width: 55%">
+      <div class="box_map">
         <div id="map"></div>
       </div>
 
@@ -45,7 +46,7 @@
       >
       {% if resultat[0][0] == "empty" %}
       <div class="display_etape">
-          <h3>⚠️ • Nous n'avons pas trouver d'itinéraire</h3>
+          <h3>⚠️ • Nous n'avons pas trouvé d'itinéraire</h3>
       </div>
       {% else %}
         {% for d in resultat%}
