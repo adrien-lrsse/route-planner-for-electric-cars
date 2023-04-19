@@ -1,6 +1,6 @@
-<<<<<<< HEAD
-0$Varennes-sur-Allier, Mairie$3.404150$46.312800$293.720453$369.934826$
-1$LE THOR - Chemin Des Estourans$4.996998$43.929184$293.344822$76.609535$
-=======
-empty
->>>>>>> 4f8b532b283a01e0eb93c2c018abb6951a4e81a3
+0$Varennes sur Amance, Place de l'Eglise$5.621137$47.895943$98.086008$577.287275$
+1$Labouré-Roi Nuits-Saint-Georges$4.965233$47.124893$98.991939$478.859815$
+2$Paray Le Monial, place de l'europe$4.118700$46.451800$98.879663$380.395164$
+3$SIEG63 - ePremium - Pont Du Chateau - Chambige$3.248129$45.798360$99.007528$282.854086$
+4$SALERS - Parking Des Sagranières - Rd 35$2.496268$45.138695$94.008546$190.198173$
+5$Villefranche De Rouergue, 670 route Montauban - 3124$2.002533$44.361178$94.946818$95.370544$

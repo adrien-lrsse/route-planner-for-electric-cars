@@ -33,7 +33,7 @@ def find_itinerary():
 
 def execute_app(depart,arrivee):
     status = ""
-    geolocator = Nominatim(user_agent="itine    rary")
+    geolocator = Nominatim(user_agent="itinerary")
     depart = geolocator.geocode(depart)
     arrivee = geolocator.geocode(arrivee)
     if (depart is None):
@@ -45,7 +45,11 @@ def execute_app(depart,arrivee):
     if (status == ""):
         script_dir = os.path.dirname(os.path.abspath(__file__))
         cwd = os.path.abspath(os.path.join(script_dir, '..'))
-        subprocess.run(["./main",str(depart.longitude),str(depart.latitude),str(arrivee.longitude),str(arrivee.latitude),"100.0"],cwd=cwd)
+        id_voiture = 306
+        pourcentage_reserve = 0
+        temps_max_attente = 0
+        type = 1
+        subprocess.run(["./main",str(depart.longitude),str(depart.latitude),str(arrivee.longitude),str(arrivee.latitude),str(id_voiture),str(pourcentage_reserve),str(temps_max_attente),str(type)],cwd=cwd)
     else :
             f = open("../../data/etape.txt","w")
             f.write("empty\n")

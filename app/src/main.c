@@ -34,6 +34,7 @@ int main(int argc, char* argv[])
   int temps_max_attente_borne = strtod(argv[7],NULL);
   int type = strtod(argv[8],NULL);
 
+// Ceci sert au débogage car on ne peut pas passer des arguments à l'exécutable
   // long double longitude_depart = 2.3483915;
   // long double latitude_depart =  48.8534951;
   // long double longitude_arrivee =  5.3699525;
