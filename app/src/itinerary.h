@@ -4,8 +4,12 @@
 #include "database_reader.h"
 #include "coordinates.h"
 #include "borne.h"
-#include <stdbool.h>
 #include "etape.h"
+#include "vehicules.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 
 typedef struct position_point
 {
@@ -21,8 +25,11 @@ typedef struct list_position
     
 } list_position;
 
-etape* get_liste_etape_itineaire(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee,double autonomie);
+etape* get_liste_etape_itineaire(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, voiture* one_car, int type);
 
+etape* get_liste_etape_itineaire_type_distance(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, double autonomie);
+
+etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, voiture* one_car);
 
 list_position* getBorneFromDistance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee);
 

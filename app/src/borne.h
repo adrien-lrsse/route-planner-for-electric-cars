@@ -8,6 +8,7 @@ typedef struct borne
     coord_pt coordonnees;
     char* name;
     int id;
+    int puissance_nominale;
 } borne;
 
 typedef struct borne_and_distance

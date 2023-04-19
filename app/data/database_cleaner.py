@@ -117,7 +117,7 @@
 
 
 # import sqlite3
-# db = sqlite3.connect("./app/data/database_puissances_nominales.db")
+# db = sqlite3.connect("database_puissances_nominales.db")
 # cur = db.cursor()
 # 
 # cur.execute("select nbr_pt_recharge, puissance_nominale from bornes where puissance_nominale not like 0")

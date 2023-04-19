@@ -1,6 +1,7 @@
 #include "database_reader.h"
 #include "coordinates.h"
 #include "borne.h"
+#include "vehicules.h"
 #include "itinerary.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -193,8 +194,9 @@ borne getInfo(int i){
     char* name;
     long double longitude;
     long double latitude;
+    int puissance_nominale;
 
-    char* sql_commmand = "SELECT nom_station, consolidated_longitude, consolidated_latitude FROM bornes WHERE id_unique = ?";
+    char* sql_commmand = "SELECT nom_station, consolidated_longitude,consolidated_latitude,puissance_nominale FROM bornes WHERE id_unique = ?";
     prepare_request_database(database,sql_commmand);
     sqlite3_bind_int(database->stmt, 1, i); // on bind la valeur de "?" dans la requête
     sqlite3_step(database->stmt);
@@ -203,6 +205,7 @@ borne getInfo(int i){
     name =  (char*)sqlite3_column_text(database->stmt, 0); // nom de la station
     longitude = sqlite3_column_double(database->stmt, 1); // longitude de la station
     latitude = sqlite3_column_double(database->stmt,2); // latitude de la station
+    puissance_nominale = sqlite3_column_int(database->stmt,3); // puissance nominale de la station
 
     // Copie de la chaine de caractères
     char* nom_station = calloc((strlen(name)+1),sizeof(char));
@@ -212,6 +215,7 @@ borne getInfo(int i){
     res.coordonnees.latitude = latitude;
     res.coordonnees.longitude = longitude;
     res.id = i;
+    res.puissance_nominale = puissance_nominale;
 
     //Fermeture de la base
     end_request_database(database);
@@ -220,7 +224,29 @@ borne getInfo(int i){
     return res;
 }
 
-etape* get_liste_etape_itineaire(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee,double autonomie){
+etape* get_liste_etape_itineaire(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, voiture* one_car, int type){
+    /*
+    Arguments : 
+        - latitude_depart : latitude du point de départ
+        - longitude_depart : longitude du point de départ
+        - latitude_arrivee : latitude du point d'arrivée
+        - longitude_arrivee : longitude du point d'arrivée
+        - autonomie : autonomie du véhicule
+        - temps_max_attente_borne : temps maximum d'attente à une borne
+        - type : 1 pour distance, 2 pour temps
+    */
+    if (type == 1){
+        return get_liste_etape_itineaire_type_distance(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, one_car->autonomie_max_utilisable);
+    }
+    else if (type == 2){
+        return get_liste_etape_itineaire_type_temps(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, one_car);
+    }
+    else {
+        return NULL;
+    }
+}
+
+etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee,double autonomie){
     // Entrée : Coordonnées de départ et d'arrivée'
     // Sortie : Liste des étapes pour atteindre l'arrivée
 
@@ -273,4 +299,9 @@ etape* get_liste_etape_itineaire(long double latitude_depart,long double longitu
     } ;
 
     return lst_etape;
+}
+
+
+etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, voiture* one_car){
+    return get_liste_etape_itineaire_type_distance(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, one_car->autonomie_max_utilisable);
 }
