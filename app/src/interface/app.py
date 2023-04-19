@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request,redirect,session
+from flask import Flask, render_template, request,redirect,session, url_for
 from flask_session import Session
 
 import os
@@ -14,30 +14,43 @@ Session(app)
 
 @app.route("/")
 def index():
-    
+    status = ""
     print(parseResultat())
-
-    return render_template("index.html",resultat = parseResultat())
+    if parseResultat() == [['empty']]:
+        status = "Adresse incorrecte ou non trouvée par le module Geopy"
+    return render_template("index.html",resultat = parseResultat(),status=status)
 
 @app.route("/find_itinerary",methods=["GET","POST"])
 def find_itinerary():
     if request.method == "POST":
         depart = request.form.get("depart")
         arrivee = request.form.get("arrivee")
-        execute_app(depart,arrivee)
+        error_status = execute_app(depart,arrivee)
     return redirect('/')
 
 
     
 
 def execute_app(depart,arrivee):
-    geolocator = Nominatim(user_agent="itinerary")
+    status = ""
+    geolocator = Nominatim(user_agent="itine    rary")
     depart = geolocator.geocode(depart)
     arrivee = geolocator.geocode(arrivee)
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    cwd = os.path.abspath(os.path.join(script_dir, '..'))
-    subprocess.run(["./main",str(depart.longitude),str(depart.latitude),str(arrivee.longitude),str(arrivee.latitude),"100.0"],cwd=cwd)
+    if (depart is None):
+        status += "Adresse de départ invalide"
+    if (arrivee is None):
+        status += "Adresse d'arrivée invalide"
+    print(status)
 
+    if (status == ""):
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        cwd = os.path.abspath(os.path.join(script_dir, '..'))
+        subprocess.run(["./main",str(depart.longitude),str(depart.latitude),str(arrivee.longitude),str(arrivee.latitude),"100.0"],cwd=cwd)
+    else :
+            f = open("../../data/etape.txt","w")
+            f.write("empty\n")
+            f.close()
+    return status
 
 
 def parseResultat():

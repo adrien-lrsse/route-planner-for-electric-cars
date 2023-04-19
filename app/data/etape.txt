@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 0$Varennes-sur-Allier, Mairie$3.404150$46.312800$293.720453$369.934826$
 1$LE THOR - Chemin Des Estourans$4.996998$43.929184$293.344822$76.609535$
+=======
+empty
+>>>>>>> 4f8b532b283a01e0eb93c2c018abb6951a4e81a3
