@@ -50,8 +50,10 @@ int main(int argc, char* argv[])
   ma_voiture->autonomie_actuelle = ma_voiture->autonomie - ma_voiture->reserve_equivalent_autonomie;
   // print_info(ma_voiture);
 
+  list_bornes_visitees* bornes_visitees = list_bornes_visitees_create(); // pour garder en mémoire les bornes visitées
+
   // Calcul des étapes pour aller du point A au point B
-  etape* resultat = get_liste_etape_itineaire(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, ma_voiture, type);
+  etape* resultat = get_liste_etape_itineaire(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, ma_voiture, type, bornes_visitees);
   if (resultat == NULL)
   {
     printf("Erreur lors du calcul de l'itinéraire\n");
@@ -62,6 +64,7 @@ int main(int argc, char* argv[])
   display_etape(resultat);
   // Free de l'espace mémoire allouée
   etape_destroy(resultat);
+  list_bornes_visitees_destroy(bornes_visitees);
   destroy_voiture(ma_voiture);
   return 0;
 }
