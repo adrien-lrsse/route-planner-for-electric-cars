@@ -52,13 +52,13 @@
         {% for d in resultat%}
 
         <div class="display_etape">
-          <h3>Étape {{d[0]}} : {{d[1]}}</h3>
+          <h3>Étape {{d[0]+1}} : {{d[1]}}</h3>
           <ul>
             Distance à la borne précédente:
             <b>{{d[4]}} km</b>
           </ul>
           <ul>
-            Distance à la borne précédente:
+            Distance à la borne suivante:
             <b>{{d[5]}} km</b>
           </ul>
         </div>
