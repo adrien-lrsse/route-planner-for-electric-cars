@@ -64,6 +64,8 @@ int main(int argc, char* argv[])
   display_etape(resultat);
   // Free de l'espace mémoire allouée
   etape_destroy(resultat);
+  list_bornes_visitees_print(bornes_visitees);//à enlever après
+  printf("test: %d\n",borne_deja_visitee(bornes_visitees, 44829));
   list_bornes_visitees_destroy(bornes_visitees);
   destroy_voiture(ma_voiture);
   return 0;

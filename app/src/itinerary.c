@@ -15,7 +15,7 @@
 
 #define LARGEUR_BANDE(a,b) (fabsl(b-a))
 
-list_position* getBorneFromDistance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee){
+list_position* getBorneFromDistance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee, list_bornes_visitees* bornes_visitees){
     // Entrée : Coord  de départ et Coord d'arrivée
     // Sortie : Liste de toutes les bornes avec comme données : 
     // pour chaque borne i : (i : distance_départ_borne, distance_borne_arrivée)
@@ -163,6 +163,7 @@ bool list_bornes_visitees_is_empty(list_bornes_visitees *one_list){
         return false;
     }
 }
+
 void list_bornes_visitees_destroy(list_bornes_visitees* one_list){
     //free les adresses allouées pour one_list
     if (list_bornes_visitees_is_empty(one_list)==1){
@@ -190,18 +191,27 @@ bool borne_deja_visitee(list_bornes_visitees* one_list, int id_borne){
     //vérifie si une borne a déjà été visitée
     
     list_bornes_visitees* liste = one_list;
-    while (list_bornes_visitees_is_empty(liste) == false){
+    while (list_bornes_visitees_is_empty(liste) == 0){
         if (liste->id_borne_visitee == id_borne){
             return true;
         }
-        liste = one_list->next;
+        liste = liste->next;
     }
     return false;
 }
 
+void list_bornes_visitees_print(list_bornes_visitees *one_list){
+    list_bornes_visitees* tmp = one_list;
+    printf("bornes_visitees:[");
+    while (list_bornes_visitees_is_empty(tmp)==0){
+        printf("%d ,\n", tmp->id_borne_visitee);
+        tmp=tmp->next;
+    }
+    printf("]\n");
+}
 
 
-borne_and_distance plus_proche(list_position* one_list, double autonomie){
+borne_and_distance plus_proche(list_position* one_list, double autonomie, list_bornes_visitees* bornes_visitees){
     // Entrée : liste de borne avec leur distance, autonomie du véhicule
     // Sortie : point le plus proche de l'arrivée qui respecte l'autonomie du véhicule
     long double max_distance = -1.0L;
@@ -211,8 +221,8 @@ borne_and_distance plus_proche(list_position* one_list, double autonomie){
     list_position* i = one_list;
     while (i->next!=NULL)
     {
-        // si on trouve un point plus proche de l'arrivée et qui ne nécessite pas plus de kilomètre que l'autonomie, alors c'est le nouveau point le proche
-        if(i->node.distance_depart<autonomie && i->node.distance_arrivee<min_distance){
+        // si on trouve un point plus proche de l'arrivée et qui ne nécessite pas plus de kilomètre que l'autonomie, et qui n'a pas déjà été visité, alors c'est le nouveau point le proche
+        if(i->node.distance_depart<autonomie && i->node.distance_arrivee<min_distance && borne_deja_visitee(bornes_visitees, i->node.indice_unique)==0){
             max_distance = i->node.distance_depart;
             min_distance = i->node.distance_arrivee;
             ind = i->node.indice_unique;
@@ -318,7 +328,7 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
         } 
         else{
             // Calcul du point le proche de l'arrivée atteignable avec l'autonomie du véhicule en fonction du point traité
-            list_position* resultat = getBorneFromDistance(latitude_depart,longitude_depart,latitude_arrivee,longitude_arrivee);
+            list_position* resultat = getBorneFromDistance(latitude_depart,longitude_depart,latitude_arrivee,longitude_arrivee, bornes_visitees);
             if (list_is_empty(resultat))
             {
                 list_destroy(resultat);
@@ -327,7 +337,7 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
 
             }
             else {
-                proche = plus_proche(resultat,one_car->autonomie_actuelle);
+                proche = plus_proche(resultat,one_car->autonomie_actuelle, bornes_visitees);
                 if (proche.borne.id == -1){
                     list_destroy(resultat);
                     etape_destroy(lst_etape);
@@ -335,6 +345,10 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
                 }
                 else {
                     etape_add(lst_etape,proche);
+
+                    //ajouter cette borne à la liste des bornes visitées
+                    list_bornes_visitees_append(bornes_visitees, proche.borne.id);
+
                     // printf("Distance parcourue %f km \n",proche.distance_debut);
                     update_charge(one_car,proche.distance_debut);
                     recharge(one_car,proche.borne.puissance_nominale);

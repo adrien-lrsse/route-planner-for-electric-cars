@@ -23,7 +23,7 @@ voiture* create_voiture(int id){
     vehicule->id = id;
     vehicule->autonomie = autonomie;
     vehicule->autonomie_actuelle = autonomie;
-        vehicule->puissance = puissance;
+    vehicule->puissance = puissance;
     vehicule->puissance_actuelle = puissance;
     end_request_database(database);
     close_database(database);

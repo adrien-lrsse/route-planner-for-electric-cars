@@ -38,7 +38,7 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart, long
 
 etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, voiture* one_car, list_bornes_visitees* bornes_visitees);
 
-list_position* getBorneFromDistance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee);
+list_position* getBorneFromDistance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee, list_bornes_visitees* bornes_visitees);
 
 void add(list_position** list, double depart, double arrivee, int id_unique);
 
@@ -50,7 +50,7 @@ void list_destroy(list_position* one_list);
 
 bool list_is_empty(list_position* one_list);
 
-borne_and_distance plus_proche(list_position* one_list, double autonomie);
+borne_and_distance plus_proche(list_position* one_list, double autonomie, list_bornes_visitees* bornes_visitees);
 
 
 borne getInfo(int i);
@@ -65,5 +65,7 @@ void list_bornes_visitees_destroy(list_bornes_visitees* one_list);
 void list_bornes_visitees_append(list_bornes_visitees* one_list, int id_borne);
 
 bool borne_deja_visitee(list_bornes_visitees* one_list, int id_borne);
+
+void list_bornes_visitees_print(list_bornes_visitees *one_list);
 
 #endif /* ITINERARY_H__ */
