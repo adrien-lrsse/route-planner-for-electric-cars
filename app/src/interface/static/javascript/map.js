@@ -4,12 +4,11 @@ var estMasque = true;
 var btn = document.getElementById("settings");
 var select_car = document.getElementById("select_car");
 var select_modele = document.getElementById("selectmodele");
-
 var slider_pct = document.getElementById("pct_autonomie_initial");
-
 var slider_delimiter = document.getElementById("limite_decharge");
-
 var form_recherche = document.getElementById("form_recherche");
+var limit_temps = document.getElementById("input_limit_temps");
+var limit_or_not = document.getElementById("limit");
 
 var i = 0;
 
@@ -94,6 +93,7 @@ window.addEventListener('load', function () {
   afficher_modele(select_car.value)
   affichageAutonomie();
   slider_delimiter.value = 0;
+  limit_or_not.checked = true;
 });
 
 select_modele.addEventListener('change',function(){
@@ -128,9 +128,13 @@ form_recherche.addEventListener('submit', function (event) {
   id_voit = select_modele.value;
   delimiter = slider_delimiter.value
   console.log(delimiter);
+  isLimited = limit_or_not.checked;
+  time = limit_temps.value;
   const formData = new FormData(form_recherche);
     formData.append('selectmodele', id_voit);
     formData.append('reserve', delimiter);
+    formData.append('limit',isLimited);
+    formData.append('input_limit_temps',time);
     fetch('/find_itinerary', { method: 'POST', body: formData })
     .then(response => {
       if (response.ok) {
@@ -142,4 +146,29 @@ form_recherche.addEventListener('submit', function (event) {
     .catch(error => console.error(error));
     
   });
+
+  limit_temps.addEventListener('input', function (){
+    if (this.value > 240){
+      this.value = 240;
+    } else if (this.value<0){
+      this.value = 0;
+    }
+      var txt = document.getElementById("txt_limit_temps");
+      txt.innerHTML = "Temps : " + this.value +" min";  
+
+  });
   
+limit_or_not.addEventListener('input', function (){
+  var txt = document.getElementById("txt_limit_temps");
+
+  if (this.checked){
+    limit_temps.style.display = "none";
+    txt.style.display = "none";
+    
+  } else {
+    limit_temps.style.display = "flex";
+    txt.style.display = "block";
+
+  }
+
+});

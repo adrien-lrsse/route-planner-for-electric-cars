@@ -63,11 +63,24 @@
 
           <div class="limiteur_autonomie">
             <h3>Limite de décharge :</h3>
-            <div style="display: flex; flex-direction: row;" class="autonomie">
+            <div style="display: flex; flex-direction: column;" class="autonomie">
               <p id="text_delimiter">Seuil de décharge : 0 %</p>
               <input type="range" min="0" max="100" value="0" name="reserve" class="slider" id="limite_decharge">
             </div>
 
+          </div>
+
+          <div class="temps_max">
+            <h3>Temps de recharge maximal par borne :</h3>
+            <div class="temps">
+              <div>
+                <input type="checkbox" id="limit" name="reponse" value="oui">
+                <label for="limit">Pas de limite de temps</label>
+
+              </div>
+              <p id="txt_limit_temps">Temps : 30 min</p>
+              <input type="number" id="input_limit_temps" name="age" min="0" max="240" value="30">
+            </div>
           </div>
             
         </div>
