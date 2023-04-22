@@ -23,7 +23,13 @@ itinerary : itinerary.o itinerary.h  database_reader.h coordinates.h borne.h eta
 	$(CC) $(CFLAGS) database_access.o vehicules.o -o database_access
 
 itinerary.o : itinerary.c itinerary.h etape.h database_reader.h borne.h etape.h vehicules.h
-	$(CC) $(CFLAGS) -c itinerary.c 
+	$(CC) $(CFLAGS) -c itinerary.c
+
+simulation : simulation.h simulation.o database_reader.o vehicules.o coordinates.o vehicules.h database_reader.h coordinates.h itinerary.o itinerary.h etape.o etape.h
+	$(CC) $(CFLAGS) database_reader.o vehicules.o coordinates.o simulation.o itinerary.o etape.o -o simulation $(LIBS)
+
+simulation.o : simulation.h simulation.c vehicules.h database_reader.h coordinates.h itinerary.h etape.h
+	$(CC) $(CFLAGS) -c simulation.c
 
 struct_mat_adj : struct_mat_adj.o struct_mat_adj.h
 	$(CC) $(CFLAGS) struct_mat_adj.o -o struct_mat_adj
