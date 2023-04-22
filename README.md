@@ -24,6 +24,11 @@ Une fois placé dans le répertoire `/app`
 make run
 ```
 
+- Lancement en mode debug
+```bash
+make run_debug
+```
+
 ## Contexte :
 
 Projet réalisé dans le cadre de la 1ère année d'étude à TELECOM Nancy de mars à mai 2023
