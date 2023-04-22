@@ -15,20 +15,62 @@
   <body onload="initialisation_parametre({{resultat}});return false">
     <h1 class="main_title">FindMyWay - Recharge de voiture électrique</h1>
     <div class="finding_form">
-      <form action="/find_itinerary" method="post">
+      <form id="form_recherche" action="/find_itinerary" method="post">
         <input name="depart" type="text" placeholder="adresse de départ" />
         <input name="arrivee" type="text" placeholder="adresse d'arrivée" />
         <input class="submit" type="submit" value="Rechercher" />
       </form>
-    </div>
-    <p class="status">{{status}}</p>
-    <div class="finding_parametre">
-      <button id="settings">Afficher les paramètres</button>
-      <div id="form_param">
-          <form action="">
-            <input type="text" placeholder="Autonomie">
-            <input type="text" placeholder="Temps maximal à la borne de recharge">
-          </form>
+
+      </div>
+      <p class="status">{{status}}</p>
+
+
+      <div id="choix_vehicule">
+        <h3><u>Choix du véhicule :</u></h3>
+        <div style="display: flex;flex-direction: row;">
+          <h3>Marque : </h3>
+          <select name="" id="select_car">
+            {% for cle in voiture.keys() %}
+            <option value="{{cle}}">{{cle}}</option>
+            {%endfor%}
+          </select>
+          <h3>Modèle : </h3>
+  
+          <select method="post" name="selectmodele" id="selectmodele"></select>
+
+      </div>
+      </div>
+      <div class="finding_parametre">
+        <button id="settings">Afficher les paramètres</button>
+        
+        <div id="form_param">
+
+
+
+          <div class="autonomie_initale">
+            <h3>Paramètrage de l'autonomie initale : </h3>
+            <div style="display: flex; flex-direction: row;" class="autonomie">
+              <div style="display: flex; flex-direction: column;" class="text"> 
+                <p id="auto_max"></p>
+                <p id="auto_initial"></p>
+              </div>
+            <div style="display: flex; flex-direction: column;" class="box_slider">
+              <p id="pct_int_charge">Charge de la batterie : 50 %</p>
+              <input type="range" min="1" max="100" value="50" class="slider" id="pct_autonomie_initial">
+            </div>
+          </div>
+          </div>
+
+          <div class="limiteur_autonomie">
+            <h3>Limite de décharge :</h3>
+            <div style="display: flex; flex-direction: row;" class="autonomie">
+              <p id="text_delimiter">Seuil de décharge : 0 %</p>
+              <input type="range" min="0" max="100" value="0" name="reserve" class="slider" id="limite_decharge">
+            </div>
+
+          </div>
+            
+        </div>
       </div>
     </div>
     <div class="display_map_etape">
@@ -66,7 +108,7 @@
         {% endif %}
       </div>
     </div>
-    <script onload="initialisation_parametre({{resultat}});return false">
+    <script>
       // Ajout de la carte
 
       var id_unique;
@@ -140,8 +182,20 @@
         }
         
       }
+
+      
+
     </script>
-        <script src="/static/javascript/map.js"></script>
+      <script src="/static/javascript/map.js">         
+      </script>
+       <script>
+          document.addEventListener('DOMContentLoaded', function() {
+          var dic_python = '{{voiture|tojson}}';
+          initialisation_voiture(dic_python);
+          });
+
+          
+       </script>
 
   </body>
 </html>

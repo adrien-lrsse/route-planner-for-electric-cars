@@ -3,6 +3,7 @@ from flask_session import Session
 
 import os
 import subprocess
+import csv
 from geopy.geocoders import Nominatim
 
 app = Flask(__name__)
@@ -14,24 +15,28 @@ Session(app)
 
 @app.route("/")
 def index():
+    
     status = ""
     print(parseResultat())
     if parseResultat() == [['empty']]:
         status = "Adresse incorrecte ou non trouvée par le module Geopy"
-    return render_template("index.html",resultat = parseResultat(),status=status)
+    return render_template("index.html",resultat = parseResultat(),status=status, voiture=parsageVoiture())
 
 @app.route("/find_itinerary",methods=["GET","POST"])
 def find_itinerary():
     if request.method == "POST":
         depart = request.form.get("depart")
         arrivee = request.form.get("arrivee")
-        error_status = execute_app(depart,arrivee)
+        voiture = request.form.get("selectmodele")
+        reserve = request.form.get("reserve")
+        print(voiture,reserve)
+        error_status = execute_app(depart,arrivee,voiture,reserve)
     return redirect('/')
 
 
     
 
-def execute_app(depart,arrivee):
+def execute_app(depart,arrivee,id_voiture,pourcentage_reserve):
     status = ""
     geolocator = Nominatim(user_agent="itinerary")
     depart = geolocator.geocode(depart)
@@ -45,8 +50,6 @@ def execute_app(depart,arrivee):
     if (status == ""):
         script_dir = os.path.dirname(os.path.abspath(__file__))
         cwd = os.path.abspath(os.path.join(script_dir, '..'))
-        id_voiture = 306
-        pourcentage_reserve = 0
         temps_max_attente = 0
         type = 1
         subprocess.run(["./main",str(depart.longitude),str(depart.latitude),str(arrivee.longitude),str(arrivee.latitude),str(id_voiture),str(pourcentage_reserve),str(temps_max_attente),str(type)],cwd=cwd)
@@ -91,3 +94,32 @@ def parseResultat():
             parsage.append(parsage_i)
 
     return (parsage)
+
+def parsageVoiture():
+    f = open('../../data/voitures_export.csv','r')
+    reader = csv.reader(f,delimiter=',',quotechar='"')
+    tab = []
+    for row in reader:
+        tab.append(row)
+    for i in range (len(tab)):
+        tab_marque_modele = []
+        marque = ""
+        modele = ""
+        find_marque = False
+        for el in tab[i][0]:
+            if (find_marque == False and el != " "):
+                marque+=el
+            elif (find_marque == False and el == " "):
+                find_marque = True
+            elif (el!='"'):
+                modele += el
+        tab_marque_modele.append(marque)
+        tab_marque_modele.append(modele)
+        tab[i][0] = tab_marque_modele
+
+    dic = {}
+    for i in range (len(tab)):
+        if tab[i][0][0] not in dic:
+            dic[tab[i][0][0]] = []
+        dic[tab[i][0][0]].append((tab[i][0][1],int(tab[i][1]),int((tab[i][3]))))
+    return dic

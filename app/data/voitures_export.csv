@@ -1,0 +1,310 @@
+"VinFast VF 9 Extended Range",520,123000,1
+"Lucid Air Dream Edition P",645,118000,2
+"Lucid Air Dream Edition R",685,118000,3
+"Lucid Air Grand Touring",665,112000,4
+"Mercedes EQS SUV 500 4MATIC",485,108400,5
+"Mercedes EQS SUV 450+",495,108400,6
+"Mercedes EQS SUV 450 4MATIC",485,108400,7
+"Mercedes EQS SUV 580 4MATIC",485,108400,8
+"Mercedes EQS AMG 53 4MATIC+",565,107800,9
+"Mercedes EQS 450 4MATIC",615,107800,10
+"Mercedes EQS 500 4MATIC",605,107800,11
+"Mercedes EQS 450+",640,107800,12
+"Mercedes EQS 580 4MATIC",605,107800,13
+"Polestar 3 Long Range Dual motor",490,107000,14
+"Polestar 3 Long Range Performance",470,107000,15
+"Lotus Eletre",520,107000,16
+"Lotus Eletre R",450,107000,17
+"Volvo EX90 Twin Motor",455,107000,18
+"Volvo EX90 Twin Motor Performance",440,107000,19
+"Audi Q8 e-tron 55 quattro",495,106000,20
+"Audi Q8 e-tron Sportback 55 quattro",525,106000,21
+"Audi SQ8 e-tron",445,106000,22
+"Audi SQ8 e-tron Sportback",470,106000,23
+"BMW iX M60",485,105200,24
+"BMW iX xDrive50",505,105200,25
+"BMW i7 M70 xDrive",490,101700,26
+"BMW i7 xDrive60",510,101700,27
+"Fisker Ocean Ultra",505,100000,28
+"Fisker Ocean Extreme",510,100000,29
+"Fisker Ocean One",510,100000,30
+"Rolls-Royce Spectre",455,100000,31
+"Kia EV9 99.8 kWh RWD",460,99800,32
+"Kia EV9 99.8 kWh AWD",450,99800,33
+"Tesla Model S Dual Motor",570,95000,34
+"Tesla Model S Plaid",550,95000,35
+"Tesla Model X Dual Motor",470,95000,36
+"Tesla Model X Plaid",455,95000,37
+"XPENG G9 RWD Long Range",470,94000,38
+"XPENG G9 AWD Long Range",440,94000,39
+"Polestar 4 Long Range Single Motor",510,94000,40
+"Polestar 4 Long Range Dual Motor",475,94000,41
+"VinFast VF 9 Standard Range",400,92000,42
+"Ford Mustang Mach-E ER RWD",455,91000,43
+"Ford Mustang Mach-E ER AWD",440,91000,44
+"Ford Mustang Mach-E GT",425,91000,45
+"Mercedes EQE 350+",525,90600,46
+"Mercedes EQE AMG 43 4MATIC",485,90600,47
+"Mercedes EQE AMG 53 4MATIC+",480,90600,48
+"Mercedes EQE 350 4MATIC",500,90600,49
+"Mercedes EQE 500 4MATIC",500,90600,50
+"Mercedes EQE SUV 350+",470,90600,51
+"Mercedes EQE SUV 350 4MATIC",455,90600,52
+"Mercedes EQE SUV 500 4MATIC",455,90600,53
+"Mercedes EQE SUV AMG 43 4MATIC",435,90600,54
+"Mercedes EQE SUV AMG 53 4MATIC+",425,90600,55
+"Mercedes EQV 300 Extra-Long",305,90000,56
+"Maxus MIFA 9",345,90000,57
+"Mercedes eVito Tourer Long 90 kWh",310,90000,58
+"Mercedes eVito Tourer Extra-Long 90 kWh",305,90000,59
+"Hongqi E-HS9 99 kWh",355,90000,60
+"Mercedes EQV 300 Long",305,90000,61
+"NIO ET7 100 kWh",505,90000,62
+"NIO ET5 100 kWh",495,90000,63
+"NIO EL7 100 kWh",430,90000,64
+"Mercedes EQE 300",515,89000,65
+"Mercedes EQE 350",515,89000,66
+"Audi Q8 e-tron 50 quattro",415,89000,67
+"Audi Q8 e-tron Sportback 50 quattro",440,89000,68
+"Lucid Air Touring",550,88000,69
+"Lucid Air Pure",560,88000,70
+"VinFast VF 8 Eco Extended Range",425,87700,71
+"VinFast VF 8 Plus Extended Range",425,87700,72
+"Nissan Ariya 87kWh",445,87000,73
+"Nissan Ariya e-4ORCE 87kWh - 225 kW",420,87000,74
+"Nissan Ariya e-4ORCE 87kWh - 290 kW",420,87000,75
+"Volkswagen ID.7 Pro S",520,86000,76
+"Audi e-tron GT RS",405,85000,77
+"Audi e-tron GT quattro",420,85000,78
+"Jaguar I-Pace EV400",380,84700,79
+"BYD TANG",350,84000,80
+"Porsche Taycan GTS",450,83700,81
+"Porsche Taycan GTS Sport Turismo",425,83700,82
+"Porsche Taycan Plus Sport Turismo",445,83700,83
+"Porsche Taycan 4S Plus Sport Turismo",430,83700,84
+"Porsche Taycan Turbo Sport Turismo",405,83700,85
+"Porsche Taycan Turbo S Sport Turismo",395,83700,86
+"Porsche Taycan Turbo S",400,83700,87
+"Porsche Taycan Plus",475,83700,88
+"Porsche Taycan 4S Cross Turismo",425,83700,89
+"Porsche Taycan Turbo Cross Turismo",400,83700,90
+"Porsche Taycan Turbo S Cross Turismo",385,83700,91
+"Porsche Taycan 4 Cross Turismo",425,83700,92
+"Porsche Taycan Turbo",415,83700,93
+"Porsche Taycan 4S Plus",460,83700,94
+"Maserati GranTurismo Folgore",425,83000,95
+"BYD HAN",465,83000,96
+"XPENG P7 RWD Long Range",500,82700,97
+"XPENG P7 AWD Performance",470,82700,98
+"XPENG P7 Wing Edition",465,82700,99
+"Genesis G80 Electrified Luxury",440,82500,100
+"VinFast VF 8 Eco Standard Range",405,82000,101
+"VinFast VF 8 Plus Standard Range",400,82000,102
+"BMW i4 eDrive40",470,80700,103
+"BMW i4 M50",435,80700,104
+"Mercedes EQC 400 4MATIC",370,80000,105
+"Volvo XC40 Recharge Single Motor ER",385,79000,106
+"Volvo XC40 Recharge Twin Motor",380,79000,107
+"Volvo C40 Recharge Single Motor ER",400,79000,108
+"Volvo C40 Recharge Twin Motor",390,79000,109
+"Polestar 2 Long Range Single Motor",440,78000,110
+"Polestar 2 Long Range Dual Motor",420,78000,111
+"Polestar 2 Long Range Performance",410,78000,112
+"Skoda Enyaq iV 80",420,77000,113
+"Skoda Enyaq iV 80x",400,77000,114
+"Skoda Enyaq iV RS",390,77000,115
+"Volkswagen ID.5 Pro",430,77000,116
+"Volkswagen ID.5 Pro Performance",430,77000,117
+"Volkswagen ID.5 GTX",405,77000,118
+"Volkswagen ID.4 Pro Performance",410,77000,119
+"Volkswagen ID.4 GTX",400,77000,120
+"Volkswagen ID.3 Pro S - 4 Seats",450,77000,121
+"Volkswagen ID.7 Pro",470,77000,122
+"Volkswagen ID.4 Pro",410,77000,123
+"Skoda Enyaq Coupe iV 80",445,77000,124
+"Skoda Enyaq Coupe iV 80x",430,77000,125
+"Skoda Enyaq Coupe iV RS",405,77000,126
+"Volkswagen ID. Buzz Pro",330,77000,127
+"Volkswagen ID.4 Pro 4MOTION",405,77000,128
+"CUPRA Born 170 kW - 77 kWh",450,77000,129
+"Audi Q4 Sportback e-tron 45 quattro",400,76600,130
+"Audi Q4 e-tron 40",405,76600,131
+"Audi Q4 e-tron 50 quattro",385,76600,132
+"Audi Q4 Sportback e-tron 50 quattro",400,76600,133
+"Audi Q4 e-tron 45 quattro",385,76600,134
+"Audi Q4 Sportback e-tron 40",425,76600,135
+"Hongqi E-HS9 84 kWh",305,76500,136
+"XPENG G9 RWD Standard Range",375,75000,137
+"Tesla Model 3 Long Range Dual Motor",485,75000,138
+"Tesla Model Y Long Range Dual Motor",435,75000,139
+"Tesla Model 3 Performance",460,75000,140
+"Tesla Model Y Performance",415,75000,141
+"Fisker Ocean Sport",380,75000,142
+"Genesis GV60 Premium",390,74000,143
+"Genesis GV60 Sport",380,74000,144
+"Genesis GV60 Sport Plus",365,74000,145
+"Hyundai IONIQ 5 Long Range 2WD",390,74000,146
+"Hyundai IONIQ 5 Long Range AWD",385,74000,147
+"Hyundai IONIQ 6 Long Range 2WD",475,74000,148
+"Hyundai IONIQ 6 Long Range AWD",440,74000,149
+"Genesis GV70 Electrified Sport",350,74000,150
+"Kia EV6 GT",370,74000,151
+"Kia EV6 Long Range 2WD",410,74000,152
+"Kia EV6 Long Range AWD",400,74000,153
+"BMW iX3",385,74000,154
+"Porsche Taycan Sport Turismo",380,71000,155
+"Porsche Taycan 4S Sport Turismo",370,71000,156
+"Porsche Taycan",410,71000,157
+"BMW iX xDrive40",360,71000,158
+"Porsche Taycan 4S",395,71000,159
+"Mercedes EQA 250+",375,70500,160
+"NIO ET7 75 kWh",400,70500,161
+"Mercedes EQB 250+",365,70500,162
+"NIO ET5 75 kWh",395,70500,163
+"NIO EL7 75 kWh",340,70500,164
+"Ford Mustang Mach-E SR RWD",355,70000,165
+"Ford Mustang Mach-E SR AWD",345,70000,166
+"MG ZS EV Long Range",365,68300,167
+"Citroen e-Jumpy Combi M 75 kWh",265,68000,168
+"Citroen e-Jumpy Combi XL 75 kWh",260,68000,169
+"Citroen e-SpaceTourer M 75 kWh",265,68000,170
+"Citroen e-SpaceTourer XL 75 kWh",260,68000,171
+"Opel Vivaro-e Combi M 75 kWh",265,68000,172
+"Opel Vivaro-e Combi L 75 kWh",260,68000,173
+"Opel Zafira-e Life M 75 kWh",265,68000,174
+"Opel Zafira-e Life L 75 kWh",260,68000,175
+"Peugeot e-Expert Combi Standard 75 kWh",265,68000,176
+"Peugeot e-Expert Combi Long 75 kWh",260,68000,177
+"Peugeot e-Traveller Standard 75 kWh",265,68000,178
+"Peugeot e-Traveller Long 75 kWh",260,68000,179
+"Toyota PROACE Shuttle M 75 kWh",260,68000,180
+"Toyota PROACE Shuttle L 75 kWh",260,68000,181
+"Fiat E-Ulysse L2 75 kWh",265,68000,182
+"Fiat E-Ulysse L3 75 kWh",260,68000,183
+"Toyota PROACE Verso M 75 kWh",265,68000,184
+"Toyota PROACE Verso L 75 kWh",260,68000,185
+"Polestar 2 Standard Range Single Motor",385,67000,186
+"BMW i4 eDrive35",400,67000,187
+"Mercedes EQB 300 4MATIC",335,66500,188
+"Mercedes EQB 250",345,66500,189
+"Mercedes EQA 250",355,66500,190
+"Mercedes EQB 350 4MATIC",335,66500,191
+"Mercedes EQA 300 4MATIC",350,66500,192
+"Mercedes EQA 350 4MATIC",350,66500,193
+"Volvo XC40 Recharge Single Motor",335,66000,194
+"Volvo C40 Recharge Single Motor",345,66000,195
+"Hyundai Kona Electric 65 kWh",400,65400,196
+"MG Marvel R Performance",330,65000,197
+"MG Marvel R",335,65000,198
+"Kia Niro EV",380,64800,199
+"BMW iX1 xDrive30",355,64700,200
+"Toyota bZ4X FWD",335,64000,201
+"Toyota bZ4X AWD",330,64000,202
+"Subaru Solterra AWD",320,64000,203
+"Lexus RZ 450e",310,64000,204
+"Hyundai Kona Electric 64 kWh",395,64000,205
+"Kia e-Soul 64 kWh",370,64000,206
+"Nissan Ariya 63kWh",320,63000,207
+"Smart #1",350,62000,208
+"Smart #1 Brabus",335,62000,209
+"MG MG4 Electric 64 kWh",365,61700,210
+"Mercedes EQV 250 Long",205,60000,211
+"Mercedes EQV 250 Extra-Long",205,60000,212
+"Renault Megane E-Tech EV60 130hp",365,60000,213
+"Mercedes eVito Tourer Long 60 kWh",210,60000,214
+"Mercedes eVito Tourer Extra-Long 60 kWh",205,60000,215
+"Aiways U5",315,60000,216
+"Aiways U6",350,60000,217
+"Renault Megane E-Tech EV60 220hp",360,60000,218
+"BYD ATTO 3",320,60000,219
+"ORA Funky Cat 63 kWh",340,59300,220
+"ORA Funky Cat GT",330,59300,221
+"Nissan Leaf e+",340,59000,222
+"Volkswagen ID.3 Pro",350,58000,223
+"Skoda Enyaq Coupe iV 60",335,58000,224
+"CUPRA Born 150 kW - 58 kWh",350,58000,225
+"CUPRA Born 170 kW - 58 kWh",345,58000,226
+"Skoda Enyaq iV 60",325,58000,227
+"Tesla Model 3",380,57500,228
+"Tesla Model Y",345,57500,229
+"MG MG5 Electric Long Range",335,57400,230
+"SsangYong Korando e-Motion",290,56000,231
+"Hyundai IONIQ 6 Standard Range 2WD",360,54000,232
+"Hyundai IONIQ 5 Standard Range 2WD",295,54000,233
+"Kia EV6 Standard Range 2WD",305,54000,234
+"Audi Q4 Sportback e-tron 35",295,52000,235
+"Volkswagen ID.4 Pure Performance",285,52000,236
+"Renault Zoe ZE50 R110",315,52000,237
+"Audi Q4 e-tron 35",285,52000,238
+"Renault Zoe ZE50 R135",310,52000,239
+"Volkswagen ID.4 Pure",285,52000,240
+"Seres 3",260,51000,241
+"Opel Astra Electric",310,50800,242
+"Opel Astra Sports Tourer Electric",300,50800,243
+"Jeep Avenger Electric 1st Edition",295,50800,244
+"Jeep Avenger Electric",300,50800,245
+"MG MG4 Electric 51 kWh",300,50800,246
+"Peugeot e-308",310,50800,247
+"Peugeot e-308 SW",300,50800,248
+"DS 3 E-Tense",300,50800,249
+"MG ZS EV Standard Range",270,49000,250
+"Hyundai Kona Electric 48 kWh",300,48400,251
+"Peugeot e-208",285,46300,252
+"Opel Combo-e Life 50 kWh",200,46300,253
+"Opel Combo-e Life XL 50 kWh",195,46300,254
+"Citroen e-Berlingo M 50 kWh",200,46300,255
+"Citroen e-Berlingo XL 50 kWh",195,46300,256
+"Peugeot e-2008 SUV",255,46300,257
+"Opel Corsa-e",285,46300,258
+"Opel Mokka-e",255,46300,259
+"Citroen e-C4",265,46300,260
+"Citroen e-Jumpy Combi M 50 kWh",180,46300,261
+"Citroen e-Jumpy Combi XL 50 kWh",175,46300,262
+"Citroen e-SpaceTourer M 50 kWh",180,46300,263
+"Citroen e-SpaceTourer XL 50 kWh",175,46300,264
+"Opel Vivaro-e Combi M 50 kWh",180,46300,265
+"Opel Vivaro-e Combi L 50 kWh",175,46300,266
+"Opel Zafira-e Life M 50 kWh",180,46300,267
+"Opel Zafira-e Life L 50 kWh",175,46300,268
+"Peugeot e-Expert Combi Standard 50 kWh",180,46300,269
+"Peugeot e-Expert Combi Long 50 kWh",175,46300,270
+"Peugeot e-Traveller Standard 50 kWh",180,46300,271
+"Peugeot e-Traveller Long 50 kWh",175,46300,272
+"Toyota PROACE Shuttle M 50 kWh",175,46300,273
+"Toyota PROACE Shuttle L 50 kWh",175,46300,274
+"Citroen e-C4 X",265,46300,275
+"Fiat E-Ulysse L2 50 kWh",180,46300,276
+"Fiat E-Ulysse L3 50 kWh",175,46300,277
+"Peugeot e-Rifter Standard 50 kWh",200,46300,278
+"Peugeot e-Rifter Long 50 kWh",195,46300,279
+"Toyota Proace City Verso Electric L1 50 kWh",205,46300,280
+"Toyota Proace City Verso Electric L2 50 kWh",200,46300,281
+"MG MG5 Electric Standard Range",265,46000,282
+"ORA Funky Cat 48 kWh",260,45400,283
+"Lexus UX 300e",235,45000,284
+"Renault Kangoo E-Tech Electric",215,44000,285
+"Renault Megane E-Tech EV40 130hp",250,40000,286
+"Hyundai Kona Electric 39 kWh",250,39200,287
+"Kia e-Soul 39.2 kWh",230,39200,288
+"Nissan Leaf",235,39000,289
+"JAC iEV7s",225,39000,290
+"Fiat 500e Hatchback 42 kWh",235,37300,291
+"Fiat 500e 3+1 42 kWh",235,37300,292
+"Fiat 500e Cabrio 42 kWh",230,37300,293
+"Abarth 500e Scorpionissima",225,37300,294
+"Volkswagen e-Up!",205,32299,295
+"Mazda MX-30",170,30000,296
+"Mini Cooper SE Convertible",170,28900,297
+"Mini Cooper SE",180,28900,298
+"Honda e Advance",170,28500,299
+"Dacia Spring Electric 65 Extreme",160,25000,300
+"Dacia Spring Electric 45",165,25000,301
+"Fiat 500e Hatchback 24 kWh",135,21300,302
+"Fiat 500e 3+1 24 kWh",135,21300,303
+"Fiat 500e Cabrio 24 kWh",135,21300,304
+"Renault Twingo Electric",130,21300,305
+"Smart EQ fortwo coupe",100,16700,306
+"Smart EQ fortwo cabrio",95,16700,307
+"Nissan Ariya e-4ORCE 87kWh",420,87000,308
+"Volkswagen ID.3 Pro Performance",350,58000,309
+"CUPRA Born 110 kW - 45 kWh",275,45000,310
