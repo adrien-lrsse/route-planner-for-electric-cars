@@ -83,3 +83,8 @@ void print_info(voiture* vehicule){
     printf("Temps de recharge max : %d\n", vehicule->temps_recharge_max_minutes);
     printf("Equivalent autonomie de la réserve : %f\n", vehicule->reserve_equivalent_autonomie);
 }
+
+void set_autonomie(voiture* vehicule, double autonomie){
+    vehicule->autonomie_actuelle = autonomie-vehicule->reserve_equivalent_autonomie;
+    update_puissance(vehicule);
+}

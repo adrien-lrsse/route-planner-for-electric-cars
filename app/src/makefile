@@ -2,12 +2,12 @@ CC=clang
 CFLAGS=-Wall -Wextra -pedantic -O0 -g3 -fsanitize=address
 LIBS = -lsqlite3 
 
-ALL = main coordinates itinerary struct_mat_adj database_reader create_mat_adj_in_txt
+ALL = main coordinates itinerary struct_mat_adj database_reader create_mat_adj_in_txt borne etape vehicules export simulation
 
-main : main.o coordinates.o database_reader.o struct_mat_adj.o itinerary.o  etape.o export.o vehicules.o
-	$(CC) $(CFLAGS) main.o coordinates.o database_reader.o struct_mat_adj.o itinerary.o etape.o export.o vehicules.o -o main $(LIBS)
+main : main.o coordinates.o database_reader.o struct_mat_adj.o itinerary.o etape.o export.o vehicules.o borne.o
+	$(CC) $(CFLAGS) main.o coordinates.o database_reader.o struct_mat_adj.o itinerary.o etape.o export.o vehicules.o borne.o -o main $(LIBS)
 
-main.o : main.c main.h borne.h coordinates.h database_reader.h itinerary.h snow.h etape.h export.h vehicules.h
+main.o : main.c main.h borne.h coordinates.h database_reader.h itinerary.h snow.h etape.h export.h vehicules.h borne.h
 	$(CC) $(CFLAGS) -c main.c
 
 export.o : export.c export.h etape.h
@@ -50,6 +50,8 @@ database_reader : database_reader.o database_reader.o
 database_reader.o : database_reader.c database_reader.h
 	$(CC) $(CFLAGS) -c database_reader.c
 
+borne.o : borne.c borne.h etape.h
+	$(CC) $(CFLAGS) -c borne.c
 
 etape.o : etape.h borne.h etape.c
 	$(CC) $(CFLAGS) -c etape.c

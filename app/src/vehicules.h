@@ -35,4 +35,6 @@ void recharge(voiture* vehicule, int puissance);
 
 void print_info(voiture* vehicule);
 
+void set_autonomie(voiture* vehicule, double autonomie);
+
 #endif /* __VEHICULES__ */

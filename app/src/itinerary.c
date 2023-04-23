@@ -15,7 +15,7 @@
 
 #define LARGEUR_BANDE(a,b) (fabsl(b-a))
 
-list_position* getBorneFromDistance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee, list_bornes_visitees* bornes_visitees){
+list_position* getBorneFromDistance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee){
     // Entrée : Coord  de départ et Coord d'arrivée
     // Sortie : Liste de toutes les bornes avec comme données : 
     // pour chaque borne i : (i : distance_départ_borne, distance_borne_arrivée)
@@ -52,8 +52,8 @@ list_position* getBorneFromDistance(long double latitude_depart,long double long
     if ((rc = sqlite3_step(database->stmt)) == SQLITE_DONE)
     {
         printf("Pas de borne dans cette zone\n\n\n");
-          end_request_database(database);
-    close_database(database);
+        end_request_database(database);
+        close_database(database);
         return retour;
     }
     else
@@ -145,69 +145,6 @@ bool list_is_empty(list_position* one_list){
     // Permet de savoir si une liste est vide ou non
     // Sortie : un booléen
     return (one_list == NULL);
-}
-
-
-list_bornes_visitees* list_bornes_visitees_create(void){
-    //creation d'une liste
-    list_bornes_visitees* new_list=malloc(sizeof(list_bornes_visitees));
-    new_list->next = NULL;
-    return new_list;
-}
-
-bool list_bornes_visitees_is_empty(list_bornes_visitees *one_list){
-    //return true si la one_list est vide, false sinon
-    if (one_list->next==NULL){
-        return true;
-    }else{
-        return false;
-    }
-}
-
-void list_bornes_visitees_destroy(list_bornes_visitees* one_list){
-    //free les adresses allouées pour one_list
-    if (list_bornes_visitees_is_empty(one_list)==1){
-        free(one_list);
-    }
-    else{
-        list_bornes_visitees_destroy(one_list->next);
-        free(one_list);
-    }
-}
-
-void list_bornes_visitees_append(list_bornes_visitees* one_list, int id_borne){
-    //ajoute l'identifiant d'une borne (id_borne) à la fin de la liste des bornes visitées (one_list)
-    list_bornes_visitees* last_elt = one_list;
-    while (list_bornes_visitees_is_empty(last_elt)==false){
-        last_elt=last_elt->next;
-    }
-    list_bornes_visitees* tail = list_bornes_visitees_create();
-    last_elt->id_borne_visitee = id_borne;
-    last_elt->next = tail;
-}
-
-bool borne_deja_visitee(list_bornes_visitees* one_list, int id_borne){
-    //return true si one_list contient id_borne, false sinon
-    //vérifie si une borne a déjà été visitée
-    
-    list_bornes_visitees* liste = one_list;
-    while (list_bornes_visitees_is_empty(liste) == 0){
-        if (liste->id_borne_visitee == id_borne){
-            return true;
-        }
-        liste = liste->next;
-    }
-    return false;
-}
-
-void list_bornes_visitees_print(list_bornes_visitees *one_list){
-    list_bornes_visitees* tmp = one_list;
-    printf("bornes_visitees:[");
-    while (list_bornes_visitees_is_empty(tmp)==0){
-        printf("%d ,\n", tmp->id_borne_visitee);
-        tmp=tmp->next;
-    }
-    printf("]\n");
 }
 
 
@@ -328,7 +265,7 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
         } 
         else{
             // Calcul du point le proche de l'arrivée atteignable avec l'autonomie du véhicule en fonction du point traité
-            list_position* resultat = getBorneFromDistance(latitude_depart,longitude_depart,latitude_arrivee,longitude_arrivee, bornes_visitees);
+            list_position* resultat = getBorneFromDistance(latitude_depart,longitude_depart,latitude_arrivee,longitude_arrivee);
             if (list_is_empty(resultat))
             {
                 list_destroy(resultat);
