@@ -31,18 +31,19 @@ def find_itinerary():
         reserve = request.form.get("reserve")
         isLimit = request.form.get("limit")
         time = request.form.get("input_limit_temps")
+        autonomie_init = request.form.get("pct_autonomie_initial")
         if (isLimit == "true"):
             temps = 0
         else :
             temps = time
         print(voiture,reserve,isLimit,time)
-        error_status = execute_app(depart,arrivee,voiture,reserve,temps)
+        error_status = execute_app(depart,arrivee,voiture,reserve,temps, autonomie_init)
     return redirect('/')
 
 
     
 
-def execute_app(depart,arrivee,id_voiture,pourcentage_reserve,temps):
+def execute_app(depart,arrivee,id_voiture,pourcentage_reserve,temps, autonomie_initiale):
     status = ""
     geolocator = Nominatim(user_agent="itinerary")
     depart = geolocator.geocode(depart)
@@ -58,7 +59,7 @@ def execute_app(depart,arrivee,id_voiture,pourcentage_reserve,temps):
         cwd = os.path.abspath(os.path.join(script_dir, '..'))
         temps_max_attente = 0
         type = 1
-        subprocess.run(["./main",str(depart.longitude),str(depart.latitude),str(arrivee.longitude),str(arrivee.latitude),str(id_voiture),str(pourcentage_reserve),str(temps),str(type)],cwd=cwd)
+        subprocess.run(["./main",str(depart.longitude),str(depart.latitude),str(arrivee.longitude),str(arrivee.latitude),str(id_voiture),str(pourcentage_reserve),str(temps),str(type), str(autonomie_initiale)],cwd=cwd)
     else :
             f = open("../../data/etape.txt","w")
             f.write("empty\n")

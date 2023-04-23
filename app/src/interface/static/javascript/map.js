@@ -9,6 +9,7 @@ var slider_delimiter = document.getElementById("limite_decharge");
 var form_recherche = document.getElementById("form_recherche");
 var limit_temps = document.getElementById("input_limit_temps");
 var limit_or_not = document.getElementById("limit");
+var init_autonomie = document.getElementById("pct_autonomie_initial");
 
 var i = 0;
 
@@ -93,6 +94,7 @@ window.addEventListener('load', function () {
   afficher_modele(select_car.value)
   affichageAutonomie();
   slider_delimiter.value = 0;
+  init_autonomie.value = 100;
   limit_or_not.checked = true;
 });
 
@@ -122,12 +124,18 @@ slider_delimiter.addEventListener('input',function(){
   txt.innerHTML = "Seuil de décharge : " +this.value+ " %";
 })
 
+init_autonomie.addEventListener('input',function(){
+  var txt = document.getElementById("pct_int_charge");
+  txt.innerHTML = "Charge de la batterie : " +this.value+ " %";
+})
+
 
 form_recherche.addEventListener('submit', function (event) {
   event.preventDefault();
   id_voit = select_modele.value;
-  delimiter = slider_delimiter.value
+  delimiter = slider_delimiter.value;
   console.log(delimiter);
+  init = init_autonomie.value;
   isLimited = limit_or_not.checked;
   time = limit_temps.value;
   const formData = new FormData(form_recherche);
@@ -135,6 +143,7 @@ form_recherche.addEventListener('submit', function (event) {
     formData.append('reserve', delimiter);
     formData.append('limit',isLimited);
     formData.append('input_limit_temps',time);
+    formData.append('pct_autonomie_initial',init)
     fetch('/find_itinerary', { method: 'POST', body: formData })
     .then(response => {
       if (response.ok) {

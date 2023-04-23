@@ -20,7 +20,8 @@ int main(int argc, char* argv[])
   5 : ID voiture
   6 : pourcentage de batterie que l'utilisateur veut garder en réserve --> METTRE 0 PAR DEFAUT SI ON NE VEUT PAS DE RESERVE
   7 : temps maximum d'attente à une borne --> EN MINUTES ET METTRE 0 SI PAS DE TEMPS MAX
-  8 : type de trajet --> 1 pour le plus court, 2 pour le plus rapide    
+  8 : type de trajet --> 1 pour le plus court, 2 pour le plus rapide
+  9 : autonomie initiale --> EN POURCENTAGE DE L'AUTONOMIE DE LA VOITURE
   */
 
 
@@ -33,6 +34,7 @@ int main(int argc, char* argv[])
   int pourcentage_mini_voulu = strtod(argv[6],NULL);
   int temps_max_attente_borne = strtod(argv[7],NULL);
   int type = strtod(argv[8],NULL);
+  int pourcentage_autonomie_initiale = strtod(argv[9],NULL);
 
 // Ceci sert au débogage car on ne peut pas passer des arguments à l'exécutable
 //   long double longitude_depart = 2.3483915;
@@ -47,7 +49,8 @@ int main(int argc, char* argv[])
   voiture* ma_voiture = create_voiture(id_voiture);
   ma_voiture->temps_recharge_max_minutes = temps_max_attente_borne;
   ma_voiture->reserve_equivalent_autonomie = ma_voiture->autonomie * ((pourcentage_mini_voulu / 100.0));
-  ma_voiture->autonomie_actuelle = ma_voiture->autonomie - ma_voiture->reserve_equivalent_autonomie;
+  double autonomie_init = ma_voiture->autonomie * ((double)(pourcentage_autonomie_initiale / 100.0));
+  set_autonomie(ma_voiture, autonomie_init);
   // print_info(ma_voiture);
 
   list_bornes_visitees* bornes_visitees = list_bornes_visitees_create(); // pour garder en mémoire les bornes visitées
