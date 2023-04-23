@@ -55,4 +55,6 @@ void tab_tick_destroy(list_int* tab_tick);
 
 void passage_list_destroy(passage_voiture* passage);
 
+void ajout_passage(borne_simulation* list_bornes, voiture* one_car, int type_stationnement, int tick, int borneId);
+
 #endif /* __SIMULATION_H__*/

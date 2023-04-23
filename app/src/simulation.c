@@ -110,18 +110,9 @@ void simulation(borne_simulation* list_bornes, trajet* liste_trajet, int nombre_
 
                         //arrivee à la borne
                         tick = tick + tick_trajet;
-                        passage_voiture* new_passage = (passage_voiture*) malloc(sizeof(passage_voiture)); //passage ajoute le moment où la voiture arrive à la borne
-                                    //composé du triplet (tick_d_arrivee, status(arrive ou quitte), vehicule)
-                        new_passage->next_passage = NULL;
-                        new_passage->status_passage = 1;
-                        new_passage->tick = tick;
-                        new_passage->voiture = trajet_actuel.vehicule;
-                        if (list_bornes[proche.borne.id].list_passages == NULL) {
-                            list_bornes[proche.borne.id].list_passages = new_passage;
-                        }
-                        else {
-                            list_bornes[proche.borne.id].list_passages->next_passage = new_passage;
-                        }
+                        ajout_passage(list_bornes, trajet_actuel.vehicule, 1, tick, proche.borne.id);
+                        //passage ajoute le moment où la voiture arrive à la borne
+                        //composé du triplet (tick_d_arrivee, status(arrive ou quitte), vehicule)
 
                         if (!borne_in_ticks(&tab_tick[tick],&proche)) {
                             add_borne(&tab_tick[tick],&proche);
@@ -129,17 +120,7 @@ void simulation(borne_simulation* list_bornes, trajet* liste_trajet, int nombre_
 
                         //depart de la borne
                         tick = tick + tick_recharge;
-                        passage_voiture* new_passage2 = (passage_voiture*) malloc(sizeof(passage_voiture));
-                        new_passage2->next_passage = NULL;
-                        new_passage2->status_passage = 0;
-                        new_passage2->tick = tick;
-                        new_passage2->voiture = trajet_actuel.vehicule;
-                        if (list_bornes[proche.borne.id].list_passages == NULL) {
-                            list_bornes[proche.borne.id].list_passages = new_passage2;
-                        }
-                        else {
-                            list_bornes[proche.borne.id].list_passages->next_passage = new_passage2;
-                        }
+                        ajout_passage(list_bornes, trajet_actuel.vehicule, 0, tick, proche.borne.id);
 
                         if (!borne_in_ticks(&tab_tick[tick],&proche)) {
                             add_borne(&tab_tick[tick],&proche);
@@ -170,6 +151,41 @@ void simulation(borne_simulation* list_bornes, trajet* liste_trajet, int nombre_
         list_bornes_visitees_destroy(bornes_visitees); // détruit car non commun à toutes les voitures
     }
     tab_tick_destroy(tab_tick);
+}
+
+void ajout_passage(borne_simulation* list_bornes, voiture* one_car, int type_stationnement, int tick, int borneId){
+    passage_voiture* new_passage = (passage_voiture*) malloc(sizeof(passage_voiture));
+    new_passage->next_passage = NULL;
+    new_passage->status_passage = type_stationnement;
+    new_passage->tick = tick;
+    new_passage->voiture = one_car;
+    passage_voiture* list_vehicules = list_bornes[borneId].list_passages;
+    if (list_vehicules == NULL) {
+        list_vehicules = new_passage;
+    }
+    else {
+        if (list_vehicules->next_passage == NULL && list_vehicules->tick <= new_passage->tick){ //s'il n'y a qu'un seul passage
+            list_vehicules->next_passage = new_passage;
+        }
+        else if (list_vehicules->next_passage == NULL && list_vehicules->tick > new_passage->tick) {
+            list_vehicules->next_passage = new_passage;
+            // copie du premier élément dans le second
+            new_passage->status_passage = list_vehicules->status_passage;
+            new_passage->tick = list_vehicules->tick;
+            new_passage->voiture = list_vehicules->voiture; //& possiblement obligatoire car list_vehicules->voiture va changer
+            //remplacement du premier
+            list_vehicules->status_passage = type_stationnement;
+            list_vehicules->tick = tick;
+            list_vehicules->voiture = one_car;
+        }
+        else {
+            while (list_vehicules->next_passage != NULL && list_vehicules->tick <= new_passage->tick) {
+                list_vehicules = list_vehicules->next_passage;
+            }
+            new_passage->next_passage = list_vehicules->next_passage;
+            list_vehicules->next_passage = new_passage;
+        }
+    }
 }
 
 int temps_recharge() {
