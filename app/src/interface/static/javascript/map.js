@@ -124,6 +124,21 @@ slider_delimiter.addEventListener('input',function(){
   txt.innerHTML = "Seuil de décharge : " +this.value+ " %";
 })
 
+
+
+slider_delimiter.addEventListener('change',function(){
+    slider_pct.min = this.value;
+    console.log(slider_pct.min,slider_pct.value);
+
+    var int_pct = document.getElementById("pct_int_charge");
+    var auto_start = document.getElementById("auto_initial");
+    var id = select_modele.value;
+    var marque = select_car.value;
+    auto_start.innerHTML = "Autonomie de départ : " +Math.floor(getAutonomie(marque,id)*((slider_pct.value)/100)) +" km" ;
+    int_pct.innerHTML = "Charge de la batterie : "+slider_pct.value+" %";
+
+})
+
 init_autonomie.addEventListener('input',function(){
   var txt = document.getElementById("pct_int_charge");
   txt.innerHTML = "Charge de la batterie : " +this.value+ " %";
