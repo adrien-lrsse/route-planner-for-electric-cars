@@ -254,13 +254,32 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
     // Initialise la distance borne -> arrivée (au début borne = départ)
     double distance_fin = distance(longitude_depart,latitude_depart,longitude_arrivee,latitude_arrivee); 
     
+    borne_and_distance depart;
+    depart.distance_fin = distance_fin;
+    depart.distance_debut = 0.0;
+    depart.borne.coordonnees.latitude = latitude_depart;
+    depart.borne.coordonnees.longitude = longitude_depart;
+    depart.borne.name = "Départ";
+    depart.borne.id = -1;
+
+    borne_and_distance arrivee_etape;
+    arrivee_etape.distance_fin = 0.0;
+    arrivee_etape.distance_debut = distance_fin;
+    arrivee_etape.borne.coordonnees.latitude = latitude_arrivee;
+    arrivee_etape.borne.coordonnees.longitude = longitude_arrivee;
+    arrivee_etape.borne.name = "Arrivée";
+
+
+
     etape* lst_etape = etape_create(); // valeur de retour
     borne_and_distance proche;
+    etape_add(lst_etape,depart);
     bool arrivee = false;
     // Tant que la distance borne -> arrivé n'est pas nulle il reste au moins une étape
     while (distance_fin != 0.0 && !arrivee)
     {
         if(distance_fin<one_car->autonomie_actuelle){
+            etape_add(lst_etape,arrivee_etape);
             arrivee = true;
         } 
         else{
@@ -308,6 +327,7 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
         }
 
     }
+
 
     return lst_etape;
 }

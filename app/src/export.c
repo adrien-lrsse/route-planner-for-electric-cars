@@ -4,9 +4,11 @@
 void export_etape(etape* one_etape){
     FILE *fichier = fopen("../data/etape.txt","w");
     if (etape_is_empty(one_etape)){
-        fprintf(fichier,"empty\n");
+        fprintf(fichier,"404\n");
         fclose(fichier);
-    } else {
+    }
+    else 
+    {
     for (int i = 0; i < one_etape->size; i++)
     {      
         fprintf(fichier,"%d$%s$%Lf$%Lf$%f$%f$\n",i,(one_etape->list+i)->borne.name,(one_etape->list+i)->borne.coordonnees.longitude,(one_etape->list+i)->borne.coordonnees.latitude,(one_etape->list+i)->distance_debut,(one_etape->list+i)->distance_fin);

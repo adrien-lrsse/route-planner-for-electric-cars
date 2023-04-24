@@ -66,6 +66,12 @@
     width: 55%;
 }
 
+.etape{
+    display: flex;
+          flex-direction: column;
+          margin-left: 5%;
+          width: 35%;
+}
 
 @media (max-width:1100px){
     .display_map_etape{
@@ -74,7 +80,12 @@
     .box_map{
         width: 90%; 
     }
+    .etape{
+        width: 90%;
+    }
 }
+
+
 
 #map {
     width: 100%;
@@ -253,4 +264,33 @@
     margin-left: 5%;
     width: 90%;
     text-align: right;
+}
+
+.info_trajet{
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+    justify-content:flex-start;
+    min-height: fit-content;
+    width: 90%;
+}
+
+.info_trajet .sous-titre{
+    font-family: 'Bebas Neue';
+    font-size: xxx-large;
+    margin-right: 2%;
+    margin: 0;
+    
+}
+
+.info_trajet p{
+    font-family: 'Quicksand';
+    font-weight: lighter;
+    margin-right: 2%;
+    margin-left: 2%;
+
+}
+
+.distance_depart_arrivee{
+    font-family: 'Quicksand';
 }

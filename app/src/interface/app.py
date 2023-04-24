@@ -18,9 +18,15 @@ def index():
     
     status = ""
     print(parseResultat())
-    if parseResultat() == [['empty']]:
+    info = settings_and_step()
+    etape = info[0]
+    detail = info[1]
+
+    if parseResultat() == []:
         status = "Adresse incorrecte ou non trouvée par le module Geopy"
-    return render_template("index.html",resultat = parseResultat(),status=status, voiture=parsageVoiture())
+        print(status)
+    print(detail)
+    return render_template("index.html",resultat = etape,status=status, voiture=parsageVoiture(),detail=detail)
 
 @app.route("/find_itinerary",methods=["GET","POST"])
 def find_itinerary():
@@ -62,9 +68,28 @@ def execute_app(depart,arrivee,id_voiture,pourcentage_reserve,temps, autonomie_i
         subprocess.run(["./main",str(depart.longitude),str(depart.latitude),str(arrivee.longitude),str(arrivee.latitude),str(id_voiture),str(pourcentage_reserve),str(temps),str(type), str(autonomie_initiale)],cwd=cwd)
     else :
             f = open("../../data/etape.txt","w")
-            f.write("empty\n")
+            f.write("404\n")
             f.close()
     return status
+
+
+def settings_and_step():
+    etape = parseResultat()
+    if etape == []:
+        print("to")
+        return [[],[]]
+    else :
+        detail_trajet = []
+        detail_trajet.append(etape[0])
+        detail_trajet.append(etape[len(etape)-1])
+        geolocator = Nominatim(user_agent="itinerary")
+        adresse_depart = geolocator.reverse((float(detail_trajet[0][3]),float(detail_trajet[0][2]))).raw.get('address', {}).get('city', None)
+        adresse_retour = geolocator.reverse((float(detail_trajet[1][3]),float(detail_trajet[1][2]))).raw.get('address', {}).get('city', None)
+        lst_etape = []
+        for i in range (1,len(etape)-1):
+            lst_etape.append(etape[i])
+        lst_detail = [adresse_depart,adresse_retour,etape[0][5]]
+        return [lst_etape,lst_detail]
 
 
 def parseResultat():
@@ -73,8 +98,8 @@ def parseResultat():
     
     parsage = []
 
-    if (lignes[0] == "empty\n"):
-        parsage.append(["empty"])
+    if (lignes[0] == "404\n"):
+        return []
     else :
         for ligne in lignes :
             parsage_i = []

@@ -90,24 +90,29 @@
       <div class="box_map">
         <div id="map"></div>
       </div>
-
-      <div
-        style="
-          display: flex;
-          flex-direction: column;
-          margin-left: 5%;
-          width: 35%;
-        "
-      >
-      {% if resultat[0][0] == "empty" %}
-      <div class="display_etape">
+      
+      
+      
+      {% if detail == [] %}
+      <div class="etape">
+        <div class="display_etape">
           <h3>⚠️ • Nous n'avons pas trouvé d'itinéraire</h3>
+        </div>
       </div>
       {% else %}
+      <div  class="etape">
+        <div class="info_trajet">
+          <p class="sous-titre">{{detail[0]}}</p>
+          <p>vers</p>
+          <p class="sous-titre">{{detail[1]}}</p>
+        </div>
+        <p class="distance_depart_arrivee">Distance : <b>{{detail[2]}} km</b></p>
+        
+        
         {% for d in resultat%}
 
         <div class="display_etape">
-          <h3>Étape {{d[0]+1}} : {{d[1]}}</h3>
+          <h3>Étape {{d[0]}} : {{d[1]}}</h3>
           <ul>
             Distance à la borne précédente:
             <b>{{d[4]}} km</b>
