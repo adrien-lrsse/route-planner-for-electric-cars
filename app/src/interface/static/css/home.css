@@ -294,3 +294,13 @@
 .distance_depart_arrivee{
     font-family: 'Quicksand';
 }
+.radio_opt{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.form_opt {
+    margin-left: 5%;
+    font-family: 'Quicksand';
+}

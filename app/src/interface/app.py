@@ -17,7 +17,7 @@ Session(app)
 def index():
     
     status = ""
-    print(parseResultat())
+    # print(parseResultat())
     info = settings_and_step()
     etape = info[0]
     detail = info[1]
@@ -25,7 +25,7 @@ def index():
     if parseResultat() == []:
         status = "Adresse incorrecte ou non trouvée par le module Geopy"
         print(status)
-    print(detail)
+    # print(detail)
     return render_template("index.html",resultat = etape,status=status, voiture=parsageVoiture(),detail=detail)
 
 @app.route("/find_itinerary",methods=["GET","POST"])
@@ -37,19 +37,26 @@ def find_itinerary():
         reserve = request.form.get("reserve")
         isLimit = request.form.get("limit")
         time = request.form.get("input_limit_temps")
+        opti = request.form.get("optimisation")
+        int_opti = 0
+        if (opti == "true"):
+            int_opti = 2
+        else :
+            int_opti = 1
+        print('valeur '+opti)
         autonomie_init = request.form.get("pct_autonomie_initial")
         if (isLimit == "true"):
             temps = 0
         else :
             temps = time
         print(voiture,reserve,isLimit,time)
-        error_status = execute_app(depart,arrivee,voiture,reserve,temps, autonomie_init)
+        error_status = execute_app(depart,arrivee,voiture,reserve,temps, autonomie_init,int_opti)
     return redirect('/')
 
 
     
 
-def execute_app(depart,arrivee,id_voiture,pourcentage_reserve,temps, autonomie_initiale):
+def execute_app(depart,arrivee,id_voiture,pourcentage_reserve,temps, autonomie_initiale,int_opti):
     status = ""
     geolocator = Nominatim(user_agent="itinerary")
     depart = geolocator.geocode(depart)
@@ -64,9 +71,8 @@ def execute_app(depart,arrivee,id_voiture,pourcentage_reserve,temps, autonomie_i
         script_dir = os.path.dirname(os.path.abspath(__file__))
         cwd = os.path.abspath(os.path.join(script_dir, '..'))
         temps_max_attente = 0
-        type = 1
         print("commande : " + "./main" + " " + str(depart.longitude) + " " + str(depart.latitude) + " " + str(arrivee.longitude) + " " + str(arrivee.latitude) + " " + str(id_voiture) + " " + str(pourcentage_reserve) + " " + str(temps) + " " + str(type) + " " + str(autonomie_initiale))
-        subprocess.run(["./main",str(depart.longitude),str(depart.latitude),str(arrivee.longitude),str(arrivee.latitude),str(id_voiture),str(pourcentage_reserve),str(temps),str(type), str(autonomie_initiale)],cwd=cwd)
+        subprocess.run(["./main",str(depart.longitude),str(depart.latitude),str(arrivee.longitude),str(arrivee.latitude),str(id_voiture),str(pourcentage_reserve),str(temps),str(int_opti), str(autonomie_initiale)],cwd=cwd)
     else :
             f = open("../../data/etape.txt","w")
             f.write("404\n")

@@ -10,6 +10,7 @@ var form_recherche = document.getElementById("form_recherche");
 var limit_temps = document.getElementById("input_limit_temps");
 var limit_or_not = document.getElementById("limit");
 var init_autonomie = document.getElementById("pct_autonomie_initial");
+var opt_radio = document.getElementById("temps_opt")
 
 var i = 0;
 
@@ -153,12 +154,14 @@ form_recherche.addEventListener('submit', function (event) {
   init = init_autonomie.value;
   isLimited = limit_or_not.checked;
   time = limit_temps.value;
+  type_opti = opt_radio.checked;
   const formData = new FormData(form_recherche);
     formData.append('selectmodele', id_voit);
     formData.append('reserve', delimiter);
     formData.append('limit',isLimited);
     formData.append('input_limit_temps',time);
     formData.append('pct_autonomie_initial',init)
+    formData.append('optimisation',type_opti);
     fetch('/find_itinerary', { method: 'POST', body: formData })
     .then(response => {
       if (response.ok) {
