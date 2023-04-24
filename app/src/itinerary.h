@@ -16,6 +16,7 @@ typedef struct position_point
     double distance_depart;
     double distance_arrivee;
     int indice_unique;
+    int puissance;
 } position_point;
 
 typedef struct list_position
@@ -33,7 +34,9 @@ etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long do
 
 list_position* getBorneFromDistance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee);
 
-void add(list_position** list, double depart, double arrivee, int id_unique);
+list_position* getBorneFromDistance_type_temps(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee);
+
+void add(list_position** list, double depart, double arrivee, int id_unique, int puissance);
 
 void print_position(list_position* list);
 
@@ -44,6 +47,8 @@ void list_destroy(list_position* one_list);
 bool list_is_empty(list_position* one_list);
 
 borne_and_distance plus_proche(list_position* one_list, double autonomie, list_bornes_visitees* bornes_visitees);
+
+borne_and_distance plus_proche_type_temps(list_position* one_list, double autonomie, list_bornes_visitees* bornes_visitees, voiture* one_car);
 
 
 borne getInfo(int i);

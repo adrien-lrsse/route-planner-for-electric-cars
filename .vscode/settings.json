@@ -2,6 +2,7 @@
     "files.associations": {
         "struct_mat_adj.h": "c",
         "database_reader.h": "c",
-        "itinerary.h": "c"
+        "itinerary.h": "c",
+        "stdbool.h": "c"
     }
 }

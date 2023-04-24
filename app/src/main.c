@@ -36,15 +36,16 @@ int main(int argc, char* argv[])
   int type = strtod(argv[8],NULL);
   int pourcentage_autonomie_initiale = strtod(argv[9],NULL);
 
-// Ceci sert au débogage car on ne peut pas passer des arguments à l'exécutable
-//   long double longitude_depart = 2.3483915;
-//   long double latitude_depart =  48.8534951;
-//   long double longitude_arrivee =  5.3699525;
-//   long double latitude_arrivee =  43.2961743;
-//   int id_voiture =  111;
-//   int pourcentage_mini_voulu =  30;
-//   int temps_max_attente_borne =  10;
+// // Ceci sert au débogage car on ne peut pas passer des arguments à l'exécutable
+//   long double longitude_depart = 6.1834097;
+//   long double latitude_depart =  48.6937223;
+//   long double longitude_arrivee =  -4.2328062;
+//   long double latitude_arrivee =  48.1815192;
+//   int id_voiture =  1;
+//   int pourcentage_mini_voulu =  20;
+//   int temps_max_attente_borne =  30;
 //   int type = 1;
+//   int pourcentage_autonomie_initiale =  35;
 
   voiture* ma_voiture = create_voiture(id_voiture);
   ma_voiture->temps_recharge_max_minutes = temps_max_attente_borne;

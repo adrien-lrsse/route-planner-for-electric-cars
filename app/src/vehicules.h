@@ -37,4 +37,6 @@ void print_info(voiture* vehicule);
 
 void set_autonomie(voiture* vehicule, double autonomie);
 
+long double simulation_recharge(voiture* vehicule, int puissance, double distance_parcourue);
+
 #endif /* __VEHICULES__ */

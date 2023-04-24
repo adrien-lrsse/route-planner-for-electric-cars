@@ -63,9 +63,8 @@ void recharge(voiture* vehicule, int puissance_borne){
         update_autonomie(vehicule);
         return;
     }
-    double temps_total_charge = (double) (vehicule->puissance)/(double)(puissance_borne);
-    double charge_par_heure = (double) (vehicule->puissance)/(double)(temps_total_charge);
-    double charge = charge_par_heure*vehicule->temps_recharge_max_minutes/60;
+    double charge_par_heure = (double)(puissance_borne);
+    double charge = charge_par_heure*(double)(vehicule->temps_recharge_max_minutes)/60.0;
     vehicule->puissance_actuelle = vehicule->puissance_actuelle + charge;
     if (vehicule->puissance_actuelle > vehicule->puissance){
         vehicule->puissance_actuelle = vehicule->puissance;
@@ -87,4 +86,25 @@ void print_info(voiture* vehicule){
 void set_autonomie(voiture* vehicule, double autonomie){
     vehicule->autonomie_actuelle = autonomie-vehicule->reserve_equivalent_autonomie;
     update_puissance(vehicule);
+}
+
+long double simulation_recharge(voiture* vehicule, int puissance, double distance_parcourue){
+    if (vehicule->temps_recharge_max_minutes == 0){
+        return (long double)(vehicule->autonomie);
+    }
+    if (distance_parcourue>vehicule->autonomie_actuelle){
+        return (long double)(20000.0L);
+    }
+    voiture * vehicule_simul = create_voiture(vehicule->id);
+    vehicule_simul->reserve_equivalent_autonomie = vehicule->reserve_equivalent_autonomie;
+    vehicule_simul->temps_recharge_max_minutes = vehicule->temps_recharge_max_minutes;
+    vehicule_simul->autonomie_actuelle = vehicule->autonomie_actuelle;
+    vehicule_simul->puissance_actuelle = vehicule->puissance_actuelle;
+    vehicule_simul->autonomie = vehicule->autonomie;
+    vehicule_simul->puissance = vehicule->puissance;
+    update_charge(vehicule_simul, distance_parcourue);
+    recharge(vehicule_simul, puissance);
+    long double autonomie = vehicule_simul->autonomie_actuelle;
+    destroy_voiture(vehicule_simul);
+    return autonomie;
 }

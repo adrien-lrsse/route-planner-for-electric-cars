@@ -3,9 +3,9 @@
 mat_adj* create_mat_adj(int taille){
     // Entrée : taille d'un cote de la matrice
     // Sortie : Adresse mémoire d'une zone de taille (n(n+1)/2) réservé
-    printf("Jesuisla%d\n",sizeof(mat_adj));
+    //printf("Jesuisla%d\n",sizeof(mat_adj));
     mat_adj* new_el = malloc(sizeof(mat_adj));
-    printf("Jesuisla%d\n",(taille*(taille+1)/2)*sizeof(double));
+    //printf("Jesuisla%d\n",(taille*(taille+1)/2)*sizeof(double));
     new_el->distance = malloc((taille*(taille+1)/2)*sizeof(double));
     new_el->length = taille;
     return new_el;
