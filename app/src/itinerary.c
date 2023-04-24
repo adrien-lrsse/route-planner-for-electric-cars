@@ -28,7 +28,7 @@ list_position* getBorneFromDistance(long double latitude_depart,long double long
 
     
     // Ouverture de la base de données
-    database_t * database = open_database("../data/database_clean.db");
+    database_t * database = open_database("../data/database.db");
     if (!database->opened_correctly) {
         exit(0);
     }
