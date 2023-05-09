@@ -1,8 +1,13 @@
 #include "export.h"
 
 
-void export_etape(etape* one_etape){
-    FILE *fichier = fopen("../data/etape.txt","w");
+void export_etape(etape* one_etape, int my_pid){
+    char pid[10];
+    sprintf(pid,"%d",my_pid);
+    char path[100] = "../data/trajets/etape_";
+    strcat(path,pid);
+    strcat(path,".txt");
+    FILE* fichier = fopen(path,"w");
     if (etape_is_empty(one_etape)){
         fprintf(fichier,"404\n");
         fclose(fichier);

@@ -4,6 +4,11 @@
 #include <math.h>
 #include <stdio.h>
 
+#ifndef SUPPRESS_PRINTFS
+#define printf(...) printf(__VA_ARGS__)
+#else
+#define printf(...) (void)0
+#endif
 
 typedef struct coord_pt{
     long double longitude;

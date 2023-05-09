@@ -11,6 +11,12 @@
 #include <stdbool.h>
 #include <string.h>
 
+#ifndef SUPPRESS_PRINTFS
+#define printf(...) printf(__VA_ARGS__)
+#else
+#define printf(...) (void)0
+#endif
+
 typedef struct position_point
 {
     double distance_depart;

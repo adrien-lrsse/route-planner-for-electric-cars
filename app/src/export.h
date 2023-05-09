@@ -4,6 +4,12 @@
 #include "etape.h"
 #include <stdio.h>
 
-void export_etape(etape* one_etape);
+#ifndef SUPPRESS_PRINTFS
+#define printf(...) printf(__VA_ARGS__)
+#else
+#define printf(...) (void)0
+#endif
+
+void export_etape(etape* one_etape, int my_pid);
 
 #endif /* EXPORT_H__ */

@@ -362,7 +362,9 @@ etape* get_liste_etape_itineaire(long double latitude_depart, long double longit
         - type : 1 pour distance, 2 pour temps
         - bornes_visitees: liste des bornes déjà visitées par l'algorithme
     */
+    printf("Type : %d\n", type);
     if (type == 1){
+        printf("one moment random : %d\n", type);
         return get_liste_etape_itineaire_type_distance(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, one_car, bornes_visitees);
     }
     else if (type == 2){
@@ -379,8 +381,9 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
     // Sortie : Liste des étapes pour atteindre l'arrivée
 
     // Initialise la distance borne -> arrivée (au début borne = départ)
+
     double distance_fin = distance(longitude_depart,latitude_depart,longitude_arrivee,latitude_arrivee); 
-    
+
     borne_and_distance depart;
     depart.distance_fin = distance_fin;
     depart.distance_debut = 0.0;
@@ -396,10 +399,12 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
     arrivee_etape.borne.coordonnees.longitude = longitude_arrivee;
     arrivee_etape.borne.name = "Arrivée";
 
+    printf("Distance fin : %f\n", distance_fin);
 
 
     etape* lst_etape = etape_create(); // valeur de retour
     borne_and_distance proche;
+    display_etape(lst_etape);
     etape_add(lst_etape,depart);
     bool arrivee = false;
     // Tant que la distance borne -> arrivé n'est pas nulle il reste au moins une étape

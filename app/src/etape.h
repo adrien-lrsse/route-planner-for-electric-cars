@@ -4,6 +4,12 @@
 #include "borne.h"
 #include <stdbool.h>
 
+#ifndef SUPPRESS_PRINTFS
+#define printf(...) printf(__VA_ARGS__)
+#else
+#define printf(...) (void)0
+#endif
+
 typedef struct etape
 {
     borne_and_distance* list;

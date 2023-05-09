@@ -4,6 +4,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#ifndef SUPPRESS_PRINTFS
+#define printf(...) printf(__VA_ARGS__)
+#else
+#define printf(...) (void)0
+#endif
+
 typedef struct mat_adj
 {
     double* distance;
