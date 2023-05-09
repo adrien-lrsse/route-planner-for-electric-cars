@@ -16,6 +16,7 @@ void export_etape(etape* one_etape, int my_pid){
         }
         fclose(fichier);
         }
+        return;
     }
     char pid[10];
     sprintf(pid,"%d",my_pid);
