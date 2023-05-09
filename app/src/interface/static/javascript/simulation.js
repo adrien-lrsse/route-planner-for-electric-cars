@@ -1,5 +1,30 @@
 
 var clean = document.getElementById("clean");
+var num_tick = 0;
+var tick_previous = document.getElementById("previous");
+var tick_next = document.getElementById("next");
+var display_num_tick = document.getElementById("display_num_tick");
+
+
+const franceCoordinates = [
+  [
+  [48.8566, 2.3522], // Paris
+  [43.2965, 5.3698], // Marseille
+  [47.2184, -1.5536] // Nantes
+  ], 
+  [
+    [43.6108, 3.8767], // Montpellier
+  [48.1173, -1.6778], // Rennes
+  [45.7640, 4.8357], // Lyon
+  [44.8378, -0.5792]// Bordeaux
+  ], 
+  [
+  [49.4432, 1.0999], // Rouen
+  [48.5734, 7.7521], // Strasbourg
+  [47.2184, 6.0188] // Besançon
+  ]
+];
+
 
 var map;
 function affichageMap(){
@@ -33,7 +58,12 @@ function affichageMap(){
     });
 }
 
-function ticke_suivant(){
+function afficher_tick(liste) {
+  removeVectors();
+  for (let entier = 0; entier < liste.length; entier++) {
+   
+    addVector(liste[entier][1],liste[entier][0]);
+  }
   
 }
 
@@ -73,4 +103,26 @@ function removeVectors(){
 
 clean.addEventListener('click', function (){
     removeVectors();
+})
+
+tick_next.addEventListener('click',function(){
+  if(num_tick<50){
+    num_tick++;
+    display_num_tick.innerHTML = ""+num_tick+"/50 ticks";
+  }
+  if (num_tick>=0 && num_tick<=2){
+    afficher_tick(franceCoordinates[num_tick]);
+  }
+  
+})
+
+tick_previous.addEventListener('click',function(){
+  if(num_tick>0){
+    num_tick--;
+    display_num_tick.innerHTML = ''+num_tick+"/50 ticks";
+  }
+  if (num_tick>=0 && num_tick<=2){
+    afficher_tick(franceCoordinates[num_tick]);
+  }
+ 
 })

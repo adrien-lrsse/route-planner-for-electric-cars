@@ -23,12 +23,12 @@
         <div id="map"></div>
     </div>
     <button id="clean">Remove</button>
-    <script src="/static/javascript/simulation.js"></script>
     <div class="arrow">
-        <button class="previous">- 10 min <<</button>
-        <p>6/1040 ticks</p>
-        <button class="next">>> + 10 min</button>
+        <button id="previous">- 10 min <<</button>
+        <p id="display_num_tick">0/50 ticks</p>
+        <button id="next">>> + 10 min</button>
     </div>
+    <script src="/static/javascript/simulation.js"></script>
     {{table[1]}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
