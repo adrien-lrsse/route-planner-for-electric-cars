@@ -33,11 +33,9 @@ function affichageMap(){
     });
 }
 
-<<<<<<< HEAD
 function ticke_suivant(){
   
 }
-=======
 
 function addVector(longitude,latitude){
     const layer = new ol.layer.Vector({
@@ -77,4 +75,3 @@ function removeVectors(){
 clean.addEventListener('click', function (){
     removeVectors();
 })
->>>>>>> dc0ad16374c981761f4685317505c0fd7aa55327
