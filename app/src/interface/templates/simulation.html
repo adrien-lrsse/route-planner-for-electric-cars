@@ -23,5 +23,13 @@
         });    
     </script>         
 
+    <div class="fleches">
+        <button class="précédent">tick précédent</button>
+        <button class="suivant">tick suivant</button>
+        {%for i in simulation_res %}
+        <div class="tableau"> {{ simulation_res[i] }} </div>
+        {%endif%}
+    </div>
+
 </body>
 </html>
