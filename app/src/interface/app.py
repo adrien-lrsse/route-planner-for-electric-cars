@@ -56,7 +56,7 @@ def find_itinerary():
 
 @app.route('/simulation')
 def simutation():
-    return render_template("simulation.html", simulation_res = simulation_res)
+    return render_template("simulation.html", table = simulation_res)
 
 def execute_app(depart,arrivee,id_voiture,pourcentage_reserve,temps, autonomie_initiale,int_opti):
     status = ""

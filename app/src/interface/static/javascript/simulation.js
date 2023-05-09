@@ -28,3 +28,7 @@ function affichageMap(){
       }),
     });
 }
+
+function ticke_suivant(){
+  
+}
