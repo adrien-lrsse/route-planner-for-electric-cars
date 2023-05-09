@@ -5,6 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/simulation.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/ol@v7.2.2/ol.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/ol@v7.2.2/dist/ol.js"></script>
+
     <title>Mode Simulation</title>
 </head>
 <body>
@@ -13,9 +19,9 @@
         <h1 class="main_title">FindMyWay - Mode Simulation</h1>
         <div><a href="/">Mode itinéraire</a></div>
     </div>
-    <div class="box_map">
+    <div class="box_map"> 
         <div id="map"></div>
-      </div>
+    </div>
     <script src="/static/javascript/simulation.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
