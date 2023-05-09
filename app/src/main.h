@@ -24,6 +24,6 @@
 
 int main(int argc, char* argv[]);
 
-void* old_main(void* arg);
+void* thread_main(void* arg);
 
 #endif /* __MAIN__ */

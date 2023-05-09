@@ -1,7 +1,7 @@
 CC=clang
 CFLAGS=-Wall -Wextra -pedantic -O0 -g3 -fsanitize=address
 LIBS = -lsqlite3 -pthread
-NO_DEBUG = -DSUPPRESS_PRINTFS
+#NO_DEBUG = -DSUPPRESS_PRINTFS
 
 ALL = main coordinates itinerary struct_mat_adj database_reader create_mat_adj_in_txt borne etape vehicules export simulation
 
