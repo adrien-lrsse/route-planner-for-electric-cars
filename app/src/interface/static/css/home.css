@@ -4,10 +4,44 @@
 
 .main_title{
     text-align: center;
+    font-family: 'Quicksand', sans-serif;
+    color: #1C2942;
+    width: 100%;
+}
+.box_title{
     margin-top: 2.5%;
-    font-family: 'Quicksand', sans-serif;}
-     
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.box_title div{
+    display: flex;
+    width: 25%;
+    align-items: center;
+}
+.box_title div a{
+    background-color: #1C2942;
+    text-decoration: none;
+    color:white;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    font-family: 'Quicksand';
+    text-align: center;
+    padding: 5%;
+    border-radius: 50px;
+    border: 1px solid #1C2942;
+    box-shadow: 5px 2.5px 2.5px #20304d;
+}
 
+.box_title div a:hover{
+    background-color: white;
+    color: #1C2942;
+    font-family: 'Quicksand';
+    text-align: center;
+    padding: 5%;
+    box-shadow: 5px 2.5px 2.5px #1C2942;
+}
 .finding_form{
     margin-top: 2.5%;
     width: 80%;
