@@ -24,6 +24,12 @@
     </div>
     <button id="clean">Remove</button>
     <script src="/static/javascript/simulation.js"></script>
+    <div class="arrow">
+        <button class="previous">- 10 min <<</button>
+        <p>6/1040 ticks</p>
+        <button class="next">>> + 10 min</button>
+    </div>
+    {{table[1]}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             affichageMap();   
@@ -32,11 +38,6 @@
         });    
     </script>         
 
-    <div class="fleches">
-        <button class="précédent">tick précédent</button>
-        <button class="suivant">tick suivant</button>
-        {{table[1]}}
-    </div>
 
 </body>
 </html>

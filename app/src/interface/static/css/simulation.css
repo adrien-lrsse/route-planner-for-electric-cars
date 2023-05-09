@@ -56,3 +56,38 @@ body{
     height: 650px;
 
 }
+.arrow{
+    display: flex;
+    flex-direction: row;
+    width:90%;
+    margin-left:5%;
+    justify-content: space-around;
+}
+
+.arrow button{
+    color: white;
+    background: none;
+    border: none;
+    font-family: 'Quicksand';
+    font-size: xx-large;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+}
+
+.arrow button:hover{
+    text-decoration: underline;
+    background-color: #20304d;
+    border-radius: 50px;
+    cursor: pointer;
+   
+}
+
+.arrow p{
+    color: white;
+    background: none;
+    border: none;
+    font-family: 'Quicksand';
+    font-size: xx-large;
+    margin-left: 5%;
+    margin-right: 5%;
+}
