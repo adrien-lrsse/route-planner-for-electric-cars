@@ -33,6 +33,9 @@ function affichageMap(){
     });
 }
 
+function ticke_suivant(){
+  
+}
 
 function addVector(longitude,latitude){
     const layer = new ol.layer.Vector({

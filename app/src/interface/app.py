@@ -11,7 +11,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-
+simulation_res = [[1,2,3], [4,5,6], [7,8,9]]
 
 @app.route("/")
 def index():
@@ -56,7 +56,7 @@ def find_itinerary():
 
 @app.route('/simulation')
 def simutation():
-    return render_template("simulation.html")
+    return render_template("simulation.html", table = simulation_res)
 
 def execute_app(depart,arrivee,id_voiture,pourcentage_reserve,temps, autonomie_initiale,int_opti):
     status = ""
