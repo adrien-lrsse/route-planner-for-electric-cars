@@ -14,7 +14,6 @@ app:
 
 
 run_debug: app
-
 	cd src/interface/ && flask --app app.py --debug run
 
 

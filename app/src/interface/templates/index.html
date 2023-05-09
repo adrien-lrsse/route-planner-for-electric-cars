@@ -13,7 +13,11 @@
     <title>FindMyWay - Recharge de voiture électrique</title>
   </head>
   <body onload="initialisation_parametre({{resultat}});return false">
-    <h1 class="main_title">FindMyWay - Recharge de voiture électrique</h1>
+    <div class="box_title">
+      <div></div>
+      <h1 class="main_title">FindMyWay - Mode itinéraire</h1>
+      <div><a href="/simulation">Mode simulation</a></div>
+  </div>
     <div class="finding_form">
       <form id="form_recherche" action="/find_itinerary" method="post">
         <input name="depart" type="text" placeholder="adresse de départ" />

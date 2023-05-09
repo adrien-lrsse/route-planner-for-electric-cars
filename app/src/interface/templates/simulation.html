@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/simulation.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/ol@v7.2.2/ol.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/ol@v7.2.2/dist/ol.js"></script>
+
+    <title>Mode Simulation</title>
+</head>
+<body>
+    <div class="box_title">
+        <div></div>
+        <h1 class="main_title">FindMyWay - Mode Simulation</h1>
+        <div><a href="/">Mode itinéraire</a></div>
+    </div>
+    <div class="box_map"> 
+        <div id="map"></div>
+    </div>
+    <button id="clean">Remove</button>
+    <div class="arrow">
+        <button id="previous">- 10 min <<</button>
+        <p id="display_num_tick">0/50 ticks</p>
+        <button id="next">>> + 10 min</button>
+    </div>
+    <script src="/static/javascript/simulation.js"></script>
+    {{table[1]}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            affichageMap();   
+            addVector(2.471829, 46.677531);  
+            addVector(3.471829, 43.677531)  ;     
+        });    
+    </script>         
+
+
+</body>
+</html>
