@@ -54,7 +54,9 @@ def find_itinerary():
     return redirect('/')
 
 
-    
+@app.route('/simulation')
+def simutation():
+    return render_template("simulation.html")
 
 def execute_app(depart,arrivee,id_voiture,pourcentage_reserve,temps, autonomie_initiale,int_opti):
     status = ""
