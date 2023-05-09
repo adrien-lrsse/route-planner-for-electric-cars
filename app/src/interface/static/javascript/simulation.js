@@ -66,7 +66,6 @@ function removeVectors(){
         var firstLayer = layers.getArray()[1];
         map.removeLayer(firstLayer);
     }
-    console.log(firstLayer);
 }
 
 clean.addEventListener('click', function (){
