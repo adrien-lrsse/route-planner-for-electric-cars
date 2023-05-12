@@ -11,7 +11,8 @@ file.o: file.c file.h
 app: 
 	cd src/ && make main
 
-
+clean : 
+	cd src/ && make clean
 
 run_debug: app
 	cd src/interface/ && flask --app app.py --debug run

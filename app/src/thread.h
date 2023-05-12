@@ -8,6 +8,12 @@
 #include <string.h>
 #include <pthread.h>
 #include <time.h>
+#include "coordinates.h"
+#include "struct_mat_adj.h"
+#include "database_reader.h"
+#include "export.h"
+#include "thread.h"
+#include "vehicules.h"
 
 #ifndef SUPPRESS_PRINTFS
 #define printf(...) printf(__VA_ARGS__)
@@ -36,5 +42,7 @@ typedef struct thread_data_list {
 void thread_data_list_add(thread_data_list* list, thread_data* data);
 
 void thread_data_list_destroy(thread_data_list* list);
+
+void* thread_main(void* arg);
 
 #endif /* __THREAD__ */

@@ -13,6 +13,7 @@
 #include "database_reader.h"
 #include "export.h"
 #include "thread.h"
+#include "vehicules.h"
 
 #define NB_THREADS 1000
 
@@ -23,7 +24,5 @@
 #endif
 
 int main(int argc, char* argv[]);
-
-void* thread_main(void* arg);
 
 #endif /* __MAIN__ */

@@ -73,7 +73,7 @@ def execute_app(depart,arrivee,id_voiture,pourcentage_reserve,temps, autonomie_i
         script_dir = os.path.dirname(os.path.abspath(__file__))
         cwd = os.path.abspath(os.path.join(script_dir, '..'))
         temps_max_attente = 0
-        print("commande : " + "./main" + " " + str(depart.longitude) + " " + str(depart.latitude) + " " + str(arrivee.longitude) + " " + str(arrivee.latitude) + " " + str(id_voiture) + " " + str(pourcentage_reserve) + " " + str(temps) + " " + str(type) + " " + str(autonomie_initiale))
+        print("commande : " + "./main" + " " + str(depart.longitude) + " " + str(depart.latitude) + " " + str(arrivee.longitude) + " " + str(arrivee.latitude) + " " + str(id_voiture) + " " + str(pourcentage_reserve) + " " + str(temps) + " " + str(int_opti) + " " + str(autonomie_initiale))
         subprocess.run(["./main",str(depart.longitude),str(depart.latitude),str(arrivee.longitude),str(arrivee.latitude),str(id_voiture),str(pourcentage_reserve),str(temps),str(int_opti), str(autonomie_initiale)],cwd=cwd)
     else :
             f = open("../../data/etape.txt","w")
