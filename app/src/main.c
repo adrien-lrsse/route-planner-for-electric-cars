@@ -8,6 +8,7 @@
 // #include "snow.h"
 #include "etape.h"
 #include "vehicules.h"
+#include "random_points.h"
 
 int main(int argc, char* argv[]) {
   /*
@@ -22,7 +23,15 @@ int main(int argc, char* argv[]) {
   8 : type de trajet --> 1 pour le plus court, 2 pour le plus rapide
   9 : autonomie initiale --> EN POURCENTAGE DE L'AUTONOMIE DE LA VOITURE
   */
+  printf("coucouuuuu ahhhhhhh\n");
+  coord_pt* point_test = recuperation_coord_ligne(5);
+  printf("lat: %Lf, long: %Lf\n", point_test->latitude, point_test->longitude);
 
+  free(point_test);
+  //generate_x_numbers(100);
+
+  
+  return 0; //à enlever penses-y (oui je me parle à moi-même si je push ça dsl)
 
   if (argc ==10){
     printf("%d\n",argc);

@@ -5,10 +5,10 @@ LIBS = -lsqlite3 -pthread
 
 ALL = main coordinates itinerary struct_mat_adj database_reader create_mat_adj_in_txt borne etape vehicules export simulation
 
-main : main.o coordinates.o database_reader.o struct_mat_adj.o itinerary.o etape.o export.o vehicules.o borne.o thread.o
-	$(CC) $(CFLAGS) main.o coordinates.o database_reader.o struct_mat_adj.o itinerary.o etape.o export.o vehicules.o borne.o thread.o -o main $(LIBS)
+main : main.o coordinates.o database_reader.o struct_mat_adj.o itinerary.o etape.o export.o vehicules.o borne.o thread.o random_points.o
+	$(CC) $(CFLAGS) main.o coordinates.o database_reader.o struct_mat_adj.o itinerary.o etape.o export.o vehicules.o borne.o thread.o random_points.o -o main $(LIBS)
 
-main.o : main.c main.h borne.h coordinates.h database_reader.h itinerary.h snow.h etape.h export.h vehicules.h borne.h thread.h
+main.o : main.c main.h borne.h coordinates.h database_reader.h itinerary.h snow.h etape.h export.h vehicules.h borne.h thread.h random_points.h
 	$(CC) $(CFLAGS) -c main.c
 
 thread.o : thread.c thread.h
@@ -22,6 +22,13 @@ coordinates : coordinates.o coordinates.h
 
 coordinates.o : coordinates.c coordinates.h
 	$(CC) $(CFLAGS) -c coordinates.c $(NO_DEBUG)
+
+random_points : random_points.o random_points.h coordinates.h
+	$(CC) $(CFLAGS) random_points.o -o random_points
+
+random_points.o : random_points.c random_points.h coordinates.h
+	$(CC) $(CFLAGS) -c random_points.c $(NO_DEBUG)
+
 
 itinerary : itinerary.o itinerary.h  database_reader.h coordinates.h borne.h etape.h vehicules.o database_reader.o
 	$(CC) $(CFLAGS) database_access.o vehicules.o -o database_access
