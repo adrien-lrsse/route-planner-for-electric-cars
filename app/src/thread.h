@@ -8,6 +8,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <time.h>
+#include "itinerary.h"
 #include "coordinates.h"
 #include "struct_mat_adj.h"
 #include "database_reader.h"

@@ -35,6 +35,8 @@ typedef struct list_bornes_visitees
 
 } list_bornes_visitees;
 
+list_bornes_visitees* list_bornes_visitees_create(void);
+
 bool list_bornes_visitees_is_empty(list_bornes_visitees *one_list);
 
 void list_bornes_visitees_destroy(list_bornes_visitees* one_list);
