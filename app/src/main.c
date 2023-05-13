@@ -23,15 +23,11 @@ int main(int argc, char* argv[]) {
   8 : type de trajet --> 1 pour le plus court, 2 pour le plus rapide
   9 : autonomie initiale --> EN POURCENTAGE DE L'AUTONOMIE DE LA VOITURE
   */
-  printf("coucouuuuu ahhhhhhh\n");
-  coord_pt* point_test = recuperation_coord_ligne(5);
-  printf("lat: %Lf, long: %Lf\n", point_test->latitude, point_test->longitude);
 
-  free(point_test);
-  //generate_x_numbers(100);
-
-  
-  return 0; //à enlever penses-y (oui je me parle à moi-même si je push ça dsl)
+  // // pour tester la géénération aléatoire de trajet (ici on génère 20 trajets):
+  // trajets_aleatoires* tab = generate_x_random_itinerary(20);
+  // destroy_trajets_aleatoires(tab);  
+  // return 0;
 
   if (argc ==10){
     printf("%d\n",argc);
