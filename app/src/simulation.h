@@ -19,11 +19,16 @@ typedef struct trajet
 
 
 typedef struct passage_voiture{
-    voiture* voiture;
+    int id_voiture;
     int status_passage;
+    int places_restantes;
     int tick;
     struct passage_voiture* next_passage;
 } passage_voiture;
+
+typedef struct passage_voiture_head{
+    passage_voiture* head;
+} passage_voiture_head;
 
 typedef struct borne_simulation
 {
@@ -33,7 +38,7 @@ typedef struct borne_simulation
     int puissance_nominale;
     int capacite_actuelle;
     int capacite_max; 
-    passage_voiture* list_passages;
+    passage_voiture_head* list_passages;
 } borne_simulation;
 
 typedef struct list_int
@@ -51,7 +56,7 @@ void destroy_tab(borne_simulation* tab);
 
 int temps_trajet(borne_and_distance* proche);
 
-int temps_recharge();
+int temps_recharge(voiture* voiture, borne* borne);
 
 bool borne_in_ticks(list_int* tick_list, borne_and_distance* proche);
 
@@ -61,6 +66,12 @@ void tab_tick_destroy(list_int* tab_tick);
 
 void passage_list_destroy(passage_voiture* passage);
 
-void ajout_passage(borne_simulation* list_bornes, voiture* one_car, int type_stationnement, int tick, int borneId);
+void ajout_passage(borne_simulation *list_bornes, int id_voiture, int tick, int duree_charge, borne *borne);
+
+passage_voiture* creer_passage(int id_voiture, int status_passage, int places_restantes, int tick);
+
+void passage_voiture_head_append(passage_voiture_head* one_list, int id_voiture, int status_passage, int places_restantes, int tick);
+passage_voiture* passage_voiture_head_pop(passage_voiture_head* one_list);
+passage_voiture* passage_voiture_head_pop_i(passage_voiture_head* one_list, int i);
 
 #endif /* __SIMULATION_H__*/

@@ -58,12 +58,11 @@ void simulation(borne_simulation* list_bornes, trajet* liste_trajet, int nombre_
     Contraintes encore présentes:
     nombre max de tick estimé à 24h (24*6*10min)
     pas de changement d'itinéraire en fonction des places (aucun traitement des places effectué)
-    pas de stockage des trajets des voitures, il doit être retrouvé
-    les listes des passages ne sont pas triés en fonction des ticks croissants
     */
     int total_tick = 24*6; //
     list_int* tab_tick = (list_int*) malloc(total_tick*sizeof(list_int)); //tableau représentant quels bornes vont être changé à chaque tick -> evite un parcours de l'ensemble des bornes lors des ticks
     for (int i=0;i<total_tick;i++) {tab_tick->next_value = NULL;} //initialise l'ensemble des listes
+    
     for (int trajet_i=0;trajet_i<nombre_trajet;trajet_i++) {
         trajet trajet_actuel = liste_trajet[trajet_i];
         int tick = 0;
@@ -88,7 +87,7 @@ void simulation(borne_simulation* list_bornes, trajet* liste_trajet, int nombre_
             } 
             else{
                 // Calcul du point le proche de l'arrivée atteignable avec l'autonomie du véhicule en fonction du point traité
-                list_position* resultat = getBorneFromDistance(latitude_depart,longitude_depart,latitude_arrivee,longitude_arrivee, bornes_visitees);
+                list_position* resultat = getBorneFromDistance(latitude_depart,longitude_depart,latitude_arrivee,longitude_arrivee);
                 if (list_is_empty(resultat))
                 {
                     list_destroy(resultat);
@@ -106,11 +105,11 @@ void simulation(borne_simulation* list_bornes, trajet* liste_trajet, int nombre_
 
                         //calcul du nombre de ticks pour le trajet et le temps de recharge
                         int tick_trajet = temps_trajet(&proche);
-                        int tick_recharge = temps_recharge();
+                        int tick_recharge = temps_recharge(trajet_actuel.vehicule,&proche.borne);
 
                         //arrivee à la borne
                         tick = tick + tick_trajet;
-                        ajout_passage(list_bornes, trajet_actuel.vehicule, 1, tick, proche.borne.id);
+                        ajout_passage(list_bornes, trajet_actuel.vehicule, tick, &proche.borne);
                         //passage ajoute le moment où la voiture arrive à la borne
                         //composé du triplet (tick_d_arrivee, status(arrive ou quitte), vehicule)
 
@@ -120,18 +119,14 @@ void simulation(borne_simulation* list_bornes, trajet* liste_trajet, int nombre_
 
                         //depart de la borne
                         tick = tick + tick_recharge;
-                        ajout_passage(list_bornes, trajet_actuel.vehicule, 0, tick, proche.borne.id);
+                        // ajout_passage(list_bornes, trajet_actuel.vehicule, 0, tick, proche.borne.id);
 
                         if (!borne_in_ticks(&tab_tick[tick],&proche)) {
                             add_borne(&tab_tick[tick],&proche);
                         }
 
-                        // printf("Distance parcourue %f km \n",proche.distance_debut);
                         update_charge(trajet_actuel.vehicule,proche.distance_debut);
                         recharge(trajet_actuel.vehicule,proche.borne.puissance_nominale);
-                        // printf("La voiture a une autonomie de %f km\n",one_car->autonomie_actuelle);
-                        // printf("La borne a une puissance de : %d kW\n",proche.borne.puissance_nominale);
-                        // printf("----------------------------------------------------\n");
 
                         // Nouvelle distance de fin : borne_atteinte -> arrivée
                         distance_fin = distance(proche.borne.coordonnees.longitude,proche.borne.coordonnees.latitude,longitude_arrivee,latitude_arrivee);
@@ -153,43 +148,168 @@ void simulation(borne_simulation* list_bornes, trajet* liste_trajet, int nombre_
     tab_tick_destroy(tab_tick);
 }
 
-void ajout_passage(borne_simulation* list_bornes, voiture* one_car, int type_stationnement, int tick, int borneId){
-    passage_voiture* new_passage = (passage_voiture*) malloc(sizeof(passage_voiture));
-    new_passage->next_passage = NULL;
-    new_passage->status_passage = type_stationnement;
-    new_passage->tick = tick;
-    new_passage->voiture = one_car;
-    passage_voiture* list_vehicules = list_bornes[borneId].list_passages;
-    if (list_vehicules == NULL) {
-        list_vehicules = new_passage;
+void ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int duree_charge, borne* borne){
+    // le tick en paramètre est le tick auquel la voiture arrive à la station
+
+    int tick_recharge = tick+duree_charge;
+    int borneId = borne->id;
+
+    passage_voiture_head* file_d_attente = (passage_voiture_head*) malloc(sizeof(passage_voiture_head));
+
+    passage_voiture_head_append(file_d_attente, id_voiture, 1, list_bornes[borneId].capacite_max-1, tick);
+    passage_voiture_head_append(file_d_attente, id_voiture, 0, list_bornes[borneId].capacite_max, tick+tick_recharge);
+
+    passage_voiture_head* list_passages_head = list_bornes[borneId].list_passages;//pointe la structure
+    passage_voiture* current = list_passages_head->head;//1er élément
+
+    passage_voiture* tampon = creer_passage(0,0,0,0);
+
+    int nombre_places_restantes;
+
+    if (list_passages_head == NULL) {
+        list_passages_head->head = passage_voiture_head_pop(file_d_attente);
+        list_passages_head->head->next_passage = passage_voiture_head_pop(file_d_attente);
+        free(file_d_attente);
+        return;
     }
-    else {
-        if (list_vehicules->next_passage == NULL && list_vehicules->tick <= new_passage->tick){ //s'il n'y a qu'un seul passage
-            list_vehicules->next_passage = new_passage;
+
+    passage_voiture* passage_file_attente = file_d_attente->head;
+    int passage_ajoute = 0;
+    int compteur = 0;
+
+    if (passage_file_attente->tick <= current->tick) { 
+        tampon->next_passage = passage_voiture_head_pop(file_d_attente);
+        tampon->next_passage->next_passage = current;
+        list_passages_head->head = tampon->next_passage;
+        tampon->next_passage = NULL; //useless but just in case
+        passage_file_attente = file_d_attente->head;
+    }
+    while (current->next_passage != NULL && file_d_attente->head != NULL){
+        switch (current->next_passage->status_passage) {//mets à jour le nombre de places d'après
+        case 1:
+            current->next_passage->places_restantes = current->places_restantes-1;
+            break;
+        
+        case 0:
+            current->next_passage->places_restantes = current->places_restantes+1;
+            break;
+
+        default:
+            break;
         }
-        else if (list_vehicules->next_passage == NULL && list_vehicules->tick > new_passage->tick) {
-            list_vehicules->next_passage = new_passage;
-            // copie du premier élément dans le second
-            new_passage->status_passage = list_vehicules->status_passage;
-            new_passage->tick = list_vehicules->tick;
-            new_passage->voiture = list_vehicules->voiture; //& possiblement obligatoire car list_vehicules->voiture va changer
-            //remplacement du premier
-            list_vehicules->status_passage = type_stationnement;
-            list_vehicules->tick = tick;
-            list_vehicules->voiture = one_car;
+
+        if (current->places_restantes == -1 && current->status_passage == 1) {//si une voiture est arrivée et qu'elle n'a pas de places (diapo 31-32)
+            current->status_passage = 2;
+            current->places_restantes = 0;
+            passage_voiture_head_append(file_d_attente,current->id_voiture,1,-1,current->tick);
         }
-        else {
-            while (list_vehicules->next_passage != NULL && list_vehicules->tick <= new_passage->tick) {
-                list_vehicules = list_vehicules->next_passage;
+        
+        passage_file_attente = file_d_attente->head;// réinitialise le pointeur à la tête de la file d'attente
+        passage_ajoute = 0; //booleen indiquant si un passage a été ajouté dans la liste
+        compteur = 0;
+        while (passage_file_attente->next_passage != NULL) { //regarde chaque élement de la file d'attente
+            if (passage_ajoute == 0) { // distinguer le cas où un élément a été ajouté et traiter les cas de modification de la liste
+            if (current->next_passage->tick >= passage_file_attente->tick && passage_file_attente->status_passage == 0) {//si l'élément dans la file d'attente a un tick plus faible que le prochain élément de la liste et que la voiture doit partir (diapo 10)
+                tampon->next_passage = passage_voiture_head_pop_i(file_d_attente, compteur);
+                tampon->next_passage->next_passage = current->next_passage;
+                current->next_passage = tampon->next_passage;
+                current->next_passage->places_restantes = current->places_restantes+1; // actualise les places de l'élément ajouté (car la modification de parcours est faite avant le traitement des élements de la file)
+                tampon->next_passage = NULL; //useless but in case
+                passage_ajoute = 1;
+
             }
-            new_passage->next_passage = list_vehicules->next_passage;
-            list_vehicules->next_passage = new_passage;
+            else if (current->next_passage->tick >= passage_file_attente->tick && passage_file_attente->status_passage == 1 && current->places_restantes>0) {//si l'élément de la file d'attente a un tick plus faible, que la voiture arrive et qu'il reste de la place (diapo 36-37)
+                tampon->next_passage = passage_voiture_head_pop_i(file_d_attente, compteur);
+                tampon->next_passage->next_passage = current->next_passage;
+                current->next_passage = tampon->next_passage;
+                current->next_passage->places_restantes = current->places_restantes-1;
+                tampon->next_passage = NULL;
+                passage_ajoute = 1;
+            }
+            else if (current->next_passage->tick >= passage_file_attente->tick && passage_file_attente->status_passage == 1 && current->places_restantes == 0) {//
+                //A FINIR
+            }
+            else if (passage_file_attente->status_passage == 1 && current->places_restantes == 1) {//si une nouvelle place vient de se libérer et qu'une voiture doit arriver
+                tampon->next_passage = passage_voiture_head_pop_i(file_d_attente, compteur);
+                tampon->next_passage->next_passage = current->next_passage;
+                current->next_passage = tampon->next_passage;
+                current->next_passage->places_restantes = current->places_restantes-1;
+                tampon->next_passage = NULL;
+                passage_ajoute = 1;
+            }
+            }
+            //TRAITER LE CAS DIAPO 43
+            
+
+            passage_file_attente = passage_file_attente->next_passage;
+            compteur++;
         }
+        current = current->next_passage;
     }
+
+    free(file_d_attente);
 }
 
-int temps_recharge() {
-    return 2;
+passage_voiture* creer_passage(int id_voiture, int status_passage, int places_restantes, int tick){
+    passage_voiture* new_passage = (passage_voiture*) malloc(sizeof(passage_voiture));
+    new_passage->next_passage = NULL;
+    new_passage->status_passage = status_passage;
+    new_passage->places_restantes = places_restantes;
+    new_passage->tick = tick;
+    new_passage->id_voiture = id_voiture;
+    return new_passage;
+}
+
+void passage_voiture_head_append(passage_voiture_head* one_list, int id_voiture, int status_passage, int places_restantes, int tick) {
+    passage_voiture* new_passage = creer_passage(id_voiture, status_passage, places_restantes, tick);
+    passage_voiture* current = one_list->head;
+    while (current->next_passage != NULL){
+       current = current->next_passage;
+    }
+    current->next_passage = new_passage;    
+}
+
+passage_voiture* passage_voiture_head_pop(passage_voiture_head* one_list){
+    passage_voiture* first_element = one_list->head;
+    if (first_element->next_passage == NULL){
+        one_list->head = NULL;
+    }
+    else {
+        one_list->head = first_element->next_passage;
+    }
+    first_element->next_passage = NULL;
+    return first_element;
+}
+
+passage_voiture* passage_voiture_head_pop_i(passage_voiture_head* one_list, int i){
+    passage_voiture* current = one_list->head;
+    passage_voiture* retour = one_list->head;
+    if (i == 0) {
+        retour = passage_voiture_head_pop(one_list);
+        return retour;
+    }
+    int compteur = 0;
+    while (current->next_passage != NULL && compteur < i-1) {
+        compteur++;
+        current = current->next_passage;
+    }
+    retour = current->next_passage;
+    current->next_passage = current->next_passage->next_passage;
+    return retour;
+}
+
+
+int temps_recharge(voiture* voiture, borne* borne) {
+    int puissance_a_charger = voiture->puissance-voiture->puissance_actuelle;
+    int temps = (int) puissance_a_charger/borne->puissance_nominale;
+    int nombre_tick;
+    if (temps >= voiture->temps_recharge_max_minutes) {
+        nombre_tick = (int) round(voiture->temps_recharge_max_minutes/10);
+    }
+    else {
+        nombre_tick = (int) round(temps/10);
+    }
+    return nombre_tick;
 }
 
 int temps_trajet(borne_and_distance* proche) {
@@ -247,7 +367,7 @@ void passage_list_destroy(passage_voiture* passages){
 }
 
 int main(void) {
-    //défition des trajets
+    //définition des trajets
     int nombre_trajets = 1;
     trajet* liste_trajet = (trajet*) malloc(nombre_trajets*sizeof(trajet));
     
