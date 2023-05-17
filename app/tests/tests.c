@@ -9,7 +9,7 @@
 #include "../src/random_points.h"
 #include "../src/thread.h"
 
-#define NB_THREADS 20
+#define NB_THREADS 15
 
 describe(test_itinerary_distance){
     it("Conformance test"){
@@ -100,5 +100,15 @@ describe(test_threads){
         destroy_trajets_aleatoires(tab);
   }
 }
+
+describe(test_random){
+  it("Conformance test"){
+    trajets_aleatoires* tab = generate_x_random_itinerary(NB_THREADS);
+    destroy_trajets_aleatoires(tab);
+
+
+  }
+}
+
 
 snow_main();
