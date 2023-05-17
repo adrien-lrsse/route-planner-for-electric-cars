@@ -15,6 +15,7 @@
 #include "export.h"
 #include "thread.h"
 #include "vehicules.h"
+#include "random_points.h"
 
 #ifndef SUPPRESS_PRINTFS
 #define printf(...) printf(__VA_ARGS__)
@@ -22,25 +23,12 @@
 #define printf(...) (void)0
 #endif
 
-typedef struct thread_data {
-    long double longitude_depart;
-    long double latitude_depart;
-    long double longitude_arrivee;
-    long double latitude_arrivee;
-    int id_voiture;
-    int pourcentage_mini_voulu;
-    int temps_max_attente_borne;
-    int type;
-    int pourcentage_autonomie_initiale;
-    int thread;
-} thread_data;
-
 typedef struct thread_data_list {
-    thread_data* data;
+    trajet* data;
     struct thread_data_list* next;
 } thread_data_list;
 
-void thread_data_list_add(thread_data_list* list, thread_data* data);
+void thread_data_list_add(thread_data_list* list, trajet* data);
 
 void thread_data_list_destroy(thread_data_list* list);
 
