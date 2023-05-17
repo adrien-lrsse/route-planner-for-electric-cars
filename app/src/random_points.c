@@ -29,6 +29,8 @@ trajets_aleatoires* generate_x_random_itinerary(int nb_trajet){
         //printf("distance en km du trajet %d: %Lf\n", i, distance(res->traj[i].depart->longitude, res->traj[i].depart->latitude, res->traj[i].arrivee->longitude, res->traj[i].arrivee->latitude));
         j+=2;
     }
+
+    all_random_parameters(res);
     
     return res;
 }
@@ -37,8 +39,8 @@ void destroy_trajets_aleatoires(trajets_aleatoires* t){
     for(int i=0; i<t->taille; i++){
         free(t->traj[i].depart);
         free(t->traj[i].arrivee);
-        //free(t->traj);
     }
+    free(t->traj);
     free(t);
 }
 
@@ -77,6 +79,23 @@ coord_pt* recuperation_coord_ligne(int num_ligne){
         compteur+=1;
     }
     return point;
+}
+
+void all_random_parameters(trajets_aleatoires* trajet_existant){
+    // random int voiture between 1 and 310
+    // random int pourcentage_mini_voulu between 1 and 75
+    // random int temps_max_attente_borne between 1 and 60
+    // random int type between 1 and 2
+    // random int pourcentage_autonomie_initiale between 5 and 100
+
+    srand(time(NULL));
+    for (int i=0; i<trajet_existant->taille; i++){
+        trajet_existant->traj[i].id_voiture = rand()%310+1;
+        trajet_existant->traj[i].pourcentage_mini_voulu = rand()%75+1;
+        trajet_existant->traj[i].temps_max_attente_borne = rand()%60+1;
+        trajet_existant->traj[i].type = rand()%2+1;
+        trajet_existant->traj[i].pourcentage_autonomie_initiale = rand()%96+5;
+    }
 }
 
 //38717 lignes dans le doc csv

@@ -14,8 +14,9 @@
 #include "export.h"
 #include "thread.h"
 #include "vehicules.h"
+#include "random_points.h"
 
-#define NB_THREADS 1000
+#define NB_THREADS 30
 
 #ifndef SUPPRESS_PRINTFS
 #define printf(...) printf(__VA_ARGS__)

@@ -82,15 +82,7 @@ int main(int argc, char* argv[]) {
 
 // Multi-threading
   if (argc != 10){
-    long double longitude_depart = 6.1834097;
-    long double latitude_depart =  48.6937223;
-    long double longitude_arrivee =  -4.2328062;
-    long double latitude_arrivee =  48.1815192;
-    int id_voiture =  1;
-    int pourcentage_mini_voulu =  20;
-    int temps_max_attente_borne =  30;
-    int type = 1;
-    int pourcentage_autonomie_initiale =  35;
+    trajets_aleatoires* tab = generate_x_random_itinerary(NB_THREADS);
 
     pthread_t *tid = malloc(NB_THREADS * sizeof(pthread_t));
     thread_data_list* liste_thread = malloc(sizeof(thread_data_list));
@@ -99,18 +91,18 @@ int main(int argc, char* argv[]) {
 
 
     for(int i=0; i<NB_THREADS; i++){
-      thread_data* data = malloc(sizeof(thread_data));
-      thread_data_list_add(liste_thread, data);
-      data->longitude_depart = longitude_depart;
-      data->latitude_depart = latitude_depart;
-      data->longitude_arrivee = longitude_arrivee;
-      data->latitude_arrivee = latitude_arrivee;
-      data->id_voiture = id_voiture;
-      data->pourcentage_mini_voulu = pourcentage_mini_voulu;
-      data->temps_max_attente_borne = temps_max_attente_borne;
-      data->type = type;
-      data->pourcentage_autonomie_initiale = pourcentage_autonomie_initiale;
+      trajet* data = &tab->traj[i];
       data->thread = i;
+      thread_data_list_add(liste_thread, data);
+      printf("%Lf ", data->depart->longitude);
+      printf("%Lf ", data->depart->latitude);
+      printf("%Lf ", data->arrivee->longitude);
+      printf("%Lf ", data->arrivee->latitude);
+      printf("%d ", data->id_voiture);
+      printf("%d ", data->pourcentage_mini_voulu);
+      printf("%d ", data->temps_max_attente_borne);
+      printf("%d ", data->type);
+      printf("%d\n", data->pourcentage_autonomie_initiale);
       if (pthread_create(&tid[i], NULL, &thread_main, data)){
         printf("Error creating thread %d\n", i);
         return EXIT_FAILURE;
@@ -128,6 +120,7 @@ int main(int argc, char* argv[]) {
 
     free(tid);
     thread_data_list_destroy(liste_thread);
+    destroy_trajets_aleatoires(tab);
     return EXIT_SUCCESS;
   }
 }
