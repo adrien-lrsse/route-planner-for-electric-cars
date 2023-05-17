@@ -5,7 +5,7 @@ NO_DEBUG = -DSUPPRESS_PRINTFS
 
 ALL = main coordinates itinerary struct_mat_adj database_reader create_mat_adj_in_txt borne etape vehicules export simulation
 
-DEPENDENCIES = database_reader.c coordinates.c borne.c etape.c vehicules.c itinerary.c
+DEPENDENCIES = database_reader.c coordinates.c borne.c etape.c vehicules.c itinerary.c thread.c random_points.c
 dot=..
 
 
