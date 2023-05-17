@@ -9,7 +9,7 @@
 
 
 describe(test_itinerary_distance){
-    it("Conformance test"){
+    it("Performance test"){
         long double longitude_depart = 6.1834097;
         long double latitude_depart =  48.6937223;
         long double longitude_arrivee =  -4.2328062;
@@ -44,6 +44,26 @@ describe(test_itinerary_distance){
         // printf("test: %d\n",borne_deja_visitee(bornes_visitees, 44829));
         defer(list_bornes_visitees_destroy(bornes_visitees));
         defer(destroy_voiture(ma_voiture));
+  }
+}
+
+describe(test_formula_distance){
+  it("Performance test"){
+      long double longitude_depart = 6.1834097;
+      long double latitude_depart =  48.6937223;
+      long double longitude_arrivee =  -4.2328062;
+      long double latitude_arrivee =  48.1815192;
+      long double d = distance(longitude_depart,latitude_depart,longitude_arrivee,latitude_arrivee);
+      long double reel_d = 772.213087;
+  }
+  it("Precision test"){
+      long double longitude_depart = 6.1834097;
+      long double latitude_depart =  48.6937223;
+      long double longitude_arrivee =  -4.2328062;
+      long double latitude_arrivee =  48.1815192;
+      long double d = distance(longitude_depart,latitude_depart,longitude_arrivee,latitude_arrivee);
+      long double reel_d = 772.213087;
+      assert(d >= reel_d + 2.5L || d >= reel_d-2.5L );
   }
 }
 
