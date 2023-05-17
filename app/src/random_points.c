@@ -26,7 +26,7 @@ trajets_aleatoires* generate_x_random_itinerary(int nb_trajet){
         //----------------------affichage des coordonnées et de la taille (distance) de chaque trajet--------------------
         //printf("test depart %d: %Lf, %Lf\n", j, res->traj[i].depart->latitude, res->traj[i].depart->longitude);
         //printf("test arrivee %d: %Lf, %Lf\n", j+1 , res->traj[i].arrivee->latitude, res->traj[i].arrivee->longitude);
-        //printf("distance en km du trajet %d: %Lf\n", i, distance(res->traj[i].depart->longitude, res->traj[i].depart->latitude, res->traj[i].arrivee->longitude, res->traj[i].arrivee->latitude));
+        printf("distance en km du trajet %d: %Lf\n", i, distance(res->traj[i].depart->longitude, res->traj[i].depart->latitude, res->traj[i].arrivee->longitude, res->traj[i].arrivee->latitude));
         j+=2;
     }
 
