@@ -12,9 +12,12 @@
 #include "etape.h"
 // #include "borne.h"
 
+int TOTAL_BORNES = 17319;
+int TOTAL_TICK = 12*60;
+
 borne_simulation* load_bornes(){
     //charge l'ensemble des bornes de la BD
-    borne_simulation* tableau_bornes = (borne_simulation*) malloc(17319*sizeof(borne_simulation));
+    borne_simulation* tableau_bornes = (borne_simulation*) malloc(TOTAL_BORNES*sizeof(borne_simulation));
     database_t * database = open_database("../data/database.db");
     if (!database->opened_correctly) {
         exit(0);
@@ -40,7 +43,8 @@ borne_simulation* load_bornes(){
         tableau_bornes[compteur].capacite_max = sqlite3_column_int(database->stmt, 5);
         tableau_bornes[compteur].capacite_actuelle = tableau_bornes[compteur].capacite_max;
         //liste des passages des voitures initialisé
-        tableau_bornes[compteur].list_passages = NULL;
+        tableau_bornes[compteur].list_passages = (passage_voiture_head*) malloc(sizeof(passage_voiture_head));
+        tableau_bornes[compteur].list_passages->head = NULL;
         compteur++;
     }
 
@@ -63,88 +67,7 @@ void simulation(borne_simulation* list_bornes, trajet* liste_trajet, int nombre_
     list_int* tab_tick = (list_int*) malloc(total_tick*sizeof(list_int)); //tableau représentant quels bornes vont être changé à chaque tick -> evite un parcours de l'ensemble des bornes lors des ticks
     for (int i=0;i<total_tick;i++) {tab_tick->next_value = NULL;} //initialise l'ensemble des listes
     
-    for (int trajet_i=0;trajet_i<nombre_trajet;trajet_i++) {
-        trajet trajet_actuel = liste_trajet[trajet_i];
-        int tick = 0;
-
-        // Initialise la distance borne -> arrivée (au début borne = départ)
-        long double longitude_depart = list_bornes[trajet_actuel.id_borne_depart].coordonnees.longitude;
-        long double latitude_depart = list_bornes[trajet_actuel.id_borne_depart].coordonnees.longitude;
-        long double longitude_arrivee = list_bornes[trajet_actuel.id_borne_arrivee].coordonnees.longitude;
-        long double latitude_arrivee = list_bornes[trajet_actuel.id_borne_arrivee].coordonnees.longitude;
-        double distance_fin = distance(longitude_depart,latitude_depart,longitude_arrivee,latitude_arrivee); 
-        
-        ////// etape* lst_etape = etape_create(); // valeur de retour
-        borne_and_distance proche;
-        list_bornes_visitees* bornes_visitees = list_bornes_visitees_create();
-        bool arrivee = false;
-        bool erreur = false;
-        // Tant que la distance borne -> arrivé n'est pas nulle il reste au moins une étape
-        while (distance_fin != 0.0 && !arrivee && !erreur)
-        {
-            if(distance_fin<trajet_actuel.vehicule->autonomie_actuelle){
-                arrivee = true;
-            } 
-            else{
-                // Calcul du point le proche de l'arrivée atteignable avec l'autonomie du véhicule en fonction du point traité
-                list_position* resultat = getBorneFromDistance(latitude_depart,longitude_depart,latitude_arrivee,longitude_arrivee);
-                if (list_is_empty(resultat))
-                {
-                    list_destroy(resultat);
-                    erreur = true;
-                }
-                else {
-                    proche = plus_proche(resultat,trajet_actuel.vehicule->autonomie_actuelle, bornes_visitees);
-                    if (proche.borne.id == -1){
-                        list_destroy(resultat);
-                        erreur = true;
-                    }
-                    else {
-                        //ajouter cette borne à la liste des bornes visitées
-                        list_bornes_visitees_append(bornes_visitees, proche.borne.id);
-
-                        //calcul du nombre de ticks pour le trajet et le temps de recharge
-                        int tick_trajet = temps_trajet(&proche);
-                        int tick_recharge = temps_recharge(trajet_actuel.vehicule,&proche.borne);
-
-                        //arrivee à la borne
-                        tick = tick + tick_trajet;
-                        ajout_passage(list_bornes, trajet_actuel.vehicule, tick, &proche.borne);
-                        //passage ajoute le moment où la voiture arrive à la borne
-                        //composé du triplet (tick_d_arrivee, status(arrive ou quitte), vehicule)
-
-                        if (!borne_in_ticks(&tab_tick[tick],&proche)) {
-                            add_borne(&tab_tick[tick],&proche);
-                        }
-
-                        //depart de la borne
-                        tick = tick + tick_recharge;
-                        // ajout_passage(list_bornes, trajet_actuel.vehicule, 0, tick, proche.borne.id);
-
-                        if (!borne_in_ticks(&tab_tick[tick],&proche)) {
-                            add_borne(&tab_tick[tick],&proche);
-                        }
-
-                        update_charge(trajet_actuel.vehicule,proche.distance_debut);
-                        recharge(trajet_actuel.vehicule,proche.borne.puissance_nominale);
-
-                        // Nouvelle distance de fin : borne_atteinte -> arrivée
-                        distance_fin = distance(proche.borne.coordonnees.longitude,proche.borne.coordonnees.latitude,longitude_arrivee,latitude_arrivee);
-                        latitude_depart = proche.borne.coordonnees.latitude;
-                        longitude_depart = proche.borne.coordonnees.longitude;
-
-                
-                        // On détruit l'ancienne list_position
-                        list_destroy(resultat);
-                        free(proche.borne.name);
-                    }
-                }
-                
-            }
-
-        }
-        list_bornes_visitees_destroy(bornes_visitees); // détruit car non commun à toutes les voitures
-    }
+    
     tab_tick_destroy(tab_tick);
 }
 
@@ -163,8 +86,6 @@ void ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int 
     passage_voiture* current = list_passages_head->head;//1er élément
 
     passage_voiture* tampon = creer_passage(0,0,0,0);
-
-    int nombre_places_restantes;
 
     if (list_passages_head == NULL) {
         list_passages_head->head = passage_voiture_head_pop(file_d_attente);
@@ -346,7 +267,6 @@ passage_voiture* passage_voiture_head_pop_i(passage_voiture_head* one_list, int 
     return retour;
 }
 
-
 int temps_recharge(voiture* voiture, borne* borne) {
     int puissance_a_charger = voiture->puissance-voiture->puissance_actuelle;
     int temps = (int) puissance_a_charger/borne->puissance_nominale;
@@ -366,30 +286,192 @@ int temps_trajet(borne_and_distance* proche) {
     return nombre_ticks;
 }
 
-bool borne_in_ticks(list_int* tick_list, borne_and_distance* proche) {
-    // vérifie si la borne proche est dans la liste des bornes de tick_list
-    bool dedans = false;
-    while (!dedans && tick_list->next_value != NULL) {
-        if (tick_list->borne_id == proche->borne.id) {
-            dedans = true;
-        }
-        tick_list = tick_list->next_value;
+void export(borne_simulation* bornes){
+    export_data* tab_export = (export_data*) malloc(TOTAL_TICK*sizeof(export_data));
+    for (int i=0;i<TOTAL_TICK;i++) {
+        tab_export[i].total_entries=0;
+        tab_export[i].list_passages = malloc(sizeof(passage_voiture_head));
+        tab_export[i].list_passages->head = NULL;
     }
-    return dedans;
+    passage_voiture* current;
+    list_int_head* voitures_en_attente = NULL;
+    voitures_en_attente->head = NULL;
+    int tick;
+    int status;
+    for (int i=0;i<TOTAL_BORNES;i++) {//boucle pour voir l'ensemble des listes de passage
+        tick = 0;
+        if (bornes[i].list_passages->head != NULL) { //si il y a au moins un passage
+            current = bornes[i].list_passages->head;
+            tick = current->tick;
+            status = current->status_passage;
+            while (tick<TOTAL_TICK && current->next_passage != NULL) {
+                if (status != 0) {
+                    data_append(&tab_export[tick], &bornes[i].coordonnees, status);
+                    tab_export[tick].total_entries++;
+                }
+                if (current->places_restantes == bornes[i].capacite_max) {status = 0;}
+                else if (current->status_passage == 2) {
+                    list_int_append(voitures_en_attente, current->id_voiture);
+                    status = 2;
+                }
+                else if (current->status_passage == 1 && int_est_dans(voitures_en_attente, current->id_voiture)) {
+                    remove_list_int(voitures_en_attente, current->id_voiture);
+                    if (voitures_en_attente->head == NULL) {status = 1;}
+                    else {status = 2;}
+                }
+                else if (current->status_passage == 1 && voitures_en_attente->head == NULL) {status = 1;}
+
+                while (current->next_passage->tick == tick+1 && current->next_passage != NULL) {
+                    if (current->places_restantes == bornes[i].capacite_max) {status = 0;}
+                    else if (current->status_passage == 2) {
+                        list_int_append(voitures_en_attente, current->id_voiture);
+                        status = 2;
+                    }
+                    else if (current->status_passage == 1 && int_est_dans(voitures_en_attente, current->id_voiture)) {
+                        remove_list_int(voitures_en_attente, current->id_voiture);
+                        if (voitures_en_attente->head == NULL) {status = 1;}
+                        else {status = 2;}
+                    }
+                    else if (current->status_passage == 1 && voitures_en_attente->head == NULL) {status = 1;}
+                    current = current->next_passage;
+                }
+                tick++;
+            }
+            while (tick<current->tick) { //dernier élément à traiter
+                if (status != 0) {
+                    data_append(&tab_export[tick], &bornes[i].coordonnees, status);
+                    tab_export[tick].total_entries++;
+                }
+                tick++;
+            }
+        }
+    }
+
+    export_data_el* current_w;
+    FILE *fichier = fopen("../data/simulation.txt","w");
+    for (int i=0;i<TOTAL_TICK;i++) {
+        if (tab_export[i].list_passages->head != NULL) {
+            current_w = tab_export[i].list_passages->head;
+            fprintf(fichier,"#");
+            while (current_w->next != NULL) {
+                fprintf(fichier,"%Lf$%Lf$%d#",current_w->coordonnees->longitude, current_w->coordonnees->latitude, current_w->status_borne);
+                current_w = current_w->next;
+            }
+            fprintf(fichier,"%Lf$%Lf$%d#",current_w->coordonnees->longitude, current_w->coordonnees->latitude, current_w->status_borne);
+        }
+        fprintf(fichier,"\n");
+    }
+    fclose(fichier);
+
+    destroy_data(tab_export);
+    return;
 }
 
-void add_borne(list_int* tick_list, borne_and_distance* proche) {
-    list_int* new_borne = (list_int*) malloc(sizeof(list_int));
-    new_borne->borne_id = proche->borne.id;
-    new_borne->next_value = NULL;
-    while (tick_list->next_value != NULL) {
-        tick_list = tick_list->next_value;
+void destroy_data_list(export_data_el* one_data_list) {
+    if (one_data_list->next != NULL) {
+        destroy_data_list(one_data_list->next);
     }
-    tick_list->next_value = new_borne;
+    free(one_data_list);
+}
+
+void destroy_data(export_data* tab){
+    for (int i=0;i<TOTAL_TICK;i++) {
+        destroy_data_list(tab[i].list_passages->head);
+        free(tab[i].list_passages->head);
+    }
+    free(tab);
+}
+
+int est_dans(export_data* data, coord_pt* coordonnes) {
+    if (data->list_passages == NULL) {
+        return 0;
+    }
+    export_data_el* current = data->list_passages->head;
+    while (current->next != NULL) {
+        if (current->coordonnees->latitude == coordonnes->latitude && current->coordonnees->longitude == coordonnes->longitude) {
+            return current->status_borne;
+        }
+        current = current->next;
+    }
+    return 0;
+}
+
+void list_int_append(list_int_head* one_list, int value){
+    list_int* new_element= (list_int*) malloc(sizeof(list_int));
+    new_element->entier = value;
+    new_element->next_value = NULL;
+    if (one_list->head == NULL) {
+        one_list->head = new_element;
+    }
+    else {
+        list_int* current = one_list->head;
+        while (current->next_value != NULL) {
+            current = current->next_value;
+        }
+        current->next_value = new_element;
+    }
+}
+
+void update_data(export_data* data, coord_pt* coordonnees, int status_borne){
+    if (data->list_passages->head != NULL) {
+        export_data_el* current = data->list_passages->head;
+        while (current->next != NULL && !(current->coordonnees->latitude == coordonnees->latitude && current->coordonnees->longitude == coordonnees->longitude)) {
+            current = current->next;
+        }
+        if (current->coordonnees->latitude == coordonnees->latitude && current->coordonnees->longitude == coordonnees->longitude) {
+            current->status_borne = status_borne;
+        }
+    }
+}
+
+int int_est_dans(list_int_head * one_list, int value) {
+    if (one_list->head == NULL) {return 0;}
+    list_int* current = one_list->head;
+    while (current->next_value != NULL && current->entier != value) {
+        current = current->next_value;
+    }
+    if (current->entier == value) {
+        return 1;
+    }
+    return 0;
+}
+
+void remove_list_int(list_int_head* one_list, int value){
+    if (one_list->head == NULL) {return;}
+    list_int* tampon;
+    if (one_list->head->entier == value) {
+        tampon = one_list->head;
+        one_list->head = one_list->head->next_value;
+        free(tampon);
+    }
+    else {
+        list_int* current = one_list->head;
+        while (current->next_value != NULL && current->next_value->entier != value) {
+            current = current->next_value;
+        }
+        if (current->next_value != NULL && current->next_value->entier == value) {
+            tampon = current->next_value;
+            current->next_value = current->next_value->next_value;
+            free(tampon);
+        }
+    }
+}
+
+void data_append(export_data* data, coord_pt* coordonnees, int status_passage) {
+    data->total_entries++;
+    export_data_el* current = data->list_passages->head;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    export_data_el* new_state = (export_data_el*) malloc(sizeof(export_data_el));
+    new_state->coordonnees = coordonnees;
+    new_state->next = NULL;
+    new_state->status_borne = status_passage;
+    current->next = new_state; 
 }
 
 void destroy_tab(borne_simulation* tab){
-    for (int i=0;i<17319;i++){
+    for (int i=0;i<TOTAL_BORNES;i++){
         free(tab[i].name);
         passage_list_destroy(tab[i].list_passages);
     }
@@ -405,31 +487,29 @@ void tab_tick_destroy(list_int* tab_tick) {
     }
 }
 
-void passage_list_destroy(passage_voiture* passages){
-    if (passages != NULL) {
-        if (passages->next_passage != NULL) {
-            passage_list_destroy(passages->next_passage);
-            free(passages);
-        }
+void passage_destroy(passage_voiture* passage) {
+    if (passage->next_passage != NULL) {
+        passage_destroy(passage->next_passage);
     }
+    free(passage);
+}
+
+void passage_list_destroy(passage_voiture_head* passages){
+    if (passages->head != NULL) {
+        if (passages->head->next_passage != NULL) {
+            passage_destroy(passages->head->next_passage);
+        }
+        free(passages->head);
+    }
+    free(passages);
 }
 
 int main(void) {
-    //définition des trajets
-    int nombre_trajets = 1;
-    trajet* liste_trajet = (trajet*) malloc(nombre_trajets*sizeof(trajet));
-    
-    liste_trajet[0].id_borne_depart = 12;
-    liste_trajet[0].id_borne_arrivee = 12000;
-
-    voiture* voiture1 = (voiture*) malloc(sizeof(voiture));
-    liste_trajet[0].vehicule = voiture1;
-
     //chargement bornes
-    borne_simulation* tab_bornes = load_bornes();
+    borne_simulation* tab_bornes = load_bornes(); //tableau
 
-    free(voiture1);
-    free(liste_trajet);
+    export(tab_bornes);
+
     destroy_tab(tab_bornes);
     return 0;
 }
