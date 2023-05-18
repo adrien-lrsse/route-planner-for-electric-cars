@@ -10,6 +10,7 @@
 #include "../src/thread.h"
 
 #define NB_THREADS 15
+#define DIST_MIN 100
 
 describe(test_itinerary_distance){
     it("Conformance test"){
@@ -52,7 +53,7 @@ describe(test_itinerary_distance){
 
 describe(test_threads){
     it("Conformance test"){
-        trajets_aleatoires* tab = generate_x_random_itinerary(NB_THREADS);
+        trajets_aleatoires* tab = generate_x_random_itinerary(NB_THREADS,DIST_MIN);
 
         pthread_t *tid = malloc(NB_THREADS * sizeof(pthread_t));
         thread_data_list* liste_thread = malloc(sizeof(thread_data_list));
@@ -103,7 +104,7 @@ describe(test_threads){
 
 describe(test_random){
   it("Conformance test"){
-    trajets_aleatoires* tab = generate_x_random_itinerary(NB_THREADS);
+    trajets_aleatoires* tab = generate_x_random_itinerary(NB_THREADS,DIST_MIN);
     destroy_trajets_aleatoires(tab);
 
 
