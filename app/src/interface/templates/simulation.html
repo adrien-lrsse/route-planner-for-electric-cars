@@ -25,16 +25,19 @@
     <button id="clean">Remove</button>
     <div class="arrow">
         <button id="previous">- 10 min <<</button>
-        <p id="display_num_tick">0/50 ticks</p>
+        <p id="display_num_tick">1/{{len_tick}} ticks</p>
         <button id="next">>> + 10 min</button>
     </div>
     <script src="/static/javascript/simulation.js"></script>
     {{table[1]}}
     <script>
+          
         document.addEventListener('DOMContentLoaded', function() {
             affichageMap();   
             addVector(2.471829, 46.677531);  
-            addVector(3.471829, 43.677531)  ;     
+            addVector(3.471829, 43.677531)  ; 
+            var table_simulation = {{table|tojson}};
+            importSimulation(table_simulation,{{len_tick}});   
         });    
     </script>         
 

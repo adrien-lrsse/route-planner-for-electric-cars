@@ -12,6 +12,7 @@
 typedef struct trajet{
     coord_pt* depart;
     coord_pt* arrivee;
+    long double distance_traj;
     int id_voiture;
     int pourcentage_mini_voulu;
     int temps_max_attente_borne;
@@ -25,9 +26,8 @@ typedef struct trajets_aleatoires{
     trajet* traj;
 }trajets_aleatoires;
 
-trajets_aleatoires* generate_x_random_itinerary(int nb_trajet);
+trajets_aleatoires* generate_x_random_itinerary(int nb_trajet, long double dist_min);
 void destroy_trajets_aleatoires(trajets_aleatoires* t);
-void generate_x_numbers(int x, int* tab);
 coord_pt* recuperation_coord_ligne(int num_ligne);
 void all_random_parameters(trajets_aleatoires* trajet_existant);
 

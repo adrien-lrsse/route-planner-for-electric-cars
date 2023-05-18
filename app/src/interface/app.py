@@ -56,7 +56,8 @@ def find_itinerary():
 
 @app.route('/simulation')
 def simutation():
-    return render_template("simulation.html", table = simulation_res)
+    print(len(importSimulation()))
+    return render_template("simulation.html", table = importSimulation(), len_tick = len(importSimulation()))
 
 def execute_app(depart,arrivee,id_voiture,pourcentage_reserve,temps, autonomie_initiale,int_opti):
     status = ""
@@ -164,3 +165,33 @@ def parsageVoiture():
             dic[tab[i][0][0]] = []
         dic[tab[i][0][0]].append((tab[i][0][1],int(tab[i][1]),int((tab[i][3]))))
     return dic
+
+def importSimulation():
+    f = open('../../data/simulation.txt','r')
+    tab = []
+
+    lignes  = f.readlines()
+    for ligne in lignes :
+        tab.append(ligne)
+    for i in range (len(tab)):
+        if (tab[i] != []):
+            tab[i] = stringParser(tab[i],'#')
+            for j in range (len(tab[i])):
+                
+                tab[i][j] = (tab[i][j]).split('$')
+                tab[i][j][0] = float(tab[i][j][0])
+                tab[i][j][1] = float(tab[i][j][1])
+                tab[i][j][2] = int(tab[i][j][2])
+
+    return tab
+
+def stringParser(input, delimiter):
+    tab = []
+    chaine_i = ""
+    for i in range(1,len(input)-1):
+        if (input[i] == delimiter) :
+            tab.append(chaine_i)
+            chaine_i = ""
+        else :
+            chaine_i += input[i]
+    return tab

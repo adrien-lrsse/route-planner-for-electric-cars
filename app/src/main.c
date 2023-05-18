@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
   */
 
   // // pour tester la géénération aléatoire de trajet (ici on génère 20 trajets):
-  // trajets_aleatoires* tab = generate_x_random_itinerary(20);
+  // trajets_aleatoires* tab = generate_x_random_itinerary(20, 500);
   // destroy_trajets_aleatoires(tab);  
   // return 0;
 
@@ -82,7 +82,7 @@ int main(int argc, char* argv[]) {
 
 // Multi-threading
   if (argc != 10){
-    trajets_aleatoires* tab = generate_x_random_itinerary(NB_THREADS);
+    trajets_aleatoires* tab = generate_x_random_itinerary(NB_THREADS, 100); //trajets de plus de 100 km
 
     pthread_t *tid = malloc(NB_THREADS * sizeof(pthread_t));
     thread_data_list* liste_thread = malloc(sizeof(thread_data_list));
