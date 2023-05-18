@@ -1,10 +1,12 @@
 
 var clean = document.getElementById("clean");
-var num_tick = 0;
+var num_tick = 1;
+var tot_tick;
 var tick_previous = document.getElementById("previous");
 var tick_next = document.getElementById("next");
 var display_num_tick = document.getElementById("display_num_tick");
 
+var table_simulation;
 
 const franceCoordinates = [
   [
@@ -75,32 +77,56 @@ function affichageMap(){
 function afficher_tick(liste) {
   removeVectors();
   for (let entier = 0; entier < liste.length; entier++) {
-   
-    addVector(liste[entier][1],liste[entier][0]);
+    console.log(liste[entier][0],liste[entier][1]);
+    addVector(liste[entier][0],liste[entier][1],liste[entier][2]);
   }
   
 }
 
-function addVector(longitude,latitude){
+function addVector(longitude,latitude,type_point){
+  if (type_point == 1){
     const layer = new ol.layer.Vector({
-        source: new ol.source.Vector({
-          features: [
-            new ol.Feature({
-              geometry: new ol.geom.Point(
-                ol.proj.fromLonLat([longitude, latitude])
-              ),
-            }),
-          ],
-        }),
-        style: new ol.style.Style({
-          image: new ol.style.Icon({
-            anchor: [0.5, 1],
-            crossOrigin: "anonymous",
-            src: "https://docs.maptiler.com/openlayers/default-marker/marker-icon.png",
+      source: new ol.source.Vector({
+        features: [
+          new ol.Feature({
+            geometry: new ol.geom.Point(
+              ol.proj.fromLonLat([longitude, latitude])
+            ),
           }),
+        ],
+      }),
+      style: new ol.style.Style({
+        image: new ol.style.Icon({
+          anchor: [0.5, 1],
+          crossOrigin: "anonymous",
+          src: "/static/javascript/point_orange.png",
         }),
-      });
-      map.addLayer(layer);
+      }),
+    });
+    map.addLayer(layer);
+  }
+  else if (type_point == 2){
+    const layer = new ol.layer.Vector({
+      source: new ol.source.Vector({
+        features: [
+          new ol.Feature({
+            geometry: new ol.geom.Point(
+              ol.proj.fromLonLat([longitude, latitude])
+            ),
+          }),
+        ],
+      }),
+      style: new ol.style.Style({
+        image: new ol.style.Icon({
+          anchor: [0.5, 1],
+          crossOrigin: "anonymous",
+          src: "/static/javascript/point_rouge.png",
+        }),
+      }),
+    });
+    map.addLayer(layer);
+  }
+    
 }
 
 function removeVectors(){
@@ -114,17 +140,23 @@ function removeVectors(){
     }
 }
 
+
+function importSimulation(simulation,len){
+    table_simulation = simulation;
+    tot_tick = len;
+}
+
+
 clean.addEventListener('click', function (){
     removeVectors();
 })
 
 tick_next.addEventListener('click',function(){
-  if(num_tick<50){
+  if(num_tick<tot_tick){
     num_tick++;
-    display_num_tick.innerHTML = ""+num_tick+"/50 ticks";
-  }
-  if (num_tick>=0 && num_tick<=5){
-    afficher_tick(franceCoordinates[num_tick]);
+    display_num_tick.innerHTML = ""+num_tick+"/"+tot_tick+" ticks";
+
+    afficher_tick(table_simulation[num_tick]);
   }
   
 })
@@ -132,10 +164,9 @@ tick_next.addEventListener('click',function(){
 tick_previous.addEventListener('click',function(){
   if(num_tick>0){
     num_tick--;
-    display_num_tick.innerHTML = ''+num_tick+"/50 ticks";
-  }
-  if (num_tick>=0 && num_tick<=5){
-    afficher_tick(franceCoordinates[num_tick]);
+    display_num_tick.innerHTML = ''+num_tick+"/"+tot_tick+" ticks";
+
+    afficher_tick(table_simulation[num_tick]);
   }
  
 })
