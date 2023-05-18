@@ -26,7 +26,7 @@ trajets_aleatoires* generate_x_random_itinerary(int nb_trajet){
         //----------------------affichage des coordonnées et de la taille (distance) de chaque trajet--------------------
         //printf("test depart %d: %Lf, %Lf\n", j, res->traj[i].depart->latitude, res->traj[i].depart->longitude);
         //printf("test arrivee %d: %Lf, %Lf\n", j+1 , res->traj[i].arrivee->latitude, res->traj[i].arrivee->longitude);
-        printf("distance en km du trajet %d: %Lf\n", i, distance(res->traj[i].depart->longitude, res->traj[i].depart->latitude, res->traj[i].arrivee->longitude, res->traj[i].arrivee->latitude));
+        //printf("distance en km du trajet %d: %Lf\n", i, distance(res->traj[i].depart->longitude, res->traj[i].depart->latitude, res->traj[i].arrivee->longitude, res->traj[i].arrivee->latitude));
         j+=2;
     }
 
@@ -94,7 +94,7 @@ void all_random_parameters(trajets_aleatoires* trajet_existant){
         trajet_existant->traj[i].pourcentage_mini_voulu = rand()%75+1;
         trajet_existant->traj[i].temps_max_attente_borne = rand()%60+1;
         trajet_existant->traj[i].type = rand()%2+1;
-        trajet_existant->traj[i].pourcentage_autonomie_initiale = rand()%96+5;
+        trajet_existant->traj[i].pourcentage_autonomie_initiale = rand()%(100-trajet_existant->traj[i].pourcentage_mini_voulu)+trajet_existant->traj[i].pourcentage_mini_voulu;
     }
 }
 
