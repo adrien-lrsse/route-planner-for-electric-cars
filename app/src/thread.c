@@ -63,7 +63,7 @@ void* thread_main(void* arg) {
   if (resultat == NULL)
   {
     printf("Erreur lors du calcul de l'itinéraire\n");
-    exit(EXIT_FAILURE);
+    pthread_exit(EXIT_SUCCESS);
   }
   //printf("Thread numéro %d : export en cours...\n", my_data->thread);
   //export_etape(resultat, my_data->thread);
