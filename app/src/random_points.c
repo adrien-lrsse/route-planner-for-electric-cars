@@ -1,33 +1,40 @@
 #include "random_points.h"
 
-trajets_aleatoires* generate_x_random_itinerary(int nb_trajet){
+trajets_aleatoires* generate_x_random_itinerary(int nb_trajet, long double dist_min){
     //entrée: nombre de trajets qu'on veut générer
     //sortie: tableau contenant les coordonnées de départ et d'arrivée de nb_trajets trajets générés aléatoirement
     trajets_aleatoires* res = malloc(sizeof(trajets_aleatoires));
     res->taille = nb_trajet;
     res->traj = malloc(nb_trajet*sizeof(trajet));
 
-    //génération des num de lignes aléatoires
-    int rdm_nb[2*nb_trajet] ;
-    generate_x_numbers(2*nb_trajet, rdm_nb);
-    
-    //pour afficher la liste des nb générés aléatoirement:
-    //printf("tab nb aléatoires:");
-    // for (int k=0; k<2*nb_trajet; k++){
-    //     printf("%d,", rdm_nb[k]);
-    // }
-    // printf("\n");
+    srand(time(NULL));  //pour les nombres aléatoires
 
-    int j=0;
     for (int i=0; i<nb_trajet; i++){       
-        res->traj[i].depart = recuperation_coord_ligne(rdm_nb[j]);
-        res->traj[i].arrivee = recuperation_coord_ligne(rdm_nb[j+1]);
+        res->traj[i].depart = recuperation_coord_ligne(rand()%38716);
+        res->traj[i].arrivee = recuperation_coord_ligne(rand()%38716);
+        long double dist_correspondante = distance(res->traj[i].depart->longitude, res->traj[i].depart->latitude, res->traj[i].arrivee->longitude, res->traj[i].arrivee->latitude);
         
-        //----------------------affichage des coordonnées et de la taille (distance) de chaque trajet--------------------
+        //----------------------affichage des coordonnées de chaque trajet-------------------------------------
         //printf("test depart %d: %Lf, %Lf\n", j, res->traj[i].depart->latitude, res->traj[i].depart->longitude);
         //printf("test arrivee %d: %Lf, %Lf\n", j+1 , res->traj[i].arrivee->latitude, res->traj[i].arrivee->longitude);
-        printf("distance en km du trajet %d: %Lf\n", i, distance(res->traj[i].depart->longitude, res->traj[i].depart->latitude, res->traj[i].arrivee->longitude, res->traj[i].arrivee->latitude));
-        j+=2;
+        
+        //printf("distance en km du trajet %d: %Lf\n", i, dist_correspondante);
+        int nb_essais=0; //limite de tps pour éviter les boucles infinies;
+        while (dist_correspondante<dist_min && nb_essais<50){
+            //si la taille du trajet n'est pas assez élevée on change de trajet, si plus de 50 essais on arrete
+            
+            free(res->traj[i].depart);
+            res->traj[i].depart = recuperation_coord_ligne(rand()%38716);
+            
+            free(res->traj[i].arrivee);
+            res->traj[i].arrivee = recuperation_coord_ligne(rand()%38715+1); 
+
+            dist_correspondante = distance(res->traj[i].depart->longitude, res->traj[i].depart->latitude, res->traj[i].arrivee->longitude, res->traj[i].arrivee->latitude);
+            //printf("distance en km du trajet  %d (rectification %d): %Lf\n", i, nb_essais, dist_correspondante);
+            nb_essais++;
+        }
+        
+        res->traj[i].distance_traj=dist_correspondante;
     }
 
     all_random_parameters(res);
@@ -44,17 +51,6 @@ void destroy_trajets_aleatoires(trajets_aleatoires* t){
     free(t);
 }
 
-void generate_x_numbers(int x, int* tab){
-    //entrée: x: nombre de chiffres aléatoires qu'on veut
-    //  tab: tableau d'entiers qui contiendra x chiffres aléatoires
-    
-    srand(time(NULL));
-    for (int i=0; i<x; i++){
-        tab[i]=rand()%38716;
-        if(tab[i]==0){tab[i]=1;}//ligne 0: entete du fichier de données donc non
-    }
-    
-}
 
 coord_pt* recuperation_coord_ligne(int num_ligne){
     //entrée: numéro de la ligne dans le fichier dont on veut récupérer les coordonnées
@@ -97,6 +93,4 @@ void all_random_parameters(trajets_aleatoires* trajet_existant){
         trajet_existant->traj[i].pourcentage_autonomie_initiale = rand()%96+5;
     }
 }
-
-//38717 lignes dans le doc csv
 
