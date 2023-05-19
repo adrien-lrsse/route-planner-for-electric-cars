@@ -545,6 +545,8 @@ void export(borne_simulation* bornes){
                     else if (voitures_en_attente->head == NULL) {status = 1;}
                     current = current->next_passage;
                 }
+                tick++;
+            }
             while (tick<current->tick) { //dernier élément à traiter
                 if (status != 0) {
                     data_append(&tab_export[tick], &bornes[i].coordonnees, status);
@@ -553,8 +555,7 @@ void export(borne_simulation* bornes){
                 tick++;
             }
         }
-        
-        }
+
     }
 
     export_data_el* current_w;
