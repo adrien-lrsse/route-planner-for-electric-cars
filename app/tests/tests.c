@@ -92,15 +92,15 @@ describe(test_threads){
           // data->type = type;
           // data->pourcentage_autonomie_initiale = pourcentage_autonomie_initiale;
 
-          printf("%Lf ", data->depart->longitude);
-          printf("%Lf ", data->depart->latitude);
-          printf("%Lf ", data->arrivee->longitude);
-          printf("%Lf ", data->arrivee->latitude);
-          printf("%d ", data->id_voiture);
-          printf("%d ", data->pourcentage_mini_voulu);
-          printf("%d ", data->temps_max_attente_borne);
-          printf("%d ", data->type);
-          printf("%d\n", data->pourcentage_autonomie_initiale);
+          // printf("%Lf ", data->depart->longitude);
+          // printf("%Lf ", data->depart->latitude);
+          // printf("%Lf ", data->arrivee->longitude);
+          // printf("%Lf ", data->arrivee->latitude);
+          // printf("%d ", data->id_voiture);
+          // printf("%d ", data->pourcentage_mini_voulu);
+          // printf("%d ", data->temps_max_attente_borne);
+          // printf("%d ", data->type);
+          // printf("%d\n", data->pourcentage_autonomie_initiale);
 
           if (pthread_create(&tid[i], NULL, &thread_main, data)){
             printf("Error creating thread %d\n", i);
