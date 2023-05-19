@@ -11,7 +11,7 @@
 #include "random_points.h"
 
 #define NB_THREADS 20
-#define NB_ITINERAIRES 10000
+#define NB_ITINERAIRES 100
 #define DIST_MIN 100
 
 int main(int argc, char* argv[]) {
@@ -45,6 +45,11 @@ int main(int argc, char* argv[]) {
     int type = strtod(argv[8],NULL);
     int pourcentage_autonomie_initiale = strtod(argv[9],NULL);
 
+    database_t * database = open_database("./../data/database.db");
+    if (!database->opened_correctly) {
+        exit(0);
+    }
+
   // // Ceci sert au débogage car on ne peut pas passer des arguments à l'exécutable
   //   long double longitude_depart = 6.1834097;
   //   long double latitude_depart =  48.6937223;
@@ -66,7 +71,8 @@ int main(int argc, char* argv[]) {
     list_bornes_visitees* bornes_visitees = list_bornes_visitees_create(); // pour garder en mémoire les bornes visitées
 
     // Calcul des étapes pour aller du point A au point B
-    etape* resultat = get_liste_etape_itineaire(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, ma_voiture, type, bornes_visitees);
+    etape* resultat = get_liste_etape_itineaire(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, ma_voiture, type, bornes_visitees, database);
+    close_database(database);
     if (resultat == NULL)
     {
       printf("Erreur lors du calcul de l'itinéraire\n");
@@ -90,7 +96,7 @@ int main(int argc, char* argv[]) {
     thread_export_init();
 
     for(int i=0; i<nb_boucles;i++){
-      //printf("BOUCLE NUMERO %d\n",i);
+      printf("BOUCLE NUMERO %d\n",i);
       pthread_mutex_t mutex;
       pthread_mutex_init(&mutex, NULL);
       trajets_aleatoires* tab = generate_x_random_itinerary(NB_THREADS,DIST_MIN);
@@ -124,15 +130,15 @@ int main(int argc, char* argv[]) {
           // data->type = type;
           // data->pourcentage_autonomie_initiale = pourcentage_autonomie_initiale;
 
-          printf("%Lf ", data->depart->longitude);
-          printf("%Lf ", data->depart->latitude);
-          printf("%Lf ", data->arrivee->longitude);
-          printf("%Lf ", data->arrivee->latitude);
-          printf("%d ", data->id_voiture);
-          printf("%d ", data->pourcentage_mini_voulu);
-          printf("%d ", data->temps_max_attente_borne);
-          printf("%d ", data->type);
-          printf("%d\n", data->pourcentage_autonomie_initiale);
+          // printf("%Lf ", data->depart->longitude);
+          // printf("%Lf ", data->depart->latitude);
+          // printf("%Lf ", data->arrivee->longitude);
+          // printf("%Lf ", data->arrivee->latitude);
+          // printf("%d ", data->id_voiture);
+          // printf("%d ", data->pourcentage_mini_voulu);
+          // printf("%d ", data->temps_max_attente_borne);
+          // printf("%d ", data->type);
+          // printf("%d\n", data->pourcentage_autonomie_initiale);
 
           if (pthread_create(&tid[i], NULL, &thread_main, data)){
             printf("Error creating thread %d\n", i);
