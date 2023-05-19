@@ -287,10 +287,115 @@ void ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int 
         }
         current = current->next_passage;
     }
-    // if (current->next_passage == NULL && file_d_attente->head != NULL) {//si on et au bout de la liste des passages et que la file d'attente n'est pas vide
+    if (current->next_passage == NULL && file_d_attente->head != NULL) {//si on et au bout de la liste des passages et que la file d'attente n'est pas vide
+        if (current->places_restantes == -1 && current->status_passage == 1) {//si une voiture est arrivée et qu'elle n'a pas de places (diapo 31-32)
+            current->status_passage = 2;
+            current->places_restantes = 0;
+            passage_voiture_head_append(file_d_attente,current->id_voiture,3,-1,current->tick);
+        }
 
-    // }
+        passage_file_attente = file_d_attente->head;// réinitialise le pointeur à la tête de la file d'attente
+        passage_ajoute = 0; //booleen indiquant si un passage a été ajouté dans la liste
+        compteur = 0;
 
+        while (passage_file_attente->next_passage != NULL) { //regarde chaque élement de la file d'attente
+            if (passage_ajoute == 0) { // distinguer le cas où un élément a été ajouté et traiter les cas de modification de la liste
+            if (passage_file_attente->status_passage == 0) {//si l'élément dans la file d'attente a un tick plus faible que le prochain élément de la liste et que la voiture doit partir (diapo 10)
+                tampon->next_passage = passage_voiture_head_pop_i(file_d_attente, compteur);
+                tampon->next_passage->next_passage = current->next_passage;
+                current->next_passage = tampon->next_passage;
+                tampon->next_passage->places_restantes = current->places_restantes+1; // actualise les places de l'élément ajouté (car la modification de parcours est faite avant le traitement des élements de la file)
+                tampon->next_passage = NULL; //useless but in case
+                passage_ajoute = 1;
+            }
+            else if (passage_file_attente->status_passage == 1 && current->places_restantes > 0) {//si l'élément de la file d'attente a un tick plus faible, que la voiture arrive et qu'il reste de la place (diapo 36-37)
+                tampon->next_passage = passage_voiture_head_pop_i(file_d_attente, compteur);
+                tampon->next_passage->next_passage = current->next_passage;
+                current->next_passage = tampon->next_passage;
+                tampon->next_passage->places_restantes = current->places_restantes-1;
+                tampon->next_passage = NULL;
+                passage_ajoute = 1;
+            }
+            else if (passage_file_attente->status_passage == 3 && current->places_restantes > 0) {
+                tampon->next_passage = passage_voiture_head_pop_i(file_d_attente, compteur);
+                tampon->next_passage->next_passage = current->next_passage;
+                tampon->next_passage->status_passage = 1; //retour de 3 à 1 pour le type de passage
+                if (update_passage(file_d_attente,tampon->next_passage->id_voiture,current->tick-tampon->next_passage->tick) == 0) {//si la valeur de retour est 0, cela veut dire que le passage de sortie n'est pas dans la file d'attente et qu'il faudra le supprimer de la liste des passages (diapo 39)
+                    passage_voiture_head_append(file_d_attente, tampon->next_passage->id_voiture, 4, -1, current->tick-tampon->next_passage->tick);
+                }
+                tampon->next_passage->tick = current->tick;
+                current->next_passage = tampon->next_passage;
+                tampon->next_passage->places_restantes = current->places_restantes-1;
+                tampon->next_passage = NULL;
+                passage_ajoute = 1;
+            }
+            }
+
+            //tests qui devront toujours avoir lieu même si un passage a été ajouté
+            if (passage_file_attente->status_passage == 1 && current->places_restantes == 0) {//une voiture arrive mais il n'y plus de place
+                tampon->next_passage = creer_passage(passage_file_attente->id_voiture, 2, 0, current->tick);
+                tampon->next_passage->next_passage = current->next_passage;
+                current->next_passage = tampon->next_passage;
+                tampon->next_passage = NULL;
+                passage_file_attente->status_passage = 3;
+            }
+            if (passage_file_attente->next_passage != NULL) {passage_file_attente = passage_file_attente->next_passage;}
+            compteur++;
+        }
+        //traiter le dernier élément
+        if (passage_ajoute == 0) { // distinguer le cas où un élément a été ajouté et traiter les cas de modification de la liste
+        if (passage_file_attente->status_passage == 0) {//si l'élément dans la file d'attente a un tick plus faible que le prochain élément de la liste et que la voiture doit partir (diapo 10)
+            tampon->next_passage = passage_voiture_head_pop_i(file_d_attente, compteur);
+            tampon->next_passage->next_passage = current->next_passage;
+            current->next_passage = tampon->next_passage;
+            tampon->next_passage->places_restantes = current->places_restantes+1; // actualise les places de l'élément ajouté (car la modification de parcours est faite avant le traitement des élements de la file)
+            tampon->next_passage = NULL; //useless but in case
+            passage_ajoute = 1;
+        }
+        else if (passage_file_attente->status_passage == 1 && current->places_restantes > 0) {//si l'élément de la file d'attente a un tick plus faible, que la voiture arrive et qu'il reste de la place (diapo 36-37)
+            tampon->next_passage = passage_voiture_head_pop_i(file_d_attente, compteur);
+            tampon->next_passage->next_passage = current->next_passage;
+            current->next_passage = tampon->next_passage;
+            tampon->next_passage->places_restantes = current->places_restantes-1;
+            tampon->next_passage = NULL;
+            passage_ajoute = 1;
+        }
+        else if (passage_file_attente->status_passage == 3 && current->places_restantes > 0) {
+            tampon->next_passage = passage_voiture_head_pop_i(file_d_attente, compteur);
+            tampon->next_passage->next_passage = current->next_passage;
+            tampon->next_passage->status_passage = 1; //retour de 3 à 1 pour le type de passage
+            if (update_passage(file_d_attente,tampon->next_passage->id_voiture,current->tick-tampon->next_passage->tick) == 0) {//si la valeur de retour est 0, cela veut dire que le passage de sortie n'est pas dans la file d'attente et qu'il faudra le supprimer de la liste des passages (diapo 39)
+                passage_voiture_head_append(file_d_attente, tampon->next_passage->id_voiture, 4, -1, current->tick-tampon->next_passage->tick);
+            }
+            tampon->next_passage->tick = current->tick;
+            current->next_passage = tampon->next_passage;
+            tampon->next_passage->places_restantes = current->places_restantes-1;
+            tampon->next_passage = NULL;
+            passage_ajoute = 1;
+        }
+        }
+
+        //tests qui devront toujours avoir lieu même si un passage a été ajouté
+        if (passage_file_attente->status_passage == 1 && current->places_restantes == 0) {//une voiture arrive mais il n'y plus de place
+            tampon->next_passage = creer_passage(passage_file_attente->id_voiture, 2, 0, current->tick);
+            tampon->next_passage->next_passage = current->next_passage;
+            current->next_passage = tampon->next_passage;
+            tampon->next_passage = NULL;
+            passage_file_attente->status_passage = 3;
+        }
+        current = current->next_passage;
+        
+        
+        if (file_d_attente->head != NULL) {
+            tampon->next_passage = passage_voiture_head_pop(file_d_attente);
+            tampon->next_passage->next_passage = current->next_passage;
+            current->next_passage = tampon->next_passage;
+            tampon->next_passage->places_restantes = list_bornes[borneId].capacite_max;
+            tampon->next_passage->status_passage = 0;
+            tampon->next_passage = NULL;
+        };
+
+    }
     passage_destroy(tampon);
     passage_list_destroy(file_d_attente);
 }
@@ -340,7 +445,7 @@ void passage_voiture_head_append(passage_voiture_head* one_list, int id_voiture,
 
 passage_voiture* passage_voiture_head_pop(passage_voiture_head* one_list){
     passage_voiture* first_element = one_list->head;
-    if (first_element->next_passage == NULL){
+    if (first_element->next_passage == NULL){//dernier élément de la liste
         one_list->head = NULL;
     }
     else {
@@ -353,7 +458,7 @@ passage_voiture* passage_voiture_head_pop(passage_voiture_head* one_list){
 passage_voiture* passage_voiture_head_pop_i(passage_voiture_head* one_list, int i){
     passage_voiture* current = one_list->head;
     passage_voiture* retour = one_list->head;
-    if (i == 0) {
+    if (i == 0 || one_list->head->next_passage == NULL) {//premier élément ou que la liste ne comporte qu'un élément
         retour = passage_voiture_head_pop(one_list);
         return retour;
     }
@@ -410,7 +515,7 @@ void export(borne_simulation* bornes){
             tick = current->tick;
             status = current->status_passage;
             while (tick<TOTAL_TICK && current->next_passage != NULL) {
-                if (status != 0) {
+                if (status != 0 && current->tick <= tick) {
                     data_append(&tab_export[tick], &bornes[i].coordonnees, status);
                     tab_export[tick].total_entries++;
                 }
@@ -424,9 +529,9 @@ void export(borne_simulation* bornes){
                     if (voitures_en_attente->head == NULL) {status = 1;}
                     else {status = 2;}
                 }
-                else if (current->status_passage == 1 && voitures_en_attente->head == NULL) {status = 1;}
+                else if (voitures_en_attente->head == NULL) {status = 1;}
 
-                while (current->next_passage != NULL && current->next_passage->tick == tick+1) {
+                while (current->next_passage != NULL && current->next_passage->tick <= tick+1) {
                     if (current->places_restantes == bornes[i].capacite_max) {status = 0;}
                     else if (current->status_passage == 2) {
                         list_int_append(voitures_en_attente, current->id_voiture);
@@ -437,11 +542,9 @@ void export(borne_simulation* bornes){
                         if (voitures_en_attente->head == NULL) {status = 1;}
                         else {status = 2;}
                     }
-                    else if (current->status_passage == 1 && voitures_en_attente->head == NULL) {status = 1;}
+                    else if (voitures_en_attente->head == NULL) {status = 1;}
                     current = current->next_passage;
                 }
-                tick++;
-            }
             while (tick<current->tick) { //dernier élément à traiter
                 if (status != 0) {
                     data_append(&tab_export[tick], &bornes[i].coordonnees, status);
@@ -449,6 +552,8 @@ void export(borne_simulation* bornes){
                 }
                 tick++;
             }
+        }
+        
         }
     }
 
