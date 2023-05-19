@@ -21,11 +21,12 @@ void export_etape(etape* one_etape){
 void thread_export(etape* one_etape, voiture* one_voiture){
     FILE *fichier = fopen("../data/threads.txt","a");
     if (etape_is_empty(one_etape)){
-        fprintf(fichier,"404\n");
+        fprintf(fichier,"\n404");
         fclose(fichier);
     }
     else{
         int global_tick = 0;
+        fprintf(fichier, "\n");
         for (int i = 0; i < one_etape->size; i++){  
             int id_borne = (one_etape->list+i)->borne.id;
             int tick_deplacement = temps_trajet(one_etape->list+i)+global_tick;
@@ -33,7 +34,6 @@ void thread_export(etape* one_etape, voiture* one_voiture){
             fprintf(fichier,"%d$%d$%d||",id_borne,tick_deplacement,duree_charge);
             global_tick = tick_deplacement+duree_charge;
         }
-        fprintf(fichier, "\n");
         fclose(fichier);
     }
     return;
