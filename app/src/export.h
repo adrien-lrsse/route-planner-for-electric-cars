@@ -2,6 +2,8 @@
 #define EXPORT_H__
 
 #include "etape.h"
+#include "vehicules.h"
+#include "simulation.h"
 #include <stdio.h>
 
 #ifndef SUPPRESS_PRINTFS
@@ -10,6 +12,11 @@
 #define printf(...) (void)0
 #endif
 
-void export_etape(etape* one_etape, int my_pid);
+void export_etape(etape* one_etape);
+
+void thread_export(etape* one_etape, voiture* one_voiture);
+
+void thread_export_init();
+
 
 #endif /* EXPORT_H__ */

@@ -1,8 +1,8 @@
 #ifndef __SIMULATION_H__
 #define __SIMULATION_H__
 
-#include "borne.h"
 #include "vehicules.h"
+#include "borne.h"
 
 #ifndef SUPPRESS_PRINTFS
 #define printf(...) printf(__VA_ARGS__)
@@ -10,12 +10,12 @@
 #define printf(...) (void)0
 #endif
 
-typedef struct trajet
+typedef struct trajet_simul
 {
     int id_borne_depart;
     int id_borne_arrivee;
     voiture* vehicule;
-} trajet;
+} trajet_simul;
 
 
 typedef struct passage_voiture{
@@ -69,7 +69,7 @@ typedef struct export_data
 
 borne_simulation* load_bornes();
 
-void simulation(borne_simulation* list_bornes, trajet* list_trajet, int nb_trajet);
+void simulation(borne_simulation* list_bornes, trajet_simul* list_trajet_simul, int nb_trajet_simul);
 
 void destroy_tab(borne_simulation* tab);
 

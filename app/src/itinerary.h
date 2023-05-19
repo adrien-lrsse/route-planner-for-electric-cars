@@ -6,6 +6,9 @@
 #include "borne.h"
 #include "etape.h"
 #include "vehicules.h"
+#include "simulation.h"
+#include "random_points.h"
+#include "thread.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>

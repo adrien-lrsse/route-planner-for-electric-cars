@@ -5,16 +5,16 @@ LIBS = -lsqlite3 -pthread
 
 ALL = main coordinates itinerary struct_mat_adj database_reader create_mat_adj_in_txt borne etape vehicules export simulation
 
-main : main.o coordinates.o database_reader.o struct_mat_adj.o itinerary.o etape.o export.o vehicules.o borne.o thread.o random_points.o
-	$(CC) $(CFLAGS) main.o coordinates.o database_reader.o struct_mat_adj.o itinerary.o etape.o export.o vehicules.o borne.o thread.o random_points.o -o main $(LIBS)
+main : main.o coordinates.o database_reader.o struct_mat_adj.o itinerary.o etape.o export.o vehicules.o borne.o thread.o random_points.o simulation.o
+	$(CC) $(CFLAGS) main.o coordinates.o database_reader.o struct_mat_adj.o itinerary.o etape.o export.o vehicules.o simulation.o borne.o thread.o random_points.o -o main $(LIBS)
 
-main.o : main.c main.h borne.h coordinates.h database_reader.h itinerary.h snow.h etape.h export.h vehicules.h borne.h thread.h random_points.h
+main.o : main.c main.h borne.h coordinates.h database_reader.h itinerary.h snow.h etape.h export.h vehicules.h borne.h thread.h random_points.h simulation.h
 	$(CC) $(CFLAGS) -c main.c
 
-thread.o : thread.c thread.h
+thread.o : thread.c thread.h simulation.h
 	$(CC) $(CFLAGS) -c thread.c
 
-export.o : export.c export.h etape.h
+export.o : export.c export.h etape.h simulation.h
 	$(CC) $(CFLAGS) -c export.c $(NO_DEBUG)
 
 coordinates : coordinates.o coordinates.h
@@ -39,7 +39,7 @@ itinerary.o : itinerary.c itinerary.h etape.h database_reader.h borne.h etape.h 
 simulation : simulation.h simulation.o database_reader.o vehicules.o coordinates.o vehicules.h database_reader.h coordinates.h itinerary.o itinerary.h etape.o etape.h
 	$(CC) $(CFLAGS) database_reader.o vehicules.o coordinates.o simulation.o itinerary.o etape.o -o simulation $(LIBS)
 
-simulation.o : simulation.h simulation.c vehicules.h database_reader.h coordinates.h itinerary.h etape.h
+simulation.o : simulation.h simulation.c vehicules.h borne.h database_reader.h coordinates.h itinerary.h etape.h
 	$(CC) $(CFLAGS) -c simulation.c $(NO_DEBUG)
 
 struct_mat_adj : struct_mat_adj.o struct_mat_adj.h

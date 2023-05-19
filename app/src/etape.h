@@ -18,7 +18,7 @@ typedef struct etape
 
 etape* etape_create(void);
 
-void etape_add(etape* one_etape, borne_and_distance borne);
+void etape_add(etape* one_etape, borne_and_distance borne, int ticks_charge);
 
 void display_etape(etape* one_etape);
 

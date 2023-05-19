@@ -404,13 +404,13 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
     etape* lst_etape = etape_create(); // valeur de retour
     borne_and_distance proche;
     display_etape(lst_etape);
-    etape_add(lst_etape,depart);
+    etape_add(lst_etape,depart, -1);
     bool arrivee = false;
     // Tant que la distance borne -> arrivé n'est pas nulle il reste au moins une étape
     while (distance_fin != 0.0 && !arrivee)
     {
         if(distance_fin<one_car->autonomie_actuelle){
-            etape_add(lst_etape,arrivee_etape);
+            etape_add(lst_etape,arrivee_etape, -1);
             arrivee = true;
         } 
         else{
@@ -431,7 +431,8 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
                     return etape_create();
                 }
                 else {
-                    etape_add(lst_etape,proche);
+                    int ticks_recharge = temps_recharge(one_car, &proche.borne);
+                    etape_add(lst_etape,proche, ticks_recharge);
 
                     //ajouter cette borne à la liste des bornes visitées
                     list_bornes_visitees_append(bornes_visitees, proche.borne.id);
@@ -490,13 +491,13 @@ etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long do
 
     etape* lst_etape = etape_create(); // valeur de retour
     borne_and_distance proche;
-    etape_add(lst_etape,depart);
+    etape_add(lst_etape,depart, -1);
     bool arrivee = false;
     // Tant que la distance borne -> arrivé n'est pas nulle il reste au moins une étape
     while (distance_fin != 0.0 && !arrivee)
     {
         if(distance_fin<one_car->autonomie_actuelle){
-            etape_add(lst_etape,arrivee_etape);
+            etape_add(lst_etape,arrivee_etape, -1);
             arrivee = true;
         } 
         else{
@@ -517,7 +518,8 @@ etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long do
                     return etape_create();
                 }
                 else {
-                    etape_add(lst_etape,proche);
+                    int ticks_recharge = temps_recharge(one_car, &proche.borne);
+                    etape_add(lst_etape,proche, ticks_recharge);
 
                     //ajouter cette borne à la liste des bornes visitées
                     list_bornes_visitees_append(bornes_visitees, proche.borne.id);

@@ -54,7 +54,7 @@ borne_simulation* load_bornes(){
 }
 
 
-void simulation(borne_simulation* list_bornes, trajet* liste_trajet, int nombre_trajet){
+void simulation(borne_simulation* list_bornes, trajet_simul* liste_trajet_simul, int nombre_trajet_simul){
     /*
     Actuellement la fonction établit l'ensemble des passages des voitures passsées en arguments
     Les changements sont directement effectués sur list_bornes
@@ -268,21 +268,26 @@ passage_voiture* passage_voiture_head_pop_i(passage_voiture_head* one_list, int 
 }
 
 int temps_recharge(voiture* voiture, borne* borne) {
-    int puissance_a_charger = voiture->puissance-voiture->puissance_actuelle;
-    int temps = (int) puissance_a_charger/borne->puissance_nominale;
-    int nombre_tick;
-    if (temps >= voiture->temps_recharge_max_minutes) {
-        nombre_tick = (int) round(voiture->temps_recharge_max_minutes/10);
+    if (voiture->temps_recharge_max_minutes != 0){
+        int i = round(voiture->temps_recharge_max_minutes/10);
+        if (i == 0){ i = 1; }
+        return i;
     }
-    else {
-        nombre_tick = (int) round(temps/10);
+    int puissance_a_charger = voiture->puissance-voiture->puissance_actuelle;
+    double temps = (double) puissance_a_charger/borne->puissance_nominale;
+    int nombre_tick = (int) round(temps/6);
+    if (nombre_tick == 0) {
+        nombre_tick = 1;
     }
     return nombre_tick;
 }
 
 int temps_trajet(borne_and_distance* proche) {
     double duree = proche->distance_debut/100; //distance/vitesse
-    int nombre_ticks = (int) round(duree/10);
+    int nombre_ticks = (int) round(duree*6);
+    if (nombre_ticks == 0) {
+        nombre_ticks = 1;
+    }
     return nombre_ticks;
 }
 
@@ -504,12 +509,12 @@ void passage_list_destroy(passage_voiture_head* passages){
     free(passages);
 }
 
-int main(void) {
-    //chargement bornes
-    borne_simulation* tab_bornes = load_bornes(); //tableau
+// int main(void) {
+//     //chargement bornes
+//     borne_simulation* tab_bornes = load_bornes(); //tableau
 
-    export(tab_bornes);
+//     export(tab_bornes);
 
-    destroy_tab(tab_bornes);
-    return 0;
-}
+//     destroy_tab(tab_bornes);
+//     return 0;
+// }

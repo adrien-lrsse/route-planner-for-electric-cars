@@ -24,6 +24,7 @@ typedef struct borne
 typedef struct borne_and_distance
 {
     borne borne;
+    int tick_recharge;
     double distance_debut;
     double distance_fin; // Distance en prenant en compte la recharge de la voiture !! (distance à la fin - autonomie après recharge)
 } borne_and_distance;

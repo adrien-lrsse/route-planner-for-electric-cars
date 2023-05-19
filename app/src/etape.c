@@ -16,7 +16,7 @@ bool etape_is_empty(etape* one_etape){
 }
 
 
-void etape_add(etape* one_etape, borne_and_distance borne){
+void etape_add(etape* one_etape, borne_and_distance borne, int ticks_charge){
     // Entrée : une liste d'étape, une étape à ajouter
     // Ajoute une etape à la liste on_etape
     // Sortie : (void)
@@ -29,6 +29,7 @@ void etape_add(etape* one_etape, borne_and_distance borne){
     char* cpy_name = malloc((strlen(borne.borne.name)+1)*sizeof(char));
     strcpy(cpy_name,borne.borne.name);
     (one_etape->list+one_etape->size-1)->borne.name = cpy_name;
+    (one_etape->list+one_etape->size-1)->tick_recharge = ticks_charge;
 
 }
 
