@@ -33,10 +33,7 @@ typedef struct passage_voiture_head{
 typedef struct borne_simulation
 {
     coord_pt coordonnees;
-    char* name;
     int id;
-    int puissance_nominale;
-    int capacite_actuelle;
     int capacite_max; 
     passage_voiture_head* list_passages;
 } borne_simulation;
@@ -69,7 +66,7 @@ typedef struct export_data
 
 borne_simulation* load_bornes();
 
-void simulation(borne_simulation* list_bornes, trajet_simul* list_trajet_simul, int nb_trajet_simul);
+void simulation();
 
 void destroy_tab(borne_simulation* tab);
 
@@ -83,9 +80,10 @@ void add_borne(list_int* tick_list, borne_and_distance* proche);
 
 void tab_tick_destroy(list_int* tab_tick);
 
+void passage_destroy(passage_voiture* passage);
 void passage_list_destroy(passage_voiture_head* passage);
 
-void ajout_passage(borne_simulation *list_bornes, int id_voiture, int tick, int duree_charge, borne *borne);
+void ajout_passage(borne_simulation *list_bornes, int id_voiture, int tick, int duree_charge, int borne);
 
 passage_voiture* creer_passage(int id_voiture, int status_passage, int places_restantes, int tick);
 
@@ -102,6 +100,8 @@ void remove_list_int(list_int_head* one_list, int value);
 void data_append(export_data* data, coord_pt* coordonnees, int status_passage);
 
 void destroy_data(export_data* tab);
-void destroy_data_list(export_data_el* one_data_list);
+void destroy_data_el(export_data_el* one_element);
+void destroy_data_list(export_data_list* one_data_list);
+void export(borne_simulation* bornes);
 
 #endif /* __SIMULATION_H__*/
