@@ -54,10 +54,16 @@ int thread_main(trajet* my_data) {
   set_autonomie(ma_voiture, autonomie_init);
   //print_info(ma_voiture);
 
+  database_t * database = open_database("./../data/database.db");
+  if (!database->opened_correctly) {
+      exit(0);
+  }
+
   list_bornes_visitees* bornes_visitees = list_bornes_visitees_create(); // pour garder en mémoire les bornes visitées
 
   // Calcul des étapes pour aller du point A au point B
-  etape* resultat = get_liste_etape_itineaire(my_data->depart->latitude, my_data->depart->longitude, my_data->arrivee->latitude, my_data->arrivee->longitude, ma_voiture, my_data->type, bornes_visitees);
+  etape* resultat = get_liste_etape_itineaire(my_data->depart->latitude, my_data->depart->longitude, my_data->arrivee->latitude, my_data->arrivee->longitude, ma_voiture, my_data->type, bornes_visitees, database);
+  close_database(database);
   if (resultat == NULL)
   {
     printf("Erreur lors du calcul de l'itinéraire\n");

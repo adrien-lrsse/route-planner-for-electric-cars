@@ -35,15 +35,15 @@ typedef struct list_position
     
 } list_position;
 
-etape* get_liste_etape_itineaire(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, voiture* one_car, int type, list_bornes_visitees* bornes_visitees);
+etape* get_liste_etape_itineaire(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, voiture* one_car, int type, list_bornes_visitees* bornes_visitees, database_t* db);
 
-etape* get_liste_etape_itineaire_type_distance(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, voiture* one_car, list_bornes_visitees* bornes_visitees);
+etape* get_liste_etape_itineaire_type_distance(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, voiture* one_car, list_bornes_visitees* bornes_visitees, database_t* database);
 
-etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, voiture* one_car, list_bornes_visitees* bornes_visitees);
+etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, voiture* one_car, list_bornes_visitees* bornes_visitees, database_t* database);
 
-list_position* getBorneFromDistance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee);
+list_position* getBorneFromDistance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee, database_t* database);
 
-list_position* getBorneFromDistance_type_temps(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee);
+list_position* getBorneFromDistance_type_temps(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee, database_t* database);
 
 void add(list_position** list, double depart, double arrivee, int id_unique, int puissance);
 
@@ -55,12 +55,12 @@ void list_destroy(list_position* one_list);
 
 bool list_is_empty(list_position* one_list);
 
-borne_and_distance plus_proche(list_position* one_list, double autonomie, list_bornes_visitees* bornes_visitees);
+borne_and_distance plus_proche(list_position* one_list, double autonomie, list_bornes_visitees* bornes_visitees, database_t* database);
 
-borne_and_distance plus_proche_type_temps(list_position* one_list, double autonomie, list_bornes_visitees* bornes_visitees, voiture* one_car);
+borne_and_distance plus_proche_type_temps(list_position* one_list, double autonomie, list_bornes_visitees* bornes_visitees, voiture* one_car, database_t* database);
 
 
-borne getInfo(int i);
+borne getInfo(int i, database_t* database);
 
 
 list_bornes_visitees* list_bornes_visitees_create(void);

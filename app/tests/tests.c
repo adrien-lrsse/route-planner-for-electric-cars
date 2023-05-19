@@ -25,6 +25,11 @@ describe(test_itinerary_distance){
         int type = 1;
         int pourcentage_autonomie_initiale =  35;
 
+        database_t * database = open_database("./../data/database.db");
+        if (!database->opened_correctly) {
+            exit(0);
+        }
+
         voiture* ma_voiture = create_voiture(id_voiture);
         ma_voiture->temps_recharge_max_minutes = temps_max_attente_borne;
         ma_voiture->reserve_equivalent_autonomie = ma_voiture->autonomie * ((pourcentage_mini_voulu / 100.0));
@@ -35,7 +40,8 @@ describe(test_itinerary_distance){
         list_bornes_visitees* bornes_visitees = list_bornes_visitees_create(); // pour garder en mémoire les bornes visitées
 
         // Calcul des étapes pour aller du point A au point B
-        etape* resultat = get_liste_etape_itineaire(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, ma_voiture, type, bornes_visitees);
+        etape* resultat = get_liste_etape_itineaire(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, ma_voiture, type, bornes_visitees, database);
+        defer(close_database(database));
         if (resultat == NULL)
         {
         // printf("Erreur lors du calcul de l'itinéraire\n");

@@ -45,6 +45,11 @@ int main(int argc, char* argv[]) {
     int type = strtod(argv[8],NULL);
     int pourcentage_autonomie_initiale = strtod(argv[9],NULL);
 
+    database_t * database = open_database("./../data/database.db");
+    if (!database->opened_correctly) {
+        exit(0);
+    }
+
   // // Ceci sert au débogage car on ne peut pas passer des arguments à l'exécutable
   //   long double longitude_depart = 6.1834097;
   //   long double latitude_depart =  48.6937223;
@@ -66,7 +71,8 @@ int main(int argc, char* argv[]) {
     list_bornes_visitees* bornes_visitees = list_bornes_visitees_create(); // pour garder en mémoire les bornes visitées
 
     // Calcul des étapes pour aller du point A au point B
-    etape* resultat = get_liste_etape_itineaire(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, ma_voiture, type, bornes_visitees);
+    etape* resultat = get_liste_etape_itineaire(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, ma_voiture, type, bornes_visitees, database);
+    close_database(database);
     if (resultat == NULL)
     {
       printf("Erreur lors du calcul de l'itinéraire\n");

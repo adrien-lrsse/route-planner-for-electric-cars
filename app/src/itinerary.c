@@ -16,22 +16,13 @@
 #define LARGEUR_BANDE(a,b) (fabsl(b-a))
 
 
-list_position* getBorneFromDistance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee){
+list_position* getBorneFromDistance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee, database_t* database){
     // Entrée : Coord  de départ et Coord d'arrivée
     // Sortie : Liste de toutes les bornes avec comme données : 
     // pour chaque borne i : (i : distance_départ_borne, distance_borne_arrivée)
 
     list_position* retour = list_create(); // Création de la liste de borne qui sera retourné.
 
-
-  
-
-    
-    // Ouverture de la base de données
-    database_t * database = open_database("../data/database.db");
-    if (!database->opened_correctly) {
-        exit(0);
-    }
     char* sql_commmand;
     if (LARGEUR_BANDE(latitude_depart,latitude_arrivee) || LARGEUR_BANDE(longitude_arrivee,longitude_depart)){
         sql_commmand = "SELECT consolidated_longitude, consolidated_latitude, id_unique FROM bornes WHERE (consolidated_longitude BETWEEN (?-0.5)  AND (?+0.5)) AND (consolidated_latitude BETWEEN (?-0.5)  AND (?+0.5)) ";
@@ -54,7 +45,6 @@ list_position* getBorneFromDistance(long double latitude_depart,long double long
     {
         printf("Pas de borne dans cette zone\n\n\n");
         end_request_database(database);
-        close_database(database);
         return retour;
     }
     else
@@ -81,14 +71,13 @@ list_position* getBorneFromDistance(long double latitude_depart,long double long
     // Fermeture de la base
 
     end_request_database(database);
-    close_database(database);
     return retour;
         
     }
 }
 
 
-list_position* getBorneFromDistance_type_temps(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee){
+list_position* getBorneFromDistance_type_temps(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee, database_t* database){
     // Entrée : Coord  de départ et Coord d'arrivée
     // Sortie : Liste de toutes les bornes avec comme données : 
     // pour chaque borne i : (i : distance_départ_borne, distance_borne_arrivée)
@@ -96,14 +85,6 @@ list_position* getBorneFromDistance_type_temps(long double latitude_depart,long 
     list_position* retour = list_create(); // Création de la liste de borne qui sera retourné.
 
 
-  
-
-    
-    // Ouverture de la base de données
-    database_t * database = open_database("../data/database.db");
-    if (!database->opened_correctly) {
-        exit(0);
-    }
     char* sql_commmand;
     if (LARGEUR_BANDE(latitude_depart,latitude_arrivee) || LARGEUR_BANDE(longitude_arrivee,longitude_depart)){
         sql_commmand = "SELECT consolidated_longitude, consolidated_latitude, id_unique, puissance_nominale FROM bornes WHERE (consolidated_longitude BETWEEN (?-0.5)  AND (?+0.5)) AND (consolidated_latitude BETWEEN (?-0.5)  AND (?+0.5)) ";
@@ -126,7 +107,6 @@ list_position* getBorneFromDistance_type_temps(long double latitude_depart,long 
     {
         printf("Pas de borne dans cette zone\n\n\n");
         end_request_database(database);
-        close_database(database);
         return retour;
     }
     else
@@ -157,7 +137,6 @@ list_position* getBorneFromDistance_type_temps(long double latitude_depart,long 
     // Fermeture de la base
 
     end_request_database(database);
-    close_database(database);
     return retour;
         
     }
@@ -230,7 +209,7 @@ bool list_is_empty(list_position* one_list){
 }
 
 
-borne_and_distance plus_proche(list_position* one_list, double autonomie, list_bornes_visitees* bornes_visitees){
+borne_and_distance plus_proche(list_position* one_list, double autonomie, list_bornes_visitees* bornes_visitees, database_t* database){
     // Entrée : liste de borne avec leur distance, autonomie du véhicule
     // Sortie : point le plus proche de l'arrivée qui respecte l'autonomie du véhicule
     long double max_distance = -1.0L;
@@ -253,7 +232,7 @@ borne_and_distance plus_proche(list_position* one_list, double autonomie, list_b
         selectionner.borne.id = -1;
     }
     else {
-    selectionner.borne =  getInfo(ind); // recupère les infos du points
+    selectionner.borne =  getInfo(ind, database); // recupère les infos du points
     selectionner.distance_debut = max_distance;
     selectionner.distance_fin = min_distance;
     }
@@ -262,7 +241,7 @@ borne_and_distance plus_proche(list_position* one_list, double autonomie, list_b
 }
 
 
-borne_and_distance plus_proche_type_temps(list_position* one_list, double autonomie, list_bornes_visitees* bornes_visitees, voiture* one_car){
+borne_and_distance plus_proche_type_temps(list_position* one_list, double autonomie, list_bornes_visitees* bornes_visitees, voiture* one_car, database_t* database){
     // Entrée : liste de borne avec leur distance, autonomie du véhicule
     // Sortie : point le plus proche de l'arrivée qui respecte l'autonomie du véhicule
     long double max_distance = -1.0L;
@@ -295,7 +274,7 @@ borne_and_distance plus_proche_type_temps(list_position* one_list, double autono
         selectionner.borne.id = -1;
     }
     else {
-    selectionner.borne =  getInfo(ind); // recupère les infos du points
+    selectionner.borne =  getInfo(ind, database); // recupère les infos du points
     selectionner.distance_debut = max_distance;
     selectionner.distance_fin = min_distance;
     }
@@ -304,16 +283,10 @@ borne_and_distance plus_proche_type_temps(list_position* one_list, double autono
 }
 
 
-borne getInfo(int i){
+borne getInfo(int i, database_t* database){
     // Entrée : Identifiant unique d'une borne
     // Sortie : Information sur la borne i
     borne res;
-
-    // Ouverture de la base
-    database_t * database = open_database("./../data/database.db");
-    if (!database->opened_correctly) {
-        exit(0);
-    }
 
     // Préparation de la requête
     char* name;
@@ -344,13 +317,12 @@ borne getInfo(int i){
 
     //Fermeture de la base
     end_request_database(database);
-    close_database(database);
 
     return res;
 }
 
 
-etape* get_liste_etape_itineaire(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, voiture* one_car, int type, list_bornes_visitees* bornes_visitees){
+etape* get_liste_etape_itineaire(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, voiture* one_car, int type, list_bornes_visitees* bornes_visitees, database_t* db){
     /*
     Arguments : 
         - latitude_depart : latitude du point de départ
@@ -364,10 +336,10 @@ etape* get_liste_etape_itineaire(long double latitude_depart, long double longit
     */
     // printf("Type : %d\n", type);
     if (type == 1){
-        return get_liste_etape_itineaire_type_distance(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, one_car, bornes_visitees);
+        return get_liste_etape_itineaire_type_distance(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, one_car, bornes_visitees, db);
     }
     else if (type == 2){
-        return get_liste_etape_itineaire_type_temps(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, one_car, bornes_visitees);
+        return get_liste_etape_itineaire_type_temps(latitude_depart, longitude_depart, latitude_arrivee, longitude_arrivee, one_car, bornes_visitees, db);
     }
     else {
         return NULL;
@@ -375,7 +347,7 @@ etape* get_liste_etape_itineaire(long double latitude_depart, long double longit
 }
 
 
-etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee,voiture* one_car, list_bornes_visitees* bornes_visitees){
+etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long double longitude_depart,long double latitude_arrivee,long double longitude_arrivee,voiture* one_car, list_bornes_visitees* bornes_visitees, database_t* database){
     // Entrée : Coordonnées de départ et d'arrivée'
     // Sortie : Liste des étapes pour atteindre l'arrivée
 
@@ -415,7 +387,7 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
         } 
         else{
             // Calcul du point le proche de l'arrivée atteignable avec l'autonomie du véhicule en fonction du point traité
-            list_position* resultat = getBorneFromDistance(latitude_depart,longitude_depart,latitude_arrivee,longitude_arrivee);
+            list_position* resultat = getBorneFromDistance(latitude_depart,longitude_depart,latitude_arrivee,longitude_arrivee, database);
             if (list_is_empty(resultat))
             {
                 list_destroy(resultat);
@@ -424,7 +396,7 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
 
             }
             else {
-                proche = plus_proche(resultat,one_car->autonomie_actuelle, bornes_visitees);
+                proche = plus_proche(resultat,one_car->autonomie_actuelle, bornes_visitees, database);
                 if (proche.borne.id == -1){
                     list_destroy(resultat);
                     etape_destroy(lst_etape);
@@ -465,7 +437,7 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
 }
 
 
-etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, voiture* one_car, list_bornes_visitees* bornes_visitees){
+etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long double longitude_depart, long double latitude_arrivee, long double longitude_arrivee, voiture* one_car, list_bornes_visitees* bornes_visitees, database_t* database){
     // Entrée : Coordonnées de départ et d'arrivée'
     // Sortie : Liste des étapes pour atteindre l'arrivée
 
@@ -502,7 +474,7 @@ etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long do
         } 
         else{
             // Calcul du point le proche de l'arrivée atteignable avec l'autonomie du véhicule en fonction du point traité
-            list_position* resultat = getBorneFromDistance_type_temps(latitude_depart,longitude_depart,latitude_arrivee,longitude_arrivee);
+            list_position* resultat = getBorneFromDistance_type_temps(latitude_depart,longitude_depart,latitude_arrivee,longitude_arrivee, database);
             if (list_is_empty(resultat))
             {
                 list_destroy(resultat);
@@ -511,7 +483,7 @@ etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long do
 
             }
             else {
-                proche = plus_proche_type_temps(resultat,one_car->autonomie_actuelle, bornes_visitees, one_car);
+                proche = plus_proche_type_temps(resultat,one_car->autonomie_actuelle, bornes_visitees, one_car, database);
                 if (proche.borne.id == -1){
                     list_destroy(resultat);
                     etape_destroy(lst_etape);
