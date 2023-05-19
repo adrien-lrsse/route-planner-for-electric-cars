@@ -14,7 +14,7 @@
 
 void export_etape(etape* one_etape);
 
-void thread_export(etape* one_etape, voiture* one_voiture);
+void thread_export(etape* one_etape, int pid);
 
 void thread_export_init();
 

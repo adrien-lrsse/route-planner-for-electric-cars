@@ -8,6 +8,9 @@
 #include <string.h>
 #include <pthread.h>
 #include <time.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <errno.h>
 #include "itinerary.h"
 #include "coordinates.h"
 #include "struct_mat_adj.h"
@@ -32,6 +35,8 @@ void thread_data_list_add(thread_data_list* list, trajet* data);
 
 void thread_data_list_destroy(thread_data_list* list);
 
-void* thread_main(void* arg);
+int thread_main(trajet* my_data);
+
+void main_tests(int nb_forks, int nb_itineraires, int dist_min);
 
 #endif /* __THREAD__ */

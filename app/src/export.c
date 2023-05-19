@@ -18,8 +18,8 @@ void export_etape(etape* one_etape){
     return;
 }
 
-void thread_export(etape* one_etape, voiture* one_voiture){
-    FILE *fichier = fopen("../data/threads.txt","a");
+void thread_export(etape* one_etape, int pid){
+    FILE* fichier = fopen("../data/forks.txt","a");
     if (etape_is_empty(one_etape)){
         fprintf(fichier,"\n404");
         fclose(fichier);
@@ -40,7 +40,7 @@ void thread_export(etape* one_etape, voiture* one_voiture){
 }
 
 void thread_export_init(){
-    FILE *fichier = fopen("../data/threads.txt","w");
+    FILE *fichier = fopen("../data/forks.txt","w");
     fclose(fichier);
     return;
 }

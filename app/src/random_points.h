@@ -19,7 +19,6 @@ typedef struct trajet{
     int type;
     int pourcentage_autonomie_initiale;
     int thread;
-    pthread_mutex_t mutex;
 }trajet;
 
 typedef struct trajets_aleatoires{
