@@ -71,7 +71,7 @@ void* thread_main(void* arg) {
   // display_etape(resultat);
   // Free de l'espace mémoire allouée
   pthread_mutex_lock(&my_data->mutex);
-  thread_export(resultat, ma_voiture);
+  thread_export(resultat);
   pthread_mutex_unlock(&my_data->mutex);
   etape_destroy(resultat);
   list_bornes_visitees_destroy(bornes_visitees);

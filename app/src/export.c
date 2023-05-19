@@ -18,7 +18,7 @@ void export_etape(etape* one_etape){
     return;
 }
 
-void thread_export(etape* one_etape, voiture* one_voiture){
+void thread_export(etape* one_etape){
     FILE *fichier = fopen("../data/threads.txt","a");
     if (etape_is_empty(one_etape)){
         fprintf(fichier,"\n404");

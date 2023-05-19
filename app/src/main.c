@@ -11,7 +11,7 @@
 #include "random_points.h"
 
 #define NB_THREADS 20
-#define NB_ITINERAIRES 100
+#define NB_ITINERAIRES 10000
 #define DIST_MIN 100
 
 int main(int argc, char* argv[]) {
