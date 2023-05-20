@@ -39,7 +39,7 @@ void thread_export(etape* one_etape){
     return;
 }
 
-void thread_export_init(){
+void thread_export_init(void){
     FILE *fichier = fopen("../data/forks.txt","w");
     fclose(fichier);
     return;

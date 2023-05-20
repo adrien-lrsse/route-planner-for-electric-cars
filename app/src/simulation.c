@@ -15,7 +15,7 @@
 int TOTAL_BORNES = 17319;
 int TOTAL_TICK = 12*60;
 
-borne_simulation* load_bornes(){
+borne_simulation* load_bornes(void){
     //charge l'ensemble des bornes de la BD
     borne_simulation* tableau_bornes = (borne_simulation*) malloc(TOTAL_BORNES*sizeof(borne_simulation));
     database_t * database = open_database("../data/database.db");
@@ -46,7 +46,7 @@ borne_simulation* load_bornes(){
 }
 
 
-void simulation(){    
+void simulation(void){    
     FILE * fichier;
     size_t fichier_size;
     char * buffer;

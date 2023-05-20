@@ -16,7 +16,7 @@ void export_etape(etape* one_etape);
 
 void thread_export(etape* one_etape);
 
-void thread_export_init();
+void thread_export_init(void);
 
 
 #endif /* EXPORT_H__ */

@@ -64,9 +64,9 @@ typedef struct export_data
     export_data_list* list_passages;
 } export_data;
 
-borne_simulation* load_bornes();
+borne_simulation* load_bornes(void);
 
-void simulation();
+void simulation(void);
 
 void destroy_tab(borne_simulation* tab);
 
