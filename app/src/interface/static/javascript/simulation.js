@@ -1,5 +1,5 @@
 
-var clean = document.getElementById("clean");
+// var clean = document.getElementById("clean");
 var num_tick = 1;
 var tot_tick;
 var tick_previous = document.getElementById("previous");
@@ -147,9 +147,9 @@ function importSimulation(simulation,len){
 }
 
 
-clean.addEventListener('click', function (){
-    removeVectors();
-})
+// clean.addEventListener('click', function (){
+//     removeVectors();
+// })
 
 tick_next.addEventListener('click',function(){
   if(num_tick<tot_tick){
