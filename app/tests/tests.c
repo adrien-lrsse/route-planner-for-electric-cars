@@ -9,9 +9,9 @@
 #include "../src/random_points.h"
 #include "../src/thread.h"
 
-#define NB_FORKS 100
+#define NB_FORKS 75
 #define NB_ITINERAIRES 1000
-#define DIST_MIN 100
+#define DIST_MIN 300
 
 describe(test_itinerary_distance){
     it("Conformance test"){
@@ -64,7 +64,7 @@ describe(test_threads){
     int nb_boucles = NB_ITINERAIRES/NB_FORKS;
     if (nb_boucles * NB_FORKS < NB_ITINERAIRES){ nb_boucles++; }
     for (int j = 0; j < nb_boucles; j++){
-      trajets_aleatoires* tab = generate_x_random_itinerary(NB_FORKS,DIST_MIN);
+      trajets_aleatoires* tab = generate_x_random_itinerary(NB_FORKS+2,DIST_MIN);
       for (int i = 0; i < NB_FORKS; i++){
         trajet* data = &tab->traj[i];
         int pid = fork();

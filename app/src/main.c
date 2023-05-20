@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
         }
       }
       while((wait(NULL) != -1) || (errno != ECHILD));
-      printf("Boucle numéro %d/%d finie\n", j, nb_boucles);
+      printf("Boucle numéro %d/%d finie\n", j+1, nb_boucles);
       destroy_trajets_aleatoires(tab);
     }
     return 0;

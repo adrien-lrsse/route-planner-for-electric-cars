@@ -748,7 +748,7 @@ void passage_list_destroy(passage_voiture_head* passages){
     free(passages);
 }
 
-int main(void) {
-    simulation();
-    return 0;
-}
+// int main(void) {
+//     simulation();
+//     return 0;
+// }

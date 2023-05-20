@@ -18,7 +18,7 @@ void export_etape(etape* one_etape){
     return;
 }
 
-void thread_export(etape* one_etape, int pid){
+void thread_export(etape* one_etape){
     FILE* fichier = fopen("../data/forks.txt","a");
     if (etape_is_empty(one_etape)){
         fprintf(fichier,"\n404");

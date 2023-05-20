@@ -43,6 +43,9 @@ trajets_aleatoires* generate_x_random_itinerary(int nb_trajet, long double dist_
 }
 
 void destroy_trajets_aleatoires(trajets_aleatoires* t){
+    if (t==NULL){
+        return;
+    }
     for(int i=0; i<t->taille; i++){
         free(t->traj[i].depart);
         free(t->traj[i].arrivee);

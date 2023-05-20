@@ -56,6 +56,7 @@ int thread_main(trajet* my_data) {
 
   database_t * database = open_database("./../data/database.db");
   if (!database->opened_correctly) {
+    printf("Erreur lors de l'ouverture de la base de données\n");
       exit(0);
   }
 
@@ -74,8 +75,7 @@ int thread_main(trajet* my_data) {
   // Affichage
   // display_etape(resultat);
   // Free de l'espace mémoire allouée
-  int pid = getpid();
-  thread_export(resultat, pid);
+  thread_export(resultat);
   etape_destroy(resultat);
   list_bornes_visitees_destroy(bornes_visitees);
   destroy_voiture(ma_voiture);
