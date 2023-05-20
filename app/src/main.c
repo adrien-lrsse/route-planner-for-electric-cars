@@ -92,9 +92,19 @@ int main(int argc, char* argv[]) {
 
 // Forks
   if (argc != 10){
-
+    printf("argv 1 : %s\n ",argv[1]);
+    int nb_itineraire = atoi(argv[1]);
     thread_export_init();
-    int nb_boucles = NB_ITINERAIRES/NB_FORK;
+    int nb_boucles = nb_itineraire/NB_FORK;
+        printf("nb itineraire : %d\n",nb_itineraire);
+
+    if (nb_boucles == 0){
+      nb_boucles = 1;
+    }
+    if (nb_boucles*NB_FORK < NB_ITINERAIRES){
+      nb_boucles++;
+    }
+    printf("nb de boucle : %d\n",nb_boucles);
     for (int j = 0; j < nb_boucles; j++){
       trajets_aleatoires* tab = generate_x_random_itinerary(NB_FORK,DIST_MIN);
       for (int i = 0; i < NB_FORK; i++){
