@@ -36,8 +36,8 @@ itinerary : itinerary.o itinerary.h  database_reader.h coordinates.h borne.h eta
 itinerary.o : itinerary.c itinerary.h etape.h database_reader.h borne.h etape.h vehicules.h
 	$(CC) $(CFLAGS) -c itinerary.c $(NO_DEBUG)
 
-simulation : simulation.h simulation.o database_reader.o vehicules.o coordinates.o vehicules.h database_reader.h coordinates.h itinerary.o itinerary.h etape.o etape.h
-	$(CC) $(CFLAGS) database_reader.o vehicules.o coordinates.o simulation.o itinerary.o etape.o -o simulation $(LIBS)
+simulation : simulation.h simulation.o database_reader.o vehicules.o coordinates.o vehicules.h database_reader.h coordinates.h etape.o etape.h
+	$(CC) $(CFLAGS) database_reader.o vehicules.o coordinates.o simulation.o etape.o -o simulation $(LIBS)
 
 simulation.o : simulation.h simulation.c vehicules.h borne.h database_reader.h coordinates.h itinerary.h etape.h
 	$(CC) $(CFLAGS) -c simulation.c $(NO_DEBUG)

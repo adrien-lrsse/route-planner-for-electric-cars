@@ -53,7 +53,7 @@ void simulation(void){
     size_t res;
     borne_simulation* tab_bornes = load_bornes();
 
-    fichier = fopen ( "../data/threads.txt" , "r+" );
+    fichier = fopen ( "../data/forks.txt" , "r+" );
     if (fichier==NULL) {
         fprintf (stderr, "File error\n"); 
         exit (1);
@@ -380,17 +380,19 @@ void ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int 
         }
 
         //tests qui devront toujours avoir lieu même si un passage a été ajouté
-        if (passage_file_attente->status_passage == 1 && current->places_restantes == 0) {//une voiture arrive mais il n'y plus de place
-            tampon->next_passage = creer_passage(passage_file_attente->id_voiture, 2, 0, current->tick);
-            tampon->next_passage->next_passage = current->next_passage;
-            current->next_passage = tampon->next_passage;
-            tampon->next_passage = NULL;
-            passage_file_attente->status_passage = 3;
-        }
+        // if (passage_file_attente->status_passage == 1 && current->places_restantes == 0) {//une voiture arrive mais il n'y plus de place
+        //     tampon->next_passage = creer_passage(passage_file_attente->id_voiture, 2, 0, current->tick);
+        //     tampon->next_passage->next_passage = current->next_passage;
+        //     current->next_passage = tampon->next_passage;
+        //     tampon->next_passage = NULL;
+        //     passage_file_attente->status_passage = 3;
+        // }
         if (passage_ajoute == 1) {current = current->next_passage;}
         
-        
+        // if (length(file_d_attente) >=2) {printf("length : %d\n",length(file_d_attente));}
+        // while (file_d_attente->head != NULL) {
         if (file_d_attente->head != NULL && file_d_attente->head->status_passage==0) {
+            // printf("1\n");
             tampon->next_passage = passage_voiture_head_pop(file_d_attente);
             tampon->next_passage->next_passage = current->next_passage;
             current->next_passage = tampon->next_passage;
@@ -399,6 +401,7 @@ void ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int 
         }
         else if (file_d_attente->head != NULL && file_d_attente->head->status_passage == 1) {
             tampon->next_passage = passage_voiture_head_pop(file_d_attente);
+            // printf("2\n");
             tampon->next_passage->next_passage = current->next_passage;
             current->next_passage = tampon->next_passage;
             tampon->next_passage->places_restantes = list_bornes[borneId].capacite_max-1;
@@ -409,15 +412,39 @@ void ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int 
             tampon->next_passage = passage_voiture_head_pop(file_d_attente);
             tampon->next_passage->next_passage = current->next_passage;
             current->next_passage = tampon->next_passage;
+            // printf("3\n");
             tampon->next_passage->places_restantes = list_bornes[borneId].capacite_max-1;
             tampon->next_passage->status_passage = 1;
             tampon->next_passage = NULL;
             current->next_passage->next_passage = creer_passage(current->next_passage->id_voiture, 0, list_bornes[borneId].capacite_max, current->next_passage->tick+2);
         }
+        else if (file_d_attente->head != NULL && file_d_attente->head->status_passage == 4) {
+            tampon->next_passage = passage_voiture_head_pop(file_d_attente);
+            tampon->next_passage->next_passage = current->next_passage;
+            current->next_passage = tampon->next_passage;
+            tampon->next_passage->places_restantes = list_bornes[borneId].capacite_max;
+            // printf("4\n");
+            tampon->next_passage->status_passage = 0;
+            tampon->next_passage = NULL;
+        }
+        //     printf("--length : %d\n",length(file_d_attente));
+        //     if (length(file_d_attente) == 0) {printf("null : %d\n",file_d_attente->head == NULL);file_d_attente->head = NULL;}
+        // }
 
     }
     passage_destroy(tampon);
     passage_list_destroy(file_d_attente);
+}
+
+int length(passage_voiture_head* one_list) {
+    if (one_list->head == NULL) {return 0;}
+    passage_voiture* current = one_list->head;
+    int size = 1;
+    while (current->next_passage != NULL) {
+        size++;
+        current = current->next_passage;
+    }
+    return size;
 }
 
 int update_passage(passage_voiture_head* file_d_attente, int id_voiture, int difference){
@@ -529,7 +556,7 @@ void export(borne_simulation* bornes){
     int tick;
     int status;
     for (int i=0;i<TOTAL_BORNES;i++) {//boucle pour voir l'ensemble des listes de passage
-        if (i%1000 == 0) {printf("%d\n",i*100/TOTAL_BORNES);}
+        if (i%1000 == 0) {printf("%d %%\n",i*100/TOTAL_BORNES);}
         tick = 0;
         if (bornes[i].list_passages->head != NULL) { //si il y a au moins un passage
             current = bornes[i].list_passages->head;
@@ -574,6 +601,10 @@ void export(borne_simulation* bornes){
                     tab_export[tick].total_entries++;
                 }
                 tick++;
+            }
+            if (voitures_en_attente->head != NULL) {
+                destroy_list_int_el(voitures_en_attente->head);
+                voitures_en_attente->head = NULL;
             }
         }
 
@@ -695,6 +726,20 @@ void remove_list_int(list_int_head* one_list, int value){
         }
     }
     free(tampon);
+}
+
+void destroy_list_int(list_int_head* one_list) {
+    if (one_list->head != NULL) {
+        destroy_list_int_el(one_list->head);
+    }
+    free(one_list);
+}
+
+void destroy_list_int_el(list_int* one_element) {
+    if (one_element->next_value != NULL) {
+        destroy_list_int_el(one_element->next_value);
+    }
+    free(one_element);
 }
 
 void data_append(export_data* data, coord_pt* coordonnees, int status_passage) {

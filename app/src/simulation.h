@@ -103,5 +103,8 @@ void destroy_data(export_data* tab);
 void destroy_data_el(export_data_el* one_element);
 void destroy_data_list(export_data_list* one_data_list);
 void export(borne_simulation* bornes);
+void destroy_list_int(list_int_head* one_list);
+void destroy_list_int_el(list_int* one_element);
+int length(passage_voiture_head* one_list);
 
 #endif /* __SIMULATION_H__*/
