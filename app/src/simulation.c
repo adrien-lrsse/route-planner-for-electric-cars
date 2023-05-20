@@ -53,7 +53,7 @@ void simulation(){
     size_t res;
     borne_simulation* tab_bornes = load_bornes();
 
-    fichier = fopen ( "../data/threads.txt" , "r+" );
+    fichier = fopen ( "../data/forks.txt" , "r+" );
     if (fichier==NULL) {
         fprintf (stderr, "File error\n"); 
         exit (1);
@@ -529,7 +529,7 @@ void export(borne_simulation* bornes){
     int tick;
     int status;
     for (int i=0;i<TOTAL_BORNES;i++) {//boucle pour voir l'ensemble des listes de passage
-        if (i%1000 == 0) {printf("%d\n",i*100/TOTAL_BORNES);}
+        // if (i%1000 == 0) {printf("%d %%\n",i*100/TOTAL_BORNES);}
         tick = 0;
         if (bornes[i].list_passages->head != NULL) { //si il y a au moins un passage
             current = bornes[i].list_passages->head;
@@ -574,6 +574,10 @@ void export(borne_simulation* bornes){
                     tab_export[tick].total_entries++;
                 }
                 tick++;
+            }
+            if (voitures_en_attente->head != NULL) {
+                destroy_list_int_el(voitures_en_attente->head);
+                voitures_en_attente->head = NULL;
             }
         }
 
@@ -697,6 +701,20 @@ void remove_list_int(list_int_head* one_list, int value){
     free(tampon);
 }
 
+void destroy_list_int(list_int_head* one_list) {
+    if (one_list->head != NULL) {
+        destroy_list_int_el(one_list->head);
+    }
+    free(one_list);
+}
+
+void destroy_list_int_el(list_int* one_element) {
+    if (one_element->next_value != NULL) {
+        destroy_list_int_el(one_element->next_value);
+    }
+    free(one_element);
+}
+
 void data_append(export_data* data, coord_pt* coordonnees, int status_passage) {
     data->total_entries++;
     export_data_el* current = data->list_passages->head;
@@ -748,7 +766,7 @@ void passage_list_destroy(passage_voiture_head* passages){
     free(passages);
 }
 
-// int main(void) {
-//     simulation();
-//     return 0;
-// }
+int main(void) {
+    simulation();
+    return 0;
+}
