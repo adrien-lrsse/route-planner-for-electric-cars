@@ -54,8 +54,15 @@ def find_itinerary():
     return redirect('/')
 
 
-@app.route('/simulation')
+@app.route('/simulation', methods=["POST","GET"])
 def simutation():
+    if request.method == "POST":
+        num_simulation = request.form.get("int_simulation")
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        cwd = os.path.abspath(os.path.join(script_dir, '..'))
+        subprocess.run(["./main",str(num_simulation)],cwd=cwd)
+
+
     print(len(importSimulation()))
     return render_template("simulation.html", table = importSimulation(), len_tick = len(importSimulation()))
 

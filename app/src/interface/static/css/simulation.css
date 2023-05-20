@@ -91,3 +91,44 @@ body{
     margin-left: 5%;
     margin-right: 5%;
 }
+
+.form_simulation{
+    margin-left: 5%;
+    width: 90%;
+    margin-bottom: 1.5%;
+}
+
+.form_simulation .number_simulation{
+    width: 40%;
+    background: none;
+    border: none;
+    border-bottom: 2px solid white;
+    padding: 1%;
+    color: white;
+    font-family: 'Quicksand';
+    font-size: large;
+    margin-left: 2%;
+}
+
+.form_simulation .submit_simulation{
+    border: 2px solid white;
+    padding: 1%;
+    font-family: 'Quicksand';
+    font-size: large;
+    width: 20%;
+    color:#1C2942 ;
+    background-color: white;
+}
+
+.form_simulation .submit_simulation:hover{
+    background-color: #1C2942;
+    color:white ;
+
+}
+#status_generation{
+    margin-left: 5%;
+    font-family: 'Quicksand';
+    font-size: large;
+    color:white ;
+
+}

@@ -5,7 +5,7 @@ var tot_tick;
 var tick_previous = document.getElementById("previous");
 var tick_next = document.getElementById("next");
 var display_num_tick = document.getElementById("display_num_tick");
-
+var form_simulation = document.getElementById("f_simulation");
 var table_simulation;
 
 const franceCoordinates = [
@@ -77,7 +77,6 @@ function affichageMap(){
 function afficher_tick(liste) {
   removeVectors();
   for (let entier = 0; entier < liste.length; entier++) {
-    console.log(liste[entier][0],liste[entier][1]);
     addVector(liste[entier][0],liste[entier][1],liste[entier][2]);
   }
   
@@ -169,4 +168,10 @@ tick_previous.addEventListener('click',function(){
     afficher_tick(table_simulation[num_tick]);
   }
  
+})
+
+form_simulation.addEventListener('submit', function(){
+  var number_simulation = document.getElementById("status_generation");
+
+  number_simulation.innerHTML = "Génération de la simulation en cours..."
 })

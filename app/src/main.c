@@ -10,7 +10,7 @@
 #include "vehicules.h"
 #include "random_points.h"
 
-#define NB_FORK 50
+#define NB_FORK 20
 #define NB_ITINERAIRES 100
 #define DIST_MIN 100
 
@@ -110,6 +110,7 @@ int main(int argc, char* argv[]) {
       printf("Boucle numéro %d/%d finie\n", j+1, nb_boucles);
       destroy_trajets_aleatoires(tab);
     }
+      simulation();
     return 0;
   }
 }
