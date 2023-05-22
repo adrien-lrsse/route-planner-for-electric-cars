@@ -176,7 +176,6 @@ def parsageVoiture():
 def importSimulation():
     f = open('../../data/simulation.txt','r')
     tab = []
-
     lignes  = f.readlines()
     for ligne in lignes :
         tab.append(ligne)
