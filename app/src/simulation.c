@@ -84,10 +84,11 @@ void simulation(void){
     while (strtok_res != NULL)
     {
         sscanf(strtok_res, "%d$%d$%d",&borne_id,&tick_arrive,&temps_recharge);
-        if (temps_recharge != -1) {//l'étape dans le trajet n'est ni l'arrivée ni le départ
+        // if (temps_recharge == -2) {printf("%d\n",borne_id);}
+        if (temps_recharge != -1 && temps_recharge != -2) {//l'étape dans le trajet n'est ni l'arrivée ni le départ
             ajout_passage(tab_bornes,id_voiture,tick_arrive,temps_recharge,borne_id);
         }
-        else if (borne_id == 1284466292) {
+        else if (temps_recharge == -2 && borne_id != 404) {
             trajets_finis[tick_arrive]++;
         }
         
