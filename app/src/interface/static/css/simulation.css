@@ -132,3 +132,33 @@ body{
     color:white ;
 
 }
+
+.legende {
+    margin-left: 5%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+.legende h3{
+    color: white;
+    font-family: 'Quicksand';
+    text-decoration: underline;
+}
+
+.legende span{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.legende span img{
+    width: 20px;
+    height: 20px;
+}
+.legende span .bloc_img{
+    color: white;
+    font-family: 'Quicksand';
+    
+}
