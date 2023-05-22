@@ -126,7 +126,7 @@ body{
 
 }
 #status_generation{
-    margin-left: 5%;
+    
     font-family: 'Quicksand';
     font-size: large;
     color:white ;
@@ -161,4 +161,21 @@ body{
     color: white;
     font-family: 'Quicksand';
     
+}
+
+.status_sim{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+
+    margin-left: 5%;
+    width: 90%;
+}
+
+.status_sim #trajet_fin{
+    font-family: 'Quicksand';
+    font-size: large;
+    color:white ;
+
 }
