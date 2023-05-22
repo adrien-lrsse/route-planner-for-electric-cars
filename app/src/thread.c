@@ -100,5 +100,8 @@ void main_tests(int nb_forks, int nb_itineraires, int dist_min){
     printf("Boucle numéro %d/%d finie\n", j+1, nb_boucles);
     destroy_trajets_aleatoires(tab);
   }
+  FILE* fichier = fopen("../data/forks.txt","a");
+  fprintf(fichier, "404$-1$-1||");
+  fclose(fichier);
   return;
 }

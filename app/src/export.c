@@ -31,6 +31,9 @@ void thread_export(etape* one_etape){
             int id_borne = (one_etape->list+i)->borne.id;
             int tick_deplacement = temps_trajet(one_etape->list+i)+global_tick;
             int duree_charge = (one_etape->list+i)->tick_recharge;
+            if (i == one_etape->size-1){
+                duree_charge = -2;
+            }
             fprintf(fichier,"%d$%d$%d||",id_borne,tick_deplacement,duree_charge);
             global_tick = tick_deplacement+duree_charge;
         }
