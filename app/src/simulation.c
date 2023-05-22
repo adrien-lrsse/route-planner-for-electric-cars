@@ -75,6 +75,8 @@ void simulation(void){
         exit (3);
     }
 
+    int* trajets_finis = (int*)calloc(TOTAL_TICK,sizeof(int));
+
     int borne_id, tick_arrive, temps_recharge;
     int id_voiture = 0;
     char * strtok_res;
@@ -85,6 +87,9 @@ void simulation(void){
         if (temps_recharge != -1) {//l'étape dans le trajet n'est ni l'arrivée ni le départ
             ajout_passage(tab_bornes,id_voiture,tick_arrive,temps_recharge,borne_id);
         }
+        else if (borne_id == 1284466292) {
+            trajets_finis[tick_arrive]++;
+        }
         
         if (borne_id == -1 || (borne_id == 404 && temps_recharge == -1)) {
             id_voiture++;
@@ -94,10 +99,11 @@ void simulation(void){
         strtok_res = strtok (NULL, "||");
     }
 
-    export(tab_bornes);
+    export(tab_bornes, trajets_finis);
 
     fclose (fichier);
     free (buffer);
+    free(trajets_finis);
     destroy_tab(tab_bornes);
 }
 
@@ -543,7 +549,7 @@ int temps_trajet(borne_and_distance* proche) {
     return nombre_ticks;
 }
 
-void export(borne_simulation* bornes){
+void export(borne_simulation* bornes, int* trajets_finis){
     export_data* tab_export = (export_data*) malloc(TOTAL_TICK*sizeof(export_data));
     for (int i=0;i<TOTAL_TICK;i++) {
         tab_export[i].total_entries=0;
@@ -556,7 +562,7 @@ void export(borne_simulation* bornes){
     int tick;
     int status;
     for (int i=0;i<TOTAL_BORNES;i++) {//boucle pour voir l'ensemble des listes de passage
-        if (i%1000 == 0) {printf("%d %%\n",i*100/TOTAL_BORNES);}
+        // if (i%1000 == 0) {printf("%d %%\n",i*100/TOTAL_BORNES);}
         tick = 0;
         if (bornes[i].list_passages->head != NULL) { //si il y a au moins un passage
             current = bornes[i].list_passages->head;
@@ -604,7 +610,7 @@ void export(borne_simulation* bornes){
                 destroy_list_int_el(voitures_en_attente->head);
                 voitures_en_attente->head = NULL;
             }
-            tab_export[tick].total_entries++;
+            // tab_export[tick].total_entries++;
         }
 
     }
@@ -615,7 +621,7 @@ void export(borne_simulation* bornes){
     for (int i=0;i<TOTAL_TICK;i++) {
         if (tab_export[i].list_passages->head != NULL) {
             current_w = tab_export[i].list_passages->head;
-            total_trajet_finis = total_trajet_finis + tab_export[tick].total_entries;
+            total_trajet_finis = total_trajet_finis + trajets_finis[i];
             fprintf(fichier,"#%d$0$0#", total_trajet_finis);
             while (current_w->next != NULL) {
                 fprintf(fichier,"%Lf$%Lf$%d#",current_w->coordonnees->longitude, current_w->coordonnees->latitude, current_w->status_borne);
@@ -625,6 +631,7 @@ void export(borne_simulation* bornes){
         }
         fprintf(fichier,"\n");
     }
+
     fclose(fichier);
     free(voitures_en_attente);
     destroy_data(tab_export);
