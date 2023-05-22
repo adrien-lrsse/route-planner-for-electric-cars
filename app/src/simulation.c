@@ -565,7 +565,6 @@ void export(borne_simulation* bornes){
             while (tick<TOTAL_TICK && current->next_passage != NULL) {
                 if (status != 0 && current->tick <= tick) {
                     data_append(&tab_export[tick], &bornes[i].coordonnees, status);
-                    tab_export[tick].total_entries++;
                 }
                 if (current->places_restantes == bornes[i].capacite_max) {status = 0;}
                 else if (current->status_passage == 2) {
@@ -598,7 +597,6 @@ void export(borne_simulation* bornes){
             while (tick<current->tick) { //dernier élément à traiter
                 if (status != 0) {
                     data_append(&tab_export[tick], &bornes[i].coordonnees, status);
-                    tab_export[tick].total_entries++;
                 }
                 tick++;
             }
@@ -606,16 +604,19 @@ void export(borne_simulation* bornes){
                 destroy_list_int_el(voitures_en_attente->head);
                 voitures_en_attente->head = NULL;
             }
+            tab_export[tick].total_entries++;
         }
 
     }
 
     export_data_el* current_w;
     FILE *fichier = fopen("../data/simulation.txt","w");
+    int total_trajet_finis = 0;
     for (int i=0;i<TOTAL_TICK;i++) {
         if (tab_export[i].list_passages->head != NULL) {
             current_w = tab_export[i].list_passages->head;
-            fprintf(fichier,"#");
+            total_trajet_finis = total_trajet_finis + tab_export[tick].total_entries;
+            fprintf(fichier,"#%d$0$0#", total_trajet_finis);
             while (current_w->next != NULL) {
                 fprintf(fichier,"%Lf$%Lf$%d#",current_w->coordonnees->longitude, current_w->coordonnees->latitude, current_w->status_borne);
                 current_w = current_w->next;
@@ -743,7 +744,6 @@ void destroy_list_int_el(list_int* one_element) {
 }
 
 void data_append(export_data* data, coord_pt* coordonnees, int status_passage) {
-    data->total_entries++;
     export_data_el* current = data->list_passages->head;
     export_data_el* new_state = (export_data_el*) malloc(sizeof(export_data_el));
     new_state->coordonnees = coordonnees;
