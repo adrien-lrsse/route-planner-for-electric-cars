@@ -294,7 +294,7 @@ borne getInfo(int i, database_t* database){
     long double latitude;
     int puissance_nominale;
 
-    char* sql_commmand = "SELECT nom_station, consolidated_longitude,consolidated_latitude,puissance_nominale FROM bornes WHERE id_unique = ?";
+    char* sql_commmand = "SELECT adresse_station, consolidated_longitude,consolidated_latitude,puissance_nominale FROM bornes WHERE id_unique = ?";
     prepare_request_database(database,sql_commmand);
     sqlite3_bind_int(database->stmt, 1, i); // on bind la valeur de "?" dans la requête
     sqlite3_step(database->stmt);
