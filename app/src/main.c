@@ -10,7 +10,7 @@
 #include "vehicules.h"
 #include "random_points.h"
 
-#define NB_FORK 20
+#define NB_FORK 75
 #define NB_ITINERAIRES 100
 #define DIST_MIN 100
 
@@ -48,6 +48,10 @@ int main(int argc, char* argv[]) {
     database_t * database = open_database("./../data/database.db");
     if (!database->opened_correctly) {
         exit(0);
+    }
+
+    if ((type == 2) && (temps_max_attente_borne == 0)){
+      type = 1;
     }
 
   // // Ceci sert au débogage car on ne peut pas passer des arguments à l'exécutable
