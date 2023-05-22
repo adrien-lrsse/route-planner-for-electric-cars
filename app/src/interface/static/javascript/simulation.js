@@ -76,7 +76,7 @@ function affichageMap(){
 
 function afficher_tick(liste) {
   removeVectors();
-  for (let entier = 0; entier < liste.length; entier++) {
+  for (let entier = 1; entier < liste.length; entier++) {
     addVector(liste[entier][0],liste[entier][1],liste[entier][2]);
   }
   
