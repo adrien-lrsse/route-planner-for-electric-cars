@@ -64,6 +64,12 @@ typedef struct export_data
     export_data_list* list_passages;
 } export_data;
 
+typedef struct decalage_t {
+    int borne_finale;
+    int decalage_value;
+    int tick_etape_finale;
+}decalage_t;
+
 borne_simulation* load_bornes(void);
 
 void simulation(void);
@@ -83,7 +89,9 @@ void tab_tick_destroy(list_int* tab_tick);
 void passage_destroy(passage_voiture* passage);
 void passage_list_destroy(passage_voiture_head* passage);
 
-void ajout_passage(borne_simulation *list_bornes, int id_voiture, int tick, int duree_charge, int borne);
+int ajout_passage(borne_simulation *list_bornes, int id_voiture, int tick, int duree_charge, int borne);
+
+int find_tick_sortie(passage_voiture_head* liste_passages, int id_voiture);
 
 passage_voiture* creer_passage(int id_voiture, int status_passage, int places_restantes, int tick);
 

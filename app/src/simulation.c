@@ -75,29 +75,55 @@ void simulation(void){
         exit (3);
     }
 
-    int* trajets_finis = (int*)calloc(TOTAL_TICK,sizeof(int));
+    int* trajets_finis = (int*)calloc(TOTAL_TICK+100,sizeof(int));
 
     int borne_id, tick_arrive, temps_recharge;
     int id_voiture = 0;
+    int nb_total_voiture = 0;
+    int decalage = 0;
     char * strtok_res;
     strtok_res = strtok(buffer, "||");
+    sscanf(strtok_res, "%d$$", &nb_total_voiture);
+    strtok_res = strtok (NULL, "||");
+    decalage_t* tab_decalage = (decalage_t*) malloc(nb_total_voiture*sizeof(decalage_t));
+    for (int i = 0;i<nb_total_voiture;i++) {tab_decalage[i].borne_finale = -1;}
+
     while (strtok_res != NULL)
     {
         sscanf(strtok_res, "%d$%d$%d",&borne_id,&tick_arrive,&temps_recharge);
         // if (temps_recharge == -2) {printf("%d\n",borne_id);}
         if (temps_recharge != -1 && temps_recharge != -2) {//l'étape dans le trajet n'est ni l'arrivée ni le départ
-            ajout_passage(tab_bornes,id_voiture,tick_arrive,temps_recharge,borne_id);
+            tab_decalage[id_voiture].borne_finale = borne_id;
+            tab_decalage[id_voiture].decalage_value = ajout_passage(tab_bornes,id_voiture,tick_arrive+decalage,temps_recharge,borne_id);//garde la valeur de la sortie à la borne
+            decalage = decalage + tab_decalage[id_voiture].decalage_value - (tick_arrive+decalage+temps_recharge);
+            // if (id_voiture == 74) {affichage_liste_passages(tab_bornes[borne_id].list_passages);printf("%d\n",decalage);}
+            
         }
         else if (temps_recharge == -2 && borne_id != 404) {
-            trajets_finis[tick_arrive]++;
-        }
-        
-        if (borne_id == -1 || (borne_id == 404 && temps_recharge == -1)) {
+            // printf("decalage : %d; voiture: %d\n",decalage, id_voiture);
+            // if (id_voiture == 74) {printf("---- voiture %d ----\n",id_voiture);}
+            // if (id_voiture == 21) {affichage_liste_passages(tab_bornes[tab_decalage[id_voiture].borne_finale].list_passages);}
+            tab_decalage[id_voiture].tick_etape_finale = tick_arrive;
             id_voiture++;
+            decalage = 0;
         }
-        
 
         strtok_res = strtok (NULL, "||");
+    }
+
+    int tick_final_reel = 0;
+    int tick_arrivee_reel = 0;
+    for (int i = 0;i<nb_total_voiture;i++) {
+        if (tab_decalage[i].borne_finale != -1) {
+            // printf("------------------------\n");
+            // printf("(%d) in list : %d ; previous : %d\n",i,find_tick_sortie(tab_bornes[tab_decalage[i].borne_finale].list_passages,i),tab_decalage[i].decalage_value);
+            tick_final_reel = (find_tick_sortie(tab_bornes[tab_decalage[i].borne_finale].list_passages,i) - tab_decalage[i].decalage_value);
+            tick_arrivee_reel = tick_final_reel + tab_decalage[i].tick_etape_finale;
+            trajets_finis[tick_arrivee_reel]++;
+            // printf("(%d) to : %d ; tf : %d\n",i,tab_decalage[i].tick_etape_finale,tick_arrivee_reel);
+            tick_final_reel = 0;
+            tick_arrivee_reel = 0;
+        }
     }
 
     export(tab_bornes, trajets_finis);
@@ -105,10 +131,11 @@ void simulation(void){
     fclose (fichier);
     free (buffer);
     free(trajets_finis);
+    free(tab_decalage);
     destroy_tab(tab_bornes);
 }
 
-void ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int duree_charge, int borneId){
+int ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int duree_charge, int borneId){
     // le tick en paramètre est le tick auquel la voiture arrive à la station
 
     int tick_recharge = tick+duree_charge;
@@ -117,7 +144,7 @@ void ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int 
     file_d_attente->head = NULL;
 
     passage_voiture_head_append(file_d_attente, id_voiture, 1, list_bornes[borneId].capacite_max-1, tick);
-    passage_voiture_head_append(file_d_attente, id_voiture, 0, list_bornes[borneId].capacite_max, tick+tick_recharge);
+    passage_voiture_head_append(file_d_attente, id_voiture, 0, list_bornes[borneId].capacite_max, tick_recharge);
 
     passage_voiture_head* list_passages_head = list_bornes[borneId].list_passages;//pointe la structure
 
@@ -128,8 +155,8 @@ void ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int 
         list_passages_head->head->next_passage = passage_voiture_head_pop(file_d_attente);
         free(tampon);
         free(file_d_attente);
-        // if (borneId == 11414) {affichage_liste_passages(list_bornes[borneId].list_passages);}
-        return;
+        // if (borneId == 4920) {affichage_liste_passages(list_bornes[borneId].list_passages);}
+        return tick_recharge;
     }
 
     passage_voiture* passage_file_attente = file_d_attente->head;
@@ -432,6 +459,16 @@ void ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int 
     // if (borneId == 11414) {
     //     affichage_liste_passages(list_bornes[borneId].list_passages);
     // }
+    return find_tick_sortie(list_bornes[borneId].list_passages,id_voiture);
+}
+
+int find_tick_sortie(passage_voiture_head* liste_passages, int id_voiture) {
+    passage_voiture* current = liste_passages->head;
+    while (current->next_passage != NULL && (current->id_voiture != id_voiture || current->status_passage != 0)) {
+        current = current->next_passage;
+    }
+    if (current->id_voiture == id_voiture && current->status_passage == 0) {return current->tick;}
+    return 0;
 }
 
 int remove_passage0(passage_voiture_head* liste_passages, int id_voiture) {
@@ -734,7 +771,17 @@ void export(borne_simulation* bornes, int* trajets_finis){
             }
             fprintf(fichier,"%Lf$%Lf$%d#",current_w->coordonnees->longitude, current_w->coordonnees->latitude, current_w->status_borne);
         }
+        else{
+            total_trajet_finis = total_trajet_finis + trajets_finis[i];
+            fprintf(fichier,"#%d$0$0#", total_trajet_finis);
+        }
         fprintf(fichier,"\n");
+    }
+
+    int compteur = 0;
+    for (int i = 0;i<TOTAL_TICK+100;i++) {
+        compteur = compteur + trajets_finis[i];
+        // printf("total : %d\n",compteur);
     }
 
     fclose(fichier);
