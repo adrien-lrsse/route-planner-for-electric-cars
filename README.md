@@ -48,19 +48,19 @@ Vous pouvez choisir vos options :
 - le sueuil minimal de décharge
 - la limite de temps de recharge à la borne
 
-<p align="center">
-<img src="app/data/readme/input_1.png" alt="Texte alternatif" width="500" height="auto" >
+<div style="text-align:center">
+<img src="app/data/readme/input_1.png" alt="Texte alternatif" width="800" height="auto" >
 <br>
-1. Exemple de recherche
-</p>
+<i>1. Exemple de recherche d'itinéraire</i>
+</div>
 
 Une fois appuyer sur le bouton recherche, soit un message d'erreur apparait car la recherche à échouer, soit une carte avec des points qui indique les bornes de recharge
 
-<p align="center">
-<img src="app/data/readme/res_1.png" alt="Texte alternatif" width="500" height="auto" >
+<div style="text-align:center">
+<img src="app/data/readme/res_1.png" alt="Texte alternatif" width="800" height="auto" >
 <br>
-2. Exemple d'affichage en cas de succès
-</p>
+<i>2. Exemple d'affichage de requête</i>
+</div>
 
 ### `/simulation` : Utilisation du module de simulation
 En cliquant sur le bouton "Mode simulation" ou en allant sur le route `/simulation`.
@@ -73,11 +73,11 @@ Après un peu d'attente, vous pouvez naviguez sur la carte en appuyant sur les b
 
 Les bornes occupées apparaîtront. En orange sont représentés les bornes occupées sans file d'attente et en rouge les bornes occupées avec file d'attente.
 
-<p align="center">
-<img src="app/data/readme/output_3.png" alt="Texte alternatif" width="500" height="auto" >
+<div style="text-align:center">
+<img src="app/data/readme/output_3.png" alt="Texte alternatif" width="800" height="auto" >
 <br>
-3. Exemple d'affichage en cas de succès
-</p>
+<i>3. Exemple d'affichage en cas de succès</i>
+</div>
 
 Remarque : On peut naviguez sur 720 ticks mais cela n'implique pas que le dernier trajet ce termine à la 720ème tick.
 
