@@ -33,7 +33,7 @@ Une fois le projet lancé, ouvrez votre navigateur est tapé l'adresse
 ```bash
 http://127.0.0.1:5000
 ``` 
-Une fois sur l'interface, le projet est utilisable sous la forme d'une application Web.
+Une fois ouvert, le projet est utilisable sous la forme d'une application Web.
 
 ## Utilisation de l'application
 ### `/` : Utilisation du calcul d'itinéraire
@@ -45,7 +45,7 @@ Vous pouvez choisir vos options :
 - Une voiture (Marque & Modèle)
 - Le type d'optimisation (distance ou temps)
 - l'autonomie initiale du véhicule
-- le sueuil minimal de décharge
+- le seuil minimal de décharge
 - la limite de temps de recharge à la borne
 
 <div style="text-align:center">
