@@ -13,7 +13,7 @@
 // #include "borne.h"
 
 int TOTAL_BORNES = 17319;
-int TOTAL_TICK = 12*60;
+int TOTAL_TICK = 144;
 
 borne_simulation* load_bornes(void){
     //charge l'ensemble des bornes de la BD
