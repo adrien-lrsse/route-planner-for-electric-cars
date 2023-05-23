@@ -1,4 +1,4 @@
-# Itinéraire de trajet en voiture électrique et simulation du réseau électrique
+# Itinéraires en voiture électrique et simulation de trafic
 
 ## Installation des dépendances
 
@@ -29,7 +29,7 @@ make run
 make run_debug
 ```
 
-Une fois le projet lancé, ouvrez votre navigateur est tapé l'adresse
+Une fois le projet lancé, ouvrez votre navigateur et tapez l'adresse
 ```bash
 http://127.0.0.1:5000
 ``` 
@@ -54,7 +54,7 @@ Vous pouvez choisir vos options :
 <i>1. Exemple de recherche d'itinéraire</i>
 </div>
 
-Une fois appuyer sur le bouton recherche, soit un message d'erreur apparait car la recherche à échouer, soit une carte avec des points qui indique les bornes de recharge
+Une fois que vous avez appuyé sur le bouton recherche, il y a deux possibilités: soit un message d'erreur apparaît car la recherche a échoué, soit une carte apparaît avec des points qui indiquent les bornes de recharge.
 
 <div style="text-align:center">
 <img src="app/data/readme/res_1.png" alt="Texte alternatif" width="100%" height="auto" >
@@ -63,15 +63,15 @@ Une fois appuyer sur le bouton recherche, soit un message d'erreur apparait car 
 </div>
 
 ### `/simulation` : Utilisation du module de simulation
-En cliquant sur le bouton "Mode simulation" ou en allant sur le route `/simulation`.
-Pour lancer une simulation, il faut entrée un entier et appuyer sur générer. 
-Le nombre de trajet généré n'est pas exactement celui entrée par l'utilisateur ce qui est normal. Cela vient de la génération aléatoire des trajets.
+En cliquant sur le bouton "Mode simulation" ou en allant sur la route `/simulation`.
+Pour lancer une simulation, il faut entrer un entier et appuyer sur générer. 
+Le nombre de trajets générés n'est pas exactement celui entré par l'utilisateur, ce qui est normal. Cela vient de la génération aléatoire des trajets.
 
 Après un peu d'attente, vous pouvez naviguez sur la carte en appuyant sur les boutons :
 - +10 min
 - -10 min
 
-Les bornes occupées apparaîtront. En orange sont représentés les bornes occupées sans file d'attente et en rouge les bornes occupées avec file d'attente.
+Les bornes occupées apparaîtront. En orange sont représentées les bornes occupées sans file d'attente et en rouge les bornes occupées avec file d'attente.
 
 <div style="text-align:center">
 <img src="app/data/readme/output_3.png" alt="Texte alternatif" width="100%" height="auto" >
@@ -79,14 +79,14 @@ Les bornes occupées apparaîtront. En orange sont représentés les bornes occu
 <i>3. Exemple d'affichage en cas de succès</i>
 </div>
 
-Remarque : On peut naviguez sur 720 ticks mais cela n'implique pas que le dernier trajet ce termine à la 720ème tick.
+Remarque : On peut naviguer sur 720 ticks mais cela n'implique pas que le dernier trajet ce termine à la 720ème tick.
 
 ## Fermeture de l'application
 Pour fermer l'application, il faut tuer le processus sur le terminal courant.
 
 ## Contexte :
 
-Projet réalisé dans le cadre de la 1ère année d'étude à TELECOM Nancy de mars à mai 2023
+Projet réalisé dans le cadre de la 1ère année d'étude à TELECOM Nancy de mars à mai 2023.
 
 ## Language :
 
