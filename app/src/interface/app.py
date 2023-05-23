@@ -21,12 +21,18 @@ def index():
     info = settings_and_step()
     etape = info[0]
     detail = info[1]
-
+    distance_parcouru = 0
     if parseResultat() == []:
         status = "Adresse incorrecte ou non trouvée par le module Geopy"
         print(status)
+    else :
+        for i in range(len(etape)):
+            distance_parcouru+=float(etape[i][4])
+        if (i == len(etape)-1):
+            distance_parcouru+=float(etape[i][5])
+        
     # print(detail)
-    return render_template("index.html",resultat = etape,status=status, voiture=parsageVoiture(),detail=detail)
+    return render_template("index.html",resultat = etape,status=status, voiture=parsageVoiture(),detail=detail,distance_parcouru=distance_parcouru)
 
 @app.route("/find_itinerary",methods=["GET","POST"])
 def find_itinerary():
@@ -106,6 +112,8 @@ def settings_and_step():
         for i in range (1,len(etape)-1):
             lst_etape.append(etape[i])
         lst_detail = [adresse_depart,adresse_retour,etape[0][5]]
+        lst_detail.append(etape[0][6])
+        lst_detail.append(etape[len(etape)-1][6])
         return [lst_etape,lst_detail]
 
 
@@ -176,7 +184,6 @@ def parsageVoiture():
 def importSimulation():
     f = open('../../data/simulation.txt','r')
     tab = []
-
     lignes  = f.readlines()
     for ligne in lignes :
         tab.append(ligne)

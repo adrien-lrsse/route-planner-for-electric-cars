@@ -50,6 +50,10 @@ int main(int argc, char* argv[]) {
         exit(0);
     }
 
+    if ((type == 2) && (temps_max_attente_borne == 0)){
+      type = 1;
+    }
+
   // // Ceci sert au débogage car on ne peut pas passer des arguments à l'exécutable
   //   long double longitude_depart = 6.1834097;
   //   long double latitude_depart =  48.6937223;

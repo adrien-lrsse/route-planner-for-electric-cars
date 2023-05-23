@@ -1,12 +1,15 @@
 
 // var clean = document.getElementById("clean");
 var num_tick = 1;
+var num_de_trajet;
 var tot_tick;
 var tick_previous = document.getElementById("previous");
 var tick_next = document.getElementById("next");
 var display_num_tick = document.getElementById("display_num_tick");
 var form_simulation = document.getElementById("f_simulation");
 var table_simulation;
+var count_trajet_end = document.getElementById("trajet_fin");
+
 
 const franceCoordinates = [
   [
@@ -72,6 +75,18 @@ function affichageMap(){
         zoom: 6,
       }),
     });
+}
+
+function itinerary_ending(table){
+  num_de_trajet = 0
+  for (let index = 0; index < table.length; index++) {
+    if (table[index].length != 0){
+      if (table[index][0][0] > num_de_trajet){
+        num_de_trajet = table[index][0][0];
+      }
+    }
+  }
+  return num_de_trajet;
 }
 
 function afficher_tick(liste) {
@@ -153,9 +168,14 @@ function importSimulation(simulation,len){
 tick_next.addEventListener('click',function(){
   if(num_tick<tot_tick){
     num_tick++;
+    if (table_simulation[num_tick].length !=0){
+      count_trajet_end.innerHTML = "" + table_simulation[num_tick][0][0] + "/"+num_de_trajet+" trajets terminés";
+    }
+
     display_num_tick.innerHTML = ""+num_tick+"/"+tot_tick+" ticks";
 
     afficher_tick(table_simulation[num_tick]);
+    
   }
   
 })
@@ -164,7 +184,9 @@ tick_previous.addEventListener('click',function(){
   if(num_tick>0){
     num_tick--;
     display_num_tick.innerHTML = ''+num_tick+"/"+tot_tick+" ticks";
-
+    if (table_simulation[num_tick].length !=0){
+      count_trajet_end.innerHTML = "" + table_simulation[num_tick][0][0] + "/"+num_de_trajet+" trajets terminés";
+    }
     afficher_tick(table_simulation[num_tick]);
   }
  
@@ -175,3 +197,5 @@ form_simulation.addEventListener('submit', function(){
 
   number_simulation.innerHTML = "Génération de la simulation en cours..."
 })
+
+
