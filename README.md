@@ -49,7 +49,7 @@ Vous pouvez choisir vos options :
 - la limite de temps de recharge à la borne
 
 <div style="text-align:center">
-<img src="app/data/readme/input_1.png" alt="Texte alternatif" width="800" height="auto" >
+<img src="app/data/readme/input_1.png" alt="Texte alternatif" width="100%" height="auto" >
 <br>
 <i>1. Exemple de recherche d'itinéraire</i>
 </div>
@@ -57,7 +57,7 @@ Vous pouvez choisir vos options :
 Une fois appuyer sur le bouton recherche, soit un message d'erreur apparait car la recherche à échouer, soit une carte avec des points qui indique les bornes de recharge
 
 <div style="text-align:center">
-<img src="app/data/readme/res_1.png" alt="Texte alternatif" width="800" height="auto" >
+<img src="app/data/readme/res_1.png" alt="Texte alternatif" width="100%" height="auto" >
 <br>
 <i>2. Exemple d'affichage de requête</i>
 </div>
@@ -74,7 +74,7 @@ Après un peu d'attente, vous pouvez naviguez sur la carte en appuyant sur les b
 Les bornes occupées apparaîtront. En orange sont représentés les bornes occupées sans file d'attente et en rouge les bornes occupées avec file d'attente.
 
 <div style="text-align:center">
-<img src="app/data/readme/output_3.png" alt="Texte alternatif" width="800" height="auto" >
+<img src="app/data/readme/output_3.png" alt="Texte alternatif" width="100%" height="auto" >
 <br>
 <i>3. Exemple d'affichage en cas de succès</i>
 </div>
