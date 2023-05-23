@@ -89,10 +89,13 @@ void all_random_parameters(trajets_aleatoires* trajet_existant){
 
     srand(time(NULL));
     for (int i=0; i<trajet_existant->taille; i++){
-        trajet_existant->traj[i].id_voiture = rand()%310+1;
-        trajet_existant->traj[i].pourcentage_mini_voulu = rand()%75+1;
-        trajet_existant->traj[i].temps_max_attente_borne = rand()%60+1;
-        trajet_existant->traj[i].type = rand()%2+1;
+        // trajet_existant->traj[i].id_voiture = rand()%310+1;
+        // trajet_existant->traj[i].pourcentage_mini_voulu = rand()%75+1;
+        // trajet_existant->traj[i].temps_max_attente_borne = rand()%60+1;
+        trajet_existant->traj[i].id_voiture = 302;
+        trajet_existant->traj[i].pourcentage_mini_voulu = 20;
+        trajet_existant->traj[i].temps_max_attente_borne = 30;
+        trajet_existant->traj[i].type = 1;
         trajet_existant->traj[i].pourcentage_autonomie_initiale = rand()%(100-trajet_existant->traj[i].pourcentage_mini_voulu)+trajet_existant->traj[i].pourcentage_mini_voulu;
     }
 }

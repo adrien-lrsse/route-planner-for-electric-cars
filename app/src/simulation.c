@@ -604,7 +604,7 @@ int temps_recharge(voiture* voiture, borne* borne) {
 
 int temps_trajet(borne_and_distance* proche) {
     double duree = proche->distance_debut/100; //distance/vitesse
-    int nombre_ticks = (int) round(duree/6);
+    int nombre_ticks = (int) round(duree*6);
     if (nombre_ticks == 0) {
         nombre_ticks = 1;
     }

@@ -26,11 +26,15 @@ void thread_export(etape* one_etape){
     }
     else{
         int global_tick = 0;
+        int id_borne = 0;
+        int tick_deplacement = 0;
+        int duree_charge = 0;
         fprintf(fichier, "\n");
         for (int i = 0; i < one_etape->size; i++){  
-            int id_borne = (one_etape->list+i)->borne.id;
-            int tick_deplacement = temps_trajet(one_etape->list+i)+global_tick;
-            int duree_charge = (one_etape->list+i)->tick_recharge;
+            id_borne = (one_etape->list+i)->borne.id;
+            tick_deplacement = temps_trajet(one_etape->list+i);
+            tick_deplacement += global_tick;
+            duree_charge = (one_etape->list+i)->tick_recharge;
             if (i == one_etape->size-1){
                 duree_charge = -2;
             }
@@ -42,7 +46,7 @@ void thread_export(etape* one_etape){
     return;
 }
 
-void thread_export_init(void){
+void    thread_export_init(void){
     FILE *fichier = fopen("../data/forks.txt","w");
     fclose(fichier);
     return;
