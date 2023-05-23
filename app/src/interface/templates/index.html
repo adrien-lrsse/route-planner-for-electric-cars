@@ -119,21 +119,30 @@
           <p>vers</p>
           <p class="sous-titre">{{detail[1]}}</p>
         </div>
-        <p class="distance_depart_arrivee">Distance à vol d'oiseau : <b>{{detail[2]}} km</b></p>
+        <p class="distance_depart_arrivee">Distance à vol d'oiseau : <b>{{detail[2]|round(1)}} km</b></p>
         
-        <p class="distance_depart_arrivee">Distance du trajet : <b>{{distance_parcouru}} km</b></p>
+        <p class="distance_depart_arrivee">Distance du trajet : <b>{{distance_parcouru|round(1)}} km</b></p>
+        
+        <p class="distance_depart_arrivee">Autonomie au départ : <b>{{detail[3]|round(1)}} km</b></p>
+
+        <p class="distance_depart_arrivee">Autonomie à l'arrivée : <b>{{detail[4]|round(1)}} km</b></p>
 
         {% for d in resultat%}
 
         <div class="display_etape">
-          <h3>Étape {{d[0]}} : {{d[1]}}</h3>
-          <ul>
+          <h3>Étape {{d[0]}} : {{d[1]}} ({{d[4]|round(1)}} km)</h3>
+          <!-- <ul>
             Distance à la borne précédente:
             <b>{{d[4]}} km</b>
+          </ul> -->
+          <ul>
+            <b>{{d[5]|round(1)}} km</b>
+            avant l'arrivée.
           </ul>
           <ul>
-            Distance avant d'arriver:
-            <b>{{d[5]}} km</b>
+            <b>{{d[6]|round(1)}} km </b>
+            de batterie avant recharge à la borne.
+            
           </ul>
         </div>
         {% endfor %}

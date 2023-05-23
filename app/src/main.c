@@ -10,7 +10,7 @@
 #include "vehicules.h"
 #include "random_points.h"
 
-#define NB_FORK 75
+#define NB_FORK 20
 #define NB_ITINERAIRES 100
 #define DIST_MIN 100
 

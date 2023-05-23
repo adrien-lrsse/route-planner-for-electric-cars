@@ -361,6 +361,7 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
     depart.borne.coordonnees.latitude = latitude_depart;
     depart.borne.coordonnees.longitude = longitude_depart;
     depart.borne.name = "Départ";
+    depart.autonomie_borne = one_car->autonomie_actuelle+one_car->reserve_equivalent_autonomie;
     depart.borne.id = -1;
 
     borne_and_distance arrivee_etape;
@@ -382,6 +383,8 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
     while (distance_fin != 0.0 && !arrivee)
     {
         if(distance_fin<one_car->autonomie_actuelle){
+            update_charge(one_car,arrivee_etape.distance_debut);
+            arrivee_etape.autonomie_borne = one_car->autonomie_actuelle+one_car->reserve_equivalent_autonomie;
             etape_add(lst_etape,arrivee_etape, -1);
             arrivee = true;
         } 
@@ -404,13 +407,14 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
                 }
                 else {
                     int ticks_recharge = temps_recharge(one_car, &proche.borne);
-                    etape_add(lst_etape,proche, ticks_recharge);
 
                     //ajouter cette borne à la liste des bornes visitées
                     list_bornes_visitees_append(bornes_visitees, proche.borne.id);
 
                     // printf("Distance parcourue %f km \n",proche.distance_debut);
                     update_charge(one_car,proche.distance_debut);
+                    proche.autonomie_borne = one_car->autonomie_actuelle + one_car->reserve_equivalent_autonomie;
+                    etape_add(lst_etape,proche, ticks_recharge);
                     recharge(one_car,proche.borne.puissance_nominale);
                     // printf("La voiture a une autonomie de %f km\n",one_car->autonomie_actuelle);
                     // printf("La borne a une puissance de : %d kW\n",proche.borne.puissance_nominale);
@@ -421,7 +425,7 @@ etape* get_liste_etape_itineaire_type_distance(long double latitude_depart,long 
                     latitude_depart = proche.borne.coordonnees.latitude;
                     longitude_depart = proche.borne.coordonnees.longitude;
 
-            
+                    arrivee_etape.distance_debut = distance_fin;
                     // On détruit l'ancienne list_position
                     list_destroy(resultat);
                     free(proche.borne.name);
@@ -451,6 +455,7 @@ etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long do
     depart.borne.coordonnees.latitude = latitude_depart;
     depart.borne.coordonnees.longitude = longitude_depart;
     depart.borne.name = "Départ";
+    depart.autonomie_borne = one_car->autonomie_actuelle+one_car->reserve_equivalent_autonomie;
     depart.borne.id = -1;
 
     borne_and_distance arrivee_etape;
@@ -469,6 +474,8 @@ etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long do
     while (distance_fin != 0.0 && !arrivee)
     {
         if(distance_fin<one_car->autonomie_actuelle){
+            update_charge(one_car,arrivee_etape.distance_debut);
+            arrivee_etape.autonomie_borne = one_car->autonomie_actuelle + one_car->reserve_equivalent_autonomie;
             etape_add(lst_etape,arrivee_etape, -1);
             arrivee = true;
         } 
@@ -491,13 +498,14 @@ etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long do
                 }
                 else {
                     int ticks_recharge = temps_recharge(one_car, &proche.borne);
-                    etape_add(lst_etape,proche, ticks_recharge);
 
                     //ajouter cette borne à la liste des bornes visitées
                     list_bornes_visitees_append(bornes_visitees, proche.borne.id);
 
                     // printf("Distance parcourue %f km \n",proche.distance_debut);
                     update_charge(one_car,proche.distance_debut);
+                    proche.autonomie_borne = one_car->autonomie_actuelle + one_car->reserve_equivalent_autonomie;
+                    etape_add(lst_etape,proche, ticks_recharge);
                     recharge(one_car,proche.borne.puissance_nominale);
                     // printf("La voiture a une autonomie de %f km\n",one_car->autonomie_actuelle);
                     // printf("La borne a une puissance de : %d kW\n",proche.borne.puissance_nominale);
@@ -510,6 +518,8 @@ etape* get_liste_etape_itineaire_type_temps(long double latitude_depart, long do
 
             
                     // On détruit l'ancienne list_position
+                    arrivee_etape.distance_debut = distance_fin;
+
                     list_destroy(resultat);
                     free(proche.borne.name);
                 }
