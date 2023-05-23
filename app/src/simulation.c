@@ -93,6 +93,7 @@ void simulation(void){
         sscanf(strtok_res, "%d$%d$%d",&borne_id,&tick_arrive,&temps_recharge);
         // if (temps_recharge == -2) {printf("%d\n",borne_id);}
         if (temps_recharge != -1 && temps_recharge != -2) {//l'étape dans le trajet n'est ni l'arrivée ni le départ
+            borne_id--;
             tab_decalage[id_voiture].borne_finale = borne_id;
             tab_decalage[id_voiture].decalage_value = ajout_passage(tab_bornes,id_voiture,tick_arrive+decalage,temps_recharge,borne_id);//garde la valeur de la sortie à la borne
             decalage = decalage + tab_decalage[id_voiture].decalage_value - (tick_arrive+decalage+temps_recharge);
