@@ -107,4 +107,8 @@ void destroy_list_int(list_int_head* one_list);
 void destroy_list_int_el(list_int* one_element);
 int length(passage_voiture_head* one_list);
 
+void affichage_liste_passages(passage_voiture_head* one_list);
+void affiche_export_data_list(export_data_list* one_list, int n);
+int remove_passage0(passage_voiture_head* liste_passages, int id_voiture);
+
 #endif /* __SIMULATION_H__*/
