@@ -86,22 +86,19 @@ void main_tests(int nb_forks, int nb_itineraires, int dist_min){
   thread_export_init();
   int nb_boucles = nb_itineraires/nb_forks;
   for (int j = 0; j < nb_boucles; j++){
-    trajets_aleatoires* tab = generate_x_random_itinerary(nb_forks,dist_min);
+    trajets_aleatoires* tab = generate_x_random_itinerary(nb_forks+2,dist_min);
     for (int i = 0; i < nb_forks; i++){
       trajet* data = &tab->traj[i];
       int pid = fork();
       if (pid == 0){
         thread_main(data);
         destroy_trajets_aleatoires(tab);
-        return;
+        exit(EXIT_SUCCESS);
       }
     }
     while((wait(NULL) != -1) || (errno != ECHILD));
     printf("Boucle numéro %d/%d finie\n", j+1, nb_boucles);
     destroy_trajets_aleatoires(tab);
   }
-  FILE* fichier = fopen("../data/forks.txt","a");
-  fprintf(fichier, "404$-1$-1||");
-  fclose(fichier);
   return;
 }

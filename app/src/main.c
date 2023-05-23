@@ -33,17 +33,29 @@ int main(int argc, char* argv[]) {
   // destroy_trajets_aleatoires(tab);  
   // return 0;
 
-  if (argc ==10){
-    printf("%d\n",argc);
-    long double longitude_depart = strtold(argv[1],NULL);
-    long double latitude_depart = strtold(argv[2],NULL);
-    long double longitude_arrivee = strtold(argv[3],NULL);
-    long double latitude_arrivee = strtold(argv[4],NULL);
-    int id_voiture = strtod(argv[5],NULL);
-    int pourcentage_mini_voulu = strtod(argv[6],NULL);
-    int temps_max_attente_borne = strtod(argv[7],NULL);
-    int type = strtod(argv[8],NULL);
-    int pourcentage_autonomie_initiale = strtod(argv[9],NULL);
+  if (argc !=10){
+
+  // Ceci sert au débogage car on ne peut pas passer des arguments à l'exécutable
+    long double longitude_depart = 6.1834097;
+    long double latitude_depart =  48.6937223;
+    long double longitude_arrivee =  -4.2328062;
+    long double latitude_arrivee =  48.1815192;
+    int id_voiture =  1;
+    int pourcentage_mini_voulu =  20;
+    int temps_max_attente_borne =  30;
+    int type = 2;
+    int pourcentage_autonomie_initiale =  35;
+
+    // printf("%d\n",argc);
+    // long double longitude_depart = strtold(argv[1],NULL);
+    // long double latitude_depart = strtold(argv[2],NULL);
+    // long double longitude_arrivee = strtold(argv[3],NULL);
+    // long double latitude_arrivee = strtold(argv[4],NULL);
+    // int id_voiture = strtod(argv[5],NULL);
+    // int pourcentage_mini_voulu = strtod(argv[6],NULL);
+    // int temps_max_attente_borne = strtod(argv[7],NULL);
+    // int type = strtod(argv[8],NULL);
+    // int pourcentage_autonomie_initiale = strtod(argv[9],NULL);
 
     database_t * database = open_database("./../data/database.db");
     if (!database->opened_correctly) {
@@ -53,17 +65,6 @@ int main(int argc, char* argv[]) {
     if ((type == 2) && (temps_max_attente_borne == 0)){
       type = 1;
     }
-
-  // // Ceci sert au débogage car on ne peut pas passer des arguments à l'exécutable
-  //   long double longitude_depart = 6.1834097;
-  //   long double latitude_depart =  48.6937223;
-  //   long double longitude_arrivee =  -4.2328062;
-  //   long double latitude_arrivee =  48.1815192;
-  //   int id_voiture =  1;
-  //   int pourcentage_mini_voulu =  20;
-  //   int temps_max_attente_borne =  30;
-  //   int type = 1;
-  //   int pourcentage_autonomie_initiale =  35;
 
     voiture* ma_voiture = create_voiture(id_voiture);
     ma_voiture->temps_recharge_max_minutes = temps_max_attente_borne;
@@ -124,7 +125,10 @@ int main(int argc, char* argv[]) {
       printf("Boucle numéro %d/%d finie\n", j+1, nb_boucles);
       destroy_trajets_aleatoires(tab);
     }
-      simulation();
+    FILE* fichier = fopen("../data/forks.txt","a");
+    fprintf(fichier, "\n404$-1$-1||");
+    fclose(fichier);
+    simulation();
     return 0;
   }
 }
