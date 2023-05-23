@@ -109,6 +109,9 @@ int main(int argc, char* argv[]) {
     if (nb_boucles*NB_FORK < NB_ITINERAIRES){
       nb_boucles++;
     }
+    FILE* fichier = fopen("../data/forks.txt","a");
+    fprintf(fichier, "%d$-1$-1||", nb_boucles*NB_FORK);
+    fclose(fichier);
     printf("nb de boucle : %d\n",nb_boucles);
     for (int j = 0; j < nb_boucles; j++){
       trajets_aleatoires* tab = generate_x_random_itinerary(NB_FORK,DIST_MIN);
@@ -125,7 +128,7 @@ int main(int argc, char* argv[]) {
       printf("Boucle numéro %d/%d finie\n", j+1, nb_boucles);
       destroy_trajets_aleatoires(tab);
     }
-    FILE* fichier = fopen("../data/forks.txt","a");
+    fichier = fopen("../data/forks.txt","a");
     fprintf(fichier, "\n404$-1$-1||");
     fclose(fichier);
     simulation();
