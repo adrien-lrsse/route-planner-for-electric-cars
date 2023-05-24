@@ -175,7 +175,7 @@ int ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int d
         tampon->next_passage = NULL; //useless but just in case
         passage_file_attente = file_d_attente->head;
         current = list_passages_head->head;
-        place_in_list++;
+        // place_in_list++;
     }
     while (current->next_passage != NULL && file_d_attente->head != NULL){ //tant que la file d'attente n'est pas vide
         if (current->places_restantes == -1 && current->status_passage == 1) {//si une voiture est arrivée et qu'elle n'a pas de places (diapo 31-32)
@@ -270,7 +270,6 @@ int ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int d
         if (current->next_passage != NULL) {current = current->next_passage;place_in_list++;}
         }
     }
-
     if (current->next_passage == NULL && file_d_attente->head != NULL) {//si on et au bout de la liste des passages et que la file d'attente n'est pas vide
         if (current->places_restantes == -1 && current->status_passage == 1) {//si une voiture est arrivée et qu'elle n'a pas de places (diapo 31-32)
             current->status_passage = 2;
@@ -284,7 +283,7 @@ int ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int d
         passage_ajoute = 0; //booleen indiquant si un passage a été ajouté dans la liste
         compteur = 0;
         while (passage_file_attente->next_passage != NULL) { //regarde chaque élement de la file d'attente
-
+    // if (borneId == 5106) {affichage_liste_passages(list_bornes[borneId].list_passages,place_in_list);affichage_liste_passages(file_d_attente,-1);}
             if (passage_ajoute == 0) { // distinguer le cas où un élément a été ajouté et traiter les cas de modification de la liste
             if (passage_file_attente->status_passage == 0) {//si l'élément dans la file d'attente a un tick plus faible que le prochain élément de la liste et que la voiture doit partir (diapo 10)
                 if (passage_file_attente->next_passage != NULL) {passage_file_attente = passage_file_attente->next_passage;}
@@ -320,9 +319,9 @@ int ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int d
                 passage_file_attente = file_d_attente->head;
                 compteur = -1;
             }
-            else if (passage_file_attente->next_passage != NULL) {
-                passage_file_attente = passage_file_attente->next_passage;
-                }
+            // else if (passage_file_attente->next_passage != NULL) {
+            //     passage_file_attente = passage_file_attente->next_passage;
+            //     }
             compteur++;
             if (passage_ajoute == 1) {current = current->next_passage;passage_ajoute = 0;place_in_list++;}
             // printf("file:%d liste:%d\n",passage_file_attente->next_passage==NULL,current->next_passage == NULL);
@@ -581,7 +580,7 @@ void export(borne_simulation* bornes, int* trajets_finis){
     int tick;
     int status;
     // printf("\n EXPORT \n");
-    // affichage_liste_passages(bornes[11414].list_passages);
+    // affichage_liste_passages(bornes[5106].list_passages,-1);
     for (int i=0;i<TOTAL_BORNES;i++) {//boucle pour voir l'ensemble des listes de passage
         // if (i%1000 == 0) {printf("%d %%\n",i*100/TOTAL_BORNES);}
         tick = 0;
@@ -619,10 +618,10 @@ void export(borne_simulation* bornes, int* trajets_finis){
             }
 
             while (tick<TOTAL_TICK && current->next_passage != NULL) {//////////////////////////
-                // if (i == 6) {printf("%d ",status);}
+                // if (i == 5106) {printf("%d ",status);}
                 // if (i == 6) {printf("vide:%d\n",voitures_en_attente->head == NULL);}
 
-                // if (status == 2) {printf("borne :%d",i);}
+                // if (status == 2) {printf("borne :%d\n",i);}
                 // if (i == 11414) {printf("(%d) : %d \n",tick,status);}
                 // if (status == 2) {printf("%d\n",i);}
                 if (status != 0 && current->tick <= tick) {
