@@ -90,6 +90,9 @@ Remarque : On peut naviguer sur 720 ticks mais cela n'implique pas que le dernie
 ## Fermeture de l'application
 Pour fermer l'application, il faut tuer le processus sur le terminal courant.
 
+## Rapport :
+Le rapport du projet est accessible dans le dossier `/files` dans la racine du dépôt.
+
 ## Contexte :
 
 Projet réalisé dans le cadre de la 1ère année d'étude à TELECOM Nancy de mars à mai 2023.
