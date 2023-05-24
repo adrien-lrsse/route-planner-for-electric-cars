@@ -75,7 +75,7 @@ int thread_main(trajet* my_data) {
   // Affichage
   // display_etape(resultat);
   // Free de l'espace mémoire allouée
-  thread_export(resultat);
+  thread_export(resultat, my_data);
   etape_destroy(resultat);
   list_bornes_visitees_destroy(bornes_visitees);
   destroy_voiture(ma_voiture);
@@ -85,9 +85,17 @@ int thread_main(trajet* my_data) {
 void main_tests(int nb_forks, int nb_itineraires, int dist_min){
   thread_export_init();
   int nb_boucles = nb_itineraires/nb_forks;
+  printf("nb itineraires : %d\n",nb_itineraires);
+  if (nb_boucles == 0){
+    nb_boucles = 1;
+  }
+  if (nb_boucles*nb_forks < nb_itineraires){
+    nb_boucles++;
+  }
   FILE* fichier = fopen("../data/forks.txt","a");
   fprintf(fichier, "%d$-1$-1||", nb_boucles*nb_forks);
   fclose(fichier);
+  printf("nb de boucle : %d\n",nb_boucles);
   for (int j = 0; j < nb_boucles; j++){
     trajets_aleatoires* tab = generate_x_random_itinerary(nb_forks+2,dist_min);
     for (int i = 0; i < nb_forks; i++){
@@ -100,7 +108,7 @@ void main_tests(int nb_forks, int nb_itineraires, int dist_min){
       }
     }
     while((wait(NULL) != -1) || (errno != ECHILD));
-    printf("Boucle numéro %d/%d finie\n", j+1, nb_boucles);
+    //printf("Boucle numéro %d/%d finie\n", j+1, nb_boucles);
     destroy_trajets_aleatoires(tab);
   }
   fichier = fopen("../data/forks.txt","a");
