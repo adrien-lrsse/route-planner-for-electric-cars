@@ -13,7 +13,7 @@
 // #include "borne.h"
 
 int TOTAL_BORNES = 17319;
-int TOTAL_TICK = 144;
+int TOTAL_TICK = 144+100;
 
 borne_simulation* load_bornes(void){
     //charge l'ensemble des bornes de la BD
@@ -75,7 +75,7 @@ void simulation(void){
         exit (3);
     }
 
-    int* trajets_finis = (int*)calloc(TOTAL_TICK+100,sizeof(int));
+    int* trajets_finis = (int*)calloc(TOTAL_TICK,sizeof(int));
 
     int borne_id, tick_arrive, temps_recharge;
     int id_voiture = 0;
@@ -97,6 +97,7 @@ void simulation(void){
             tab_decalage[id_voiture].borne_finale = borne_id;
             tab_decalage[id_voiture].decalage_value = ajout_passage(tab_bornes,id_voiture,tick_arrive+decalage,temps_recharge,borne_id);//garde la valeur de la sortie à la borne
             decalage = decalage + tab_decalage[id_voiture].decalage_value - (tick_arrive+decalage+temps_recharge);
+            // if (id_voiture==618) {printf("borne:%d decalage:%d\n",borne_id,decalage);}
             // if (id_voiture == 74) {affichage_liste_passages(tab_bornes[borne_id].list_passages);printf("%d\n",decalage);}
             
         }
@@ -120,6 +121,7 @@ void simulation(void){
             // printf("(%d) in list : %d ; previous : %d\n",i,find_tick_sortie(tab_bornes[tab_decalage[i].borne_finale].list_passages,i),tab_decalage[i].decalage_value);
             tick_final_reel = (find_tick_sortie(tab_bornes[tab_decalage[i].borne_finale].list_passages,i) - tab_decalage[i].decalage_value);
             tick_arrivee_reel = tick_final_reel + tab_decalage[i].tick_etape_finale;
+            // if (i == 618) {printf("(%d) %d\n",i,tick_arrivee_reel);}
             trajets_finis[tick_arrivee_reel]++;
             // printf("(%d) to : %d ; tf : %d\n",i,tab_decalage[i].tick_etape_finale,tick_arrivee_reel);
             tick_final_reel = 0;
@@ -239,6 +241,7 @@ int ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int d
             //tests qui devront toujours avoir lieu même si un passage a été ajouté
             if (current->next_passage->tick >= passage_file_attente->tick && passage_file_attente->status_passage == 1 && current->places_restantes == 0) {//une voiture arrive mais il n'y plus de place
                 tampon->next_passage = creer_passage(passage_file_attente->id_voiture, 2, 0, current->tick);
+                change_sortie_attente(file_d_attente,passage_file_attente->id_voiture);
                 tampon->next_passage->next_passage = current->next_passage;
                 current->next_passage = tampon->next_passage;
                 tampon->next_passage = NULL;
@@ -286,6 +289,7 @@ int ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int d
         //tests qui devront toujours avoir lieu même si un passage a été ajouté
         if (current->next_passage->tick >= passage_file_attente->tick && passage_file_attente->status_passage == 1 && current->places_restantes == 0) {//une voiture arrive mais il n'y plus de place
             tampon->next_passage = creer_passage(passage_file_attente->id_voiture, 2, 0, current->tick);
+            change_sortie_attente(file_d_attente,passage_file_attente->id_voiture);
             tampon->next_passage->next_passage = current->next_passage;
             current->next_passage = tampon->next_passage;
             tampon->next_passage = NULL;
@@ -352,6 +356,7 @@ int ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int d
             //tests qui devront toujours avoir lieu même si un passage a été ajouté
             if (passage_file_attente->status_passage == 1 && current->places_restantes == 0) {//une voiture arrive mais il n'y plus de place
                 tampon->next_passage = creer_passage(passage_file_attente->id_voiture, 2, 0, current->tick);
+                change_sortie_attente(file_d_attente,passage_file_attente->id_voiture);
                 tampon->next_passage->next_passage = current->next_passage;
                 current->next_passage = tampon->next_passage;
                 tampon->next_passage = NULL;
@@ -461,6 +466,16 @@ int ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int d
     //     affichage_liste_passages(list_bornes[borneId].list_passages);
     // }
     return find_tick_sortie(list_bornes[borneId].list_passages,id_voiture);
+}
+
+void change_sortie_attente(passage_voiture_head* file_d_attente, int id_voiture) {
+    passage_voiture* current = file_d_attente->head;
+    while (current->next_passage != NULL && (current->id_voiture != id_voiture || current->status_passage != 0)) {
+        current = current->next_passage;
+    }
+    if (current->id_voiture == id_voiture && current->status_passage == 0) {
+        current->status_passage = 4;
+    }
 }
 
 int find_tick_sortie(passage_voiture_head* liste_passages, int id_voiture) {

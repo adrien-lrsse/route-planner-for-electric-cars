@@ -90,6 +90,7 @@ void passage_destroy(passage_voiture* passage);
 void passage_list_destroy(passage_voiture_head* passage);
 
 int ajout_passage(borne_simulation *list_bornes, int id_voiture, int tick, int duree_charge, int borne);
+void change_sortie_attente(passage_voiture_head* file_d_attente, int id_voiture);
 
 int find_tick_sortie(passage_voiture_head* liste_passages, int id_voiture);
 
