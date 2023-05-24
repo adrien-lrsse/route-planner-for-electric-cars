@@ -18,7 +18,7 @@ void export_etape(etape* one_etape){
     return;
 }
 
-void thread_export(etape* one_etape){
+void thread_export(etape* one_etape, trajet* one_trajet){
     FILE* fichier = fopen("../data/forks.txt","a");
     if (etape_is_empty(one_etape)){
         fprintf(fichier,"\n404");
@@ -33,6 +33,26 @@ void thread_export(etape* one_etape){
         for (int i = 0; i < one_etape->size; i++){  
             id_borne = (one_etape->list+i)->borne.id;
             tick_deplacement = temps_trajet(one_etape->list+i);
+            if (i<one_etape->size-1){
+                if (tick_deplacement == 1 && (one_etape->list+i)->borne.id != -1 && (one_etape->list+i)->borne.id != 0 && (one_etape->list+i+1)->borne.id > 0){
+                    // printf("one_etape->list+i)->borne.id = %d\n", (one_etape->list+i)->borne.id);
+                    // printf("one_etape->list+i)->distance_debut = %f\n", (one_etape->list+i)->distance_debut);
+                    // printf("%Lf ", one_trajet->depart->longitude);
+                    // printf("%Lf ", one_trajet->depart->latitude);
+                    // printf("%Lf ", one_trajet->arrivee->longitude);
+                    // printf("%Lf ", one_trajet->arrivee->latitude);
+                    // printf("%d ", one_trajet->id_voiture);
+                    // printf("%d ", one_trajet->pourcentage_mini_voulu);
+                    // printf("%d ", one_trajet->temps_max_attente_borne);
+                    // printf("%d ", one_trajet->type);
+                    // printf("%d ", one_trajet->pourcentage_autonomie_initiale);
+                    // printf("\n");
+                    printf("coucou\n");
+                    fprintf(fichier, "\r404 // ERREUR ticks trop proches : '%Lf %Lf %Lf %Lf %d %d %d %d %d'", one_trajet->depart->longitude, one_trajet->depart->latitude, one_trajet->arrivee->longitude, one_trajet->arrivee->latitude, one_trajet->id_voiture, one_trajet->pourcentage_mini_voulu, one_trajet->temps_max_attente_borne, one_trajet->type, one_trajet->pourcentage_autonomie_initiale);
+                    fclose(fichier);
+                    return;
+                }
+            }
             tick_deplacement += global_tick;
             duree_charge = (one_etape->list+i)->tick_recharge;
             if (i == one_etape->size-1){
