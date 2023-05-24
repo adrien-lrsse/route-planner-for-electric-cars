@@ -166,7 +166,7 @@ int ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int d
     passage_voiture* current = list_passages_head->head;//1er élément
     int passage_ajoute = 0;
     int compteur = 0;
-    int place_in_list = 0;
+    
 
     if (passage_file_attente->tick <= current->tick) {
         tampon->next_passage = passage_voiture_head_pop(file_d_attente);
@@ -267,7 +267,7 @@ int ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int d
             tampon->next_passage = NULL;
             passage_file_attente->status_passage = 3;
         }
-        if (current->next_passage != NULL) {current = current->next_passage;place_in_list++;}
+        if (current->next_passage != NULL) {current = current->next_passage;}
         }
     }
     if (current->next_passage == NULL && file_d_attente->head != NULL) {//si on et au bout de la liste des passages et que la file d'attente n'est pas vide
@@ -323,7 +323,7 @@ int ajout_passage(borne_simulation* list_bornes, int id_voiture, int tick, int d
             //     passage_file_attente = passage_file_attente->next_passage;
             //     }
             compteur++;
-            if (passage_ajoute == 1) {current = current->next_passage;passage_ajoute = 0;place_in_list++;}
+            if (passage_ajoute == 1) {current = current->next_passage;passage_ajoute = 0;}
             // printf("file:%d liste:%d\n",passage_file_attente->next_passage==NULL,current->next_passage == NULL);
         }
         //traiter le dernier élément

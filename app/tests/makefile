@@ -35,3 +35,4 @@ clean :
 	rm -f tests
 	rm -f tests_generation_trajets
 	rm -f tests_vehicules
+	rm -f tests_bornes
