@@ -40,6 +40,11 @@ void thread_export(etape* one_etape){
             }
             fprintf(fichier,"%d$%d$%d||",id_borne,tick_deplacement,duree_charge);
             global_tick = tick_deplacement+duree_charge;
+            if (global_tick > 160) {
+                fprintf(fichier, "\r404$-1$-1|| // TRAJET TROP LONG");
+                fclose(fichier);
+                return;
+            }
         }
         fclose(fichier);
     }
