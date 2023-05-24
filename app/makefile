@@ -1,5 +1,6 @@
 run: app
-	cd src/interface/ && flask run
+	ulimit -n 1048576
+	cd src/interface/ && ulimit -n 1048576 && flask run
 
 #######################################
 ### file
