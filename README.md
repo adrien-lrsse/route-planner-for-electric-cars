@@ -48,8 +48,8 @@ Pour lancer une recherche :
 - adresse d'arrivée
 
 Vous pouvez choisir vos options : 
-- Une voiture (Marque & Modèle)
-- Le type d'optimisation (distance ou temps)
+- une voiture (Marque & Modèle)
+- le type d'optimisation (distance ou temps)
 - l'autonomie initiale du véhicule
 - le seuil minimal de décharge
 - la limite de temps de recharge à la borne
@@ -85,7 +85,7 @@ Les bornes occupées apparaîtront. En orange sont représentées les bornes occ
 <i>3. Exemple d'affichage en cas de succès</i>
 </div>
 
-Remarque : On peut naviguer sur 720 ticks mais cela n'implique pas que le dernier trajet ce termine à la 720ème tick.
+Remarque : Sur la dernière version, on ne peut naviguer que sur 144 ticks. Par ailleurs, cela n'implique pas que le dernier trajet se termine à la 144ème tick.
 
 ## Fermeture de l'application
 Pour fermer l'application, il faut tuer le processus sur le terminal courant.
@@ -113,7 +113,7 @@ Projet réalisé dans le cadre de la 1ère année d'étude à TELECOM Nancy de m
 
 - Aurélien GINDRE : aurelien.gindre@telecomnancy.eu
 - Héléna BARBILLON : helena.barbillon@telecomnancy.eu
-- Mathis Mangold : mathis.mangold@telecomnancy.eu
+- Mathis MANGOLD : mathis.mangold@telecomnancy.eu
 - Adrien LAROUSSE : adrien.larousse@telecomnancy.eu
 
 ## Propriétaire du projet :
