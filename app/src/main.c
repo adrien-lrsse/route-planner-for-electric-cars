@@ -12,7 +12,7 @@
 
 #define NB_FORK 20
 #define NB_ITINERAIRES 100
-#define DIST_MIN 100
+#define DIST_MIN 400
 
 int main(int argc, char* argv[]) {
   /*
