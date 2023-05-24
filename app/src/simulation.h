@@ -90,6 +90,8 @@ void passage_destroy(passage_voiture* passage);
 void passage_list_destroy(passage_voiture_head* passage);
 
 int ajout_passage(borne_simulation *list_bornes, int id_voiture, int tick, int duree_charge, int borne);
+void connect(passage_voiture_head* one_file, int element_number, passage_voiture* base_element, int type_ajout);
+
 void change_sortie_attente(passage_voiture_head* file_d_attente, int id_voiture);
 
 int find_tick_sortie(passage_voiture_head* liste_passages, int id_voiture);
@@ -115,8 +117,7 @@ void export(borne_simulation* bornes, int* trajets_finis);
 void destroy_list_int(list_int_head* one_list);
 void destroy_list_int_el(list_int* one_element);
 int length(passage_voiture_head* one_list);
-
-void affichage_liste_passages(passage_voiture_head* one_list);
+void affichage_liste_passages(passage_voiture_head* one_list, int place);
 void affiche_export_data_list(export_data_list* one_list, int n);
 int remove_passage0(passage_voiture_head* liste_passages, int id_voiture);
 
