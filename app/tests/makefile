@@ -23,3 +23,9 @@ tests_vehicules: $(patsubst %.c,$(dot)/src/%.o,$(DEPENDENCIES)) tests_vehicules.
 	$(CC) $(CFLAGS) $(patsubst %.c,$(dot)/src/%.o,$(DEPENDENCIES)) tests_vehicules.o -o tests_vehicules $(LIBS)
 
 tests_vehicules.o : tests_generation_trajets.c $(wildcard ../src/*.h)
+
+clean : 
+	rm -f *.o
+	rm -f tests
+	rm -f tests_generation_trajets
+	rm -f tests_vehicules
