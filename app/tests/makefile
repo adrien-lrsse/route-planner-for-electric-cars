@@ -14,4 +14,7 @@ tests: $(patsubst %.c,$(dot)/src/%.o,$(DEPENDENCIES)) tests.o $(LIBS)
 
 tests.o : tests.c $(wildcard ../src/*.h)
 
+tests_generation_trajets: $(patsubst %.c,$(dot)/src/%.o,$(DEPENDENCIES)) tests_generation_trajets.o $(LIBS)
+	$(CC) $(CFLAGS) $(patsubst %.c,$(dot)/src/%.o,$(DEPENDENCIES)) tests_generation_trajets.o -o tests_generation_trajets $(LIBS)
 
+tests_generation_trajets.o : tests_generation_trajets.c $(wildcard ../src/*.h)
