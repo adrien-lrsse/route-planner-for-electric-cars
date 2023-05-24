@@ -24,6 +24,12 @@ tests_vehicules: $(patsubst %.c,$(dot)/src/%.o,$(DEPENDENCIES)) tests_vehicules.
 
 tests_vehicules.o : tests_generation_trajets.c $(wildcard ../src/*.h)
 
+tests_bornes: $(patsubst %.c,$(dot)/src/%.o,$(DEPENDENCIES)) tests_bornes.o $(LIBS)
+	$(CC) $(CFLAGS) $(patsubst %.c,$(dot)/src/%.o,$(DEPENDENCIES)) tests_bornes.o -o tests_bornes $(LIBS)
+
+tests_bornes.o : tests_bornes.c $(wildcard ../src/*.h)
+
+
 clean : 
 	rm -f *.o
 	rm -f tests
