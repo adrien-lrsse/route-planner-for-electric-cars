@@ -794,12 +794,6 @@ void export(borne_simulation* bornes, int* trajets_finis){
         fprintf(fichier,"\n");
     }
 
-    int compteur = 0;
-    for (int i = 0;i<TOTAL_TICK+100;i++) {
-        compteur = compteur + trajets_finis[i];
-        // printf("total : %d\n",compteur);
-    }
-
     fclose(fichier);
     free(voitures_en_attente);
     destroy_data(tab_export);
