@@ -35,6 +35,12 @@ http://127.0.0.1:5000
 ``` 
 Une fois ouvert, le projet est utilisable sous la forme d'une application Web.
 
+Attention, lors d'une simulation, il peut être nécessaire d'utiliser la commande suivante pour que les calculs se fassent.
+
+```bash
+ ulimit -n 1048576 
+```
+
 ## Utilisation de l'application
 ### `/` : Utilisation du calcul d'itinéraire
 Pour lancer une recherche : 
