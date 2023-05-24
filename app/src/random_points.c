@@ -91,13 +91,10 @@ void all_random_parameters(trajets_aleatoires* trajet_existant){
     for (int i=0; i<trajet_existant->taille; i++){
         trajet_existant->traj[i].id_voiture = rand()%310+1;
         trajet_existant->traj[i].pourcentage_mini_voulu = rand()%20;
-        if (rand() % 2 == 0) {
-            trajet_existant->traj[i].temps_max_attente_borne = 0;
-        } else {
-            trajet_existant->traj[i].temps_max_attente_borne = (rand() % 51) + 20;
-        }
+        // trajet_existant->traj[i].temps_max_attente_borne = rand()%50 + 15;
+        trajet_existant->traj[i].temps_max_attente_borne = 34;
         trajet_existant->traj[i].type = 2;
-        trajet_existant->traj[i].pourcentage_autonomie_initiale = rand()%(100-trajet_existant->traj[i].pourcentage_mini_voulu)+trajet_existant->traj[i].pourcentage_mini_voulu;
+        trajet_existant->traj[i].pourcentage_autonomie_initiale = (rand()%50) + 50;
         // printf("id voiture: %d\n", trajet_existant->traj[i].id_voiture);
         // printf("pourcentage mini voulu: %d\n", trajet_existant->traj[i].pourcentage_mini_voulu);
         // printf("temps max attente borne: %d\n", trajet_existant->traj[i].temps_max_attente_borne);

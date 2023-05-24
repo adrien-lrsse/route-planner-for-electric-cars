@@ -4,6 +4,7 @@
 #include "etape.h"
 #include "vehicules.h"
 #include "simulation.h"
+#include "random_points.h"
 #include <stdio.h>
 
 #ifndef SUPPRESS_PRINTFS
@@ -14,7 +15,7 @@
 
 void export_etape(etape* one_etape);
 
-void thread_export(etape* one_etape);
+void thread_export(etape* one_etape, trajet* one_trajet);
 
 void thread_export_init(void);
 

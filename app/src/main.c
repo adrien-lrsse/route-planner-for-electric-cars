@@ -10,9 +10,9 @@
 #include "vehicules.h"
 #include "random_points.h"
 
-#define NB_FORK 1
+#define NB_FORK 20
 #define NB_ITINERAIRES 100
-#define DIST_MIN 100
+#define DIST_MIN 400
 
 int main(int argc, char* argv[]) {
   /*
@@ -99,38 +99,7 @@ int main(int argc, char* argv[]) {
   if (argc != 10){
     printf("argv 1 : %s\n ",argv[1]);
     int nb_itineraire = atoi(argv[1]);
-    thread_export_init();
-    int nb_boucles = nb_itineraire/NB_FORK;
-        printf("nb itineraire : %d\n",nb_itineraire);
-
-    if (nb_boucles == 0){
-      nb_boucles = 1;
-    }
-    if (nb_boucles*NB_FORK < NB_ITINERAIRES){
-      nb_boucles++;
-    }
-    FILE* fichier = fopen("../data/forks.txt","a");
-    fprintf(fichier, "%d$-1$-1||", nb_boucles*NB_FORK);
-    fclose(fichier);
-    printf("nb de boucle : %d\n",nb_boucles);
-    for (int j = 0; j < nb_boucles; j++){
-      trajets_aleatoires* tab = generate_x_random_itinerary(NB_FORK,DIST_MIN);
-      for (int i = 0; i < NB_FORK; i++){
-        trajet* data = &tab->traj[i];
-        int pid = fork();
-        if (pid == 0){
-          thread_main(data);
-          destroy_trajets_aleatoires(tab);
-          return 0;
-        }
-      }
-      while((wait(NULL) != -1) || (errno != ECHILD));
-      printf("Boucle numéro %d/%d finie\n", j+1, nb_boucles);
-      destroy_trajets_aleatoires(tab);
-    }
-    fichier = fopen("../data/forks.txt","a");
-    fprintf(fichier, "\n404$-1$-1||");
-    fclose(fichier);
+    main_tests(NB_FORK, nb_itineraire, DIST_MIN);
     simulation();
     return 0;
   }
