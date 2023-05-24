@@ -10,7 +10,7 @@ do
 
         total_time=0
 
-        # Lance la simu 10 fois et récupère le temps de début et de fin
+        # Lance la simulation 10 fois et récupère le temps de début et de fin
         for i in $(seq 0 1 9)
         do
             START_TIME=$(date +%s%N)
