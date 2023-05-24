@@ -137,3 +137,22 @@
 #     id_unique = element[0]
 #     cur.execute("update bornes set puissance_nominale=? where id_unique=?",(moyenne,id_unique))
 #     db.commit()
+
+
+
+
+
+# Dernier script pour remplacer les \n par des espaces dans la colonne adresse_station
+
+
+
+
+# import sqlite3
+# conn = sqlite3.connect("database.db")
+# cursor = conn.cursor()
+
+# # remplace les \n par des espaces
+# cursor.execute("UPDATE bornes SET adresse_station = REPLACE(adresse_station, '\n', ' ')")
+# conn.commit()
+
+# conn.close()
