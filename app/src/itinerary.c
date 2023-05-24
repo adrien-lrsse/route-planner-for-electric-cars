@@ -261,7 +261,7 @@ borne_and_distance plus_proche_type_temps(list_position* one_list, double autono
             if (dist_fin_apres_charge<0){
                 dist_fin_apres_charge = 0;
             }
-            if (dist_fin_apres_charge<mini){
+            if ((dist_fin_apres_charge<mini) && (i->node.distance_depart>30)){
                 mini = dist_fin_apres_charge;
                 max_distance = i->node.distance_depart;
                 min_distance = i->node.distance_arrivee;
